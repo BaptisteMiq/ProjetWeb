@@ -25,7 +25,7 @@ class UserController
         // $pass = filter_var($request->get('pass'), FILTER_SANITIZE_STRING);
 
         $mail = "qqsdqsdqs";
-        $pass = "test";
+        $pass = "test2";
         
         // Check if valid data
         // if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
