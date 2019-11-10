@@ -15,6 +15,7 @@ Télécharger le fichier https://curl.haxx.se/ca/cacert.pem
 
 Dans php.ini, modifier (ou ajouter):
 
+extension=php_openssl.dll
 
 extension=php_curl.dll
 
