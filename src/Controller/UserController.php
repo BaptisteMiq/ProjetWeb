@@ -12,6 +12,11 @@ use App\Acme\CustomBundle\API;
 
 class UserController extends AbstractController
 {
+    public function loginPage()
+    {
+        return $this->render('login.html.twig', [
+        ]);
+    }
     public function login(Request $request)
     {
         $session = $request->getSession();
@@ -121,8 +126,8 @@ class UserController extends AbstractController
         // No need to check if is logged in
         $session->remove('user');
 
-        return new Response(
-            'OK'
-        );
+        return $this->render('base.html.twig', [
+            "message" => "coucou"
+        ]);
     }
 }
