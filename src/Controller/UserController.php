@@ -17,6 +17,11 @@ class UserController extends AbstractController
         return $this->render('login.html.twig', [
         ]);
     }
+    public function registerPage()
+    {
+        return $this->render('register.html.twig', [
+        ]);
+    }
     public function login(Request $request)
     {
         $session = $request->getSession();

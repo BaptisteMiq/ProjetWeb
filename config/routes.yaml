@@ -1,11 +1,31 @@
+# index.html.twig
 index:
    path: /
+   controller: App\Controller\MainController::index
+
+# event.html.twig
+event_index:
+   path: /events
+   controller: App\Controller\EventController::index
+
+# register.html.twig
+user_register_page:
+   path: /register
+   controller: App\Controller\UserController::registerPage
+
+# user.html.twig
+user_login_page:
+   path: /login
    controller: App\Controller\UserController::loginPage
 
+user_register:
+  path: /users/register
+  controller: App\Controller\UserController::register
+
 user_login:
-  path: /login
+  path: /users/login
   controller: App\Controller\UserController::login
 
 user_logout:
-  path: /logout
+  path: /users/logout
   controller: App\Controller\UserController::logout
