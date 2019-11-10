@@ -32,21 +32,19 @@ class UserController extends AbstractController
             );
         }
 
+        // Request data verification
+        // if($request->get('mail') === null || $request->get('mail')  === null) {
+        //     die('Missing infos');
+        // }
+
         // Get and filter data
         $mail = filter_var($request->get('mail'), FILTER_SANITIZE_STRING);
         $pass = filter_var($request->get('pass'), FILTER_SANITIZE_STRING);
 
-        // $mail = "qqsdqsdqs";
-        // $pass = "test";
-        
-        // Check if valid data
-        // if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-        //    die('Invalid mail!'); 
-        // }
-        // if(strlen($pass) < 3 || strlen($pass) > 1e3) {
-        //     die('Invalid password!');
-        // }
+        $mail = "qqsdqsdqs@cesi.fr";
+        $pass = "tesdsq4Fdst";
 
+        
         // Prepare payload
         $payload = array(
             'mail' => $mail,
@@ -88,14 +86,11 @@ class UserController extends AbstractController
         $firstname = "Jacques";
         $mail = "jacqueschirac@gouv.fr";
         $password = "jevoislafemmedemacronensecret";
+        $location = "TOULOUSE";
         
         // Check if valid data
-        if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-           die('Invalid mail!'); 
-        }
-        if(strlen($pass) < 3 || strlen($pass) > 1e3) {
-            die('Invalid password!');
-        }
+        $this->checkMail($mail);
+        $this->checkPassword($pass);
 
         // Prepare payload
         $payload = array(
@@ -103,6 +98,7 @@ class UserController extends AbstractController
             'firstname' => $firstname,
             'mail' => $mail,
             'password' => $password,
+            'location' => $location,
         );
 
         // Connect to the API
@@ -132,7 +128,30 @@ class UserController extends AbstractController
         $session->remove('user');
 
         return $this->render('base.html.twig', [
-            "message" => "coucou"
         ]);
+    }
+
+    public function checkPassword($pass) {
+
+        if(strlen($pass) < 6) {
+            die("Password too short");
+        }
+    
+        if(!preg_match("#[0-9]+#", $pass)) {
+            die("Password must have at least one number");
+        }
+    
+        if(!preg_match("#[A-Z]+#", $pass)) {
+            die("Password must have at least one capital letter");
+        }     
+
+    }
+
+    public function checkMail($mail) {
+
+        if(!filter_var($mail, FILTER_VALIDATE_EMAIL) || !preg_match("#@.*?cesi\..+?$#", $mail)) {
+            die('Invalid mail!');
+         }
+
     }
 }
