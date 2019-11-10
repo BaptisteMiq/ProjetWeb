@@ -24,27 +24,31 @@ class UserController
         // $mail = filter_var($request->get('mail'), FILTER_SANITIZE_STRING);
         // $pass = filter_var($request->get('pass'), FILTER_SANITIZE_STRING);
 
-        $mail = "baptiste.miquel@viacesi.fr";
+        $mail = "qqsdqsdqs";
         $pass = "test";
         
         // Check if valid data
-        if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-           die('Invalid mail!'); 
-        }
-        if(strlen($pass) < 3 || strlen($pass) > 1e3) {
-            die('Invalid password!');
-        }
+        // if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+        //    die('Invalid mail!'); 
+        // }
+        // if(strlen($pass) < 3 || strlen($pass) > 1e3) {
+        //     die('Invalid password!');
+        // }
 
         // Prepare payload
         $payload = array(
-            'mail' => $mail,
-            'pass' => $pass,
+            'email' => $mail,
+            'password' => $pass,
         );
 
         // Connect to the API
-        // $user = API::call('GET', '/login', $payload);
+        $user = API::call('POST', '/users/login', $payload);
 
-        $user = json_decode('{"id": 2, "name": "Baptiste", "mail": "baptiste.miquel@viacesi.fr"}');
+        if(isset($user->error)) {
+            die('Erreur: ' . $user->error);
+        }
+
+        // $user = json_decode('{"id": 2, "name": "Baptiste", "mail": "baptiste.miquel@viacesi.fr"}');
 
         if(!$user) {
             die('Could not connect');
@@ -53,7 +57,7 @@ class UserController
         $session->set('user', $user);
 
         return new Response(
-            'You are now logged!'
+            'You are now logged! ' . $user->token
         );
 
     }

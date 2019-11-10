@@ -4,7 +4,7 @@ namespace App\Acme\CustomBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-const SERVER = "https://jsonplaceholder.typicode.com";
+const SERVER = "http://172.20.10.4:666/api";
 
 class API extends Bundle
 {
@@ -20,7 +20,7 @@ class API extends Bundle
                 curl_setopt($curl, CURLOPT_POST, 1);
 
                 if ($data)
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
                 break;
             case "PUT":
                 curl_setopt($curl, CURLOPT_PUT, 1);
@@ -44,16 +44,16 @@ class API extends Bundle
             return false;
          }
 
-         if(!API::success($result)) {
-             return false;
-         }
+        //  if(!API::success($result)) {
+        //      return false;
+        //  }
 
         curl_close($curl);
 
-        return $result;
+        return json_decode($result);
     }
-    static function success($resp) {
-        json_decode($resp);
-        return (json_last_error() == JSON_ERROR_NONE);
-    }
+    // static function success($resp) {
+    //     json_decode($resp);
+    //     return (json_last_error() == JSON_ERROR_NONE);
+    // }
 }
