@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 use App\Acme\CustomBundle\API;
 
-class UserController
+class UserController extends AbstractController
 {
     public function login(Request $request)
     {
@@ -21,11 +23,11 @@ class UserController
         }
 
         // Get and filter data
-        // $mail = filter_var($request->get('mail'), FILTER_SANITIZE_STRING);
-        // $pass = filter_var($request->get('pass'), FILTER_SANITIZE_STRING);
+        $mail = filter_var($request->get('mail'), FILTER_SANITIZE_STRING);
+        $pass = filter_var($request->get('pass'), FILTER_SANITIZE_STRING);
 
-        $mail = "qqsdqsdqs";
-        $pass = "test2";
+        // $mail = "qqsdqsdqs";
+        // $pass = "test";
         
         // Check if valid data
         // if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
@@ -37,7 +39,7 @@ class UserController
 
         // Prepare payload
         $payload = array(
-            'email' => $mail,
+            'mail' => $mail,
             'password' => $pass,
         );
 
@@ -56,8 +58,60 @@ class UserController
 
         $session->set('user', $user);
 
+        // return $this->render('base.html.twig', [
+        // ]);
         return new Response(
-            'You are now logged! ' . $user->token
+            'Bienvenue, utilisateur numero ' . $user->id
+        );
+
+    }
+
+    public function register(Request $request)
+    {
+        $session = $request->getSession();
+
+        // Get and filter data
+        // $mail = filter_var($request->get('mail'), FILTER_SANITIZE_STRING);
+        // $pass = filter_var($request->get('pass'), FILTER_SANITIZE_STRING);
+
+        $lastname = "Chirac";
+        $firstname = "Jacques";
+        $mail = "jacqueschirac@gouv.fr";
+        $password = "jevoislafemmedemacronensecret";
+        
+        // Check if valid data
+        if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+           die('Invalid mail!'); 
+        }
+        if(strlen($pass) < 3 || strlen($pass) > 1e3) {
+            die('Invalid password!');
+        }
+
+        // Prepare payload
+        $payload = array(
+            'lastname' => $lastname,
+            'firstname' => $firstname,
+            'mail' => $mail,
+            'password' => $password,
+        );
+
+        // Connect to the API
+        $user = API::call('POST', '/users/register', $payload);
+
+        if(isset($user->error)) {
+            die('Erreur: ' . $user->error);
+        }
+
+        if(!$user) {
+            die('Could not connect');
+        }
+
+        $session->set('user', $user);
+
+        // return $this->render('base.html.twig', [
+        // ]);
+        return new Response(
+            'OK'
         );
 
     }
@@ -68,7 +122,7 @@ class UserController
         $session->remove('user');
 
         return new Response(
-            'You are now logged-out!'
+            'OK'
         );
     }
 }
