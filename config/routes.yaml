@@ -8,6 +8,10 @@ event_index:
    path: /events
    controller: App\Controller\EventController::index
 
+event_send_comment:
+   path: /events/sendcomment
+   controller: App\Controller\EventController::sendComment
+
 # register.html.twig
 user_register_page:
    path: /register

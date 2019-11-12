@@ -4,12 +4,22 @@ namespace App\Acme\CustomBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-const SERVER = "http://172.20.10.4:666/api";
+const HOST = '172.20.10.4';
+const PORT = 666;
+
+const SERVER = "http://" . HOST . ":" . PORT . "/api";
 
 class API extends Bundle
 {
     static function call($method, $url, $data=false)
     {
+
+        $wait = 1;
+        if(!$fp = fsockopen(HOST, PORT, $errCode, $errStr, $wait)){   
+            die('Could not connect to API');
+        }
+        fclose($fp);
+
         $curl = curl_init();
 
         $url = SERVER . $url;
@@ -44,16 +54,33 @@ class API extends Bundle
             return false;
          }
 
-        //  if(!API::success($result)) {
-        //      return false;
-        //  }
-
         curl_close($curl);
 
-        return json_decode($result);
+        $res = json_decode($result);
+
+        if(!$res) {
+            die('Could not connect to API');
+        }
+        if(isset($res->error)) {
+            die('Error: ' . $res->error);
+        }
+
+        return $res;
+        
     }
-    // static function success($resp) {
-    //     json_decode($resp);
-    //     return (json_last_error() == JSON_ERROR_NONE);
-    // }
+
+    // Check, seralize and make readable data from request
+    static function process($req, $data) {
+        $res = array();
+        foreach($data as $name => $required) 
+            if($req->get($name) === null)
+                $required ? die('Argument required: ' . $name) : '';
+            else $res[$name] = API::sanitize($req->get($name));
+        return $res;
+    }
+
+    static function sanitize($var) {
+        return filter_var($var, FILTER_SANITIZE_STRING);
+    }
+
 }

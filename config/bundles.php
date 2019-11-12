@@ -16,4 +16,5 @@ return [
     Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
 
     App\Acme\CustomBundle\API::class => ['all' => true],
+    App\Acme\CustomBundle\User::class => ['all' => true],
 ];

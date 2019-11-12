@@ -12,8 +12,17 @@ use App\Acme\CustomBundle\API;
 
 class MainController extends AbstractController
 {
-    public function index() {
-        return $this->render('index.html.twig', [
+    public function index(Request $request) {
+
+        $session = $request->getSession();
+        $user = $session->get('user');
+
+        $events = API::call('GET', '/events/all');
+
+        return $this->render('event.html.twig', [
+            'user' => $user,
+            'events' => $events,
         ]);
+
     }
 }
