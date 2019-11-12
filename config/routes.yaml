@@ -24,9 +24,6 @@ user_login_page:
    controller: App\Controller\UserController::loginPage
 
 
-##########################################################
-
-
 user_register:
   path: /users/register
   controller: App\Controller\UserController::register
@@ -39,6 +36,6 @@ user_logout:
   path: /users/logout
   controller: App\Controller\UserController::logout
 
-  event_send_comment:
-   path: /events/sendcomment
-   controller: App\Controller\EventController::sendComment
+event_send_comment:
+  path: /events/sendcomment
+  controller: App\Controller\EventController::sendComment
