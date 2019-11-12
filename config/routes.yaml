@@ -1,16 +1,17 @@
 # index.html.twig
-index:
+index_page:
    path: /
    controller: App\Controller\MainController::index
 
 # event.html.twig
-event_index:
+event_index_page:
    path: /events
    controller: App\Controller\EventController::index
 
-event_send_comment:
-   path: /events/sendcomment
-   controller: App\Controller\EventController::sendComment
+# profile.html.twig
+user_profile_page:
+   path: /profile
+   controller: App\Controller\EventController::profile
 
 # register.html.twig
 user_register_page:
@@ -21,6 +22,10 @@ user_register_page:
 user_login_page:
    path: /login
    controller: App\Controller\UserController::loginPage
+
+
+##########################################################
+
 
 user_register:
   path: /users/register
@@ -33,3 +38,7 @@ user_login:
 user_logout:
   path: /users/logout
   controller: App\Controller\UserController::logout
+
+  event_send_comment:
+   path: /events/sendcomment
+   controller: App\Controller\EventController::sendComment

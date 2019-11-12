@@ -4,14 +4,14 @@ namespace App\Acme\CustomBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-const HOST = '172.20.10.4';
+const HOST = '10.131.128.187';
 const PORT = 666;
 
 const SERVER = "http://" . HOST . ":" . PORT . "/api";
 
 class API extends Bundle
 {
-    static function call($method, $url, $data=false)
+    static function call($method, $url, $data=false, $token=0)
     {
 
         $wait = 1;
@@ -46,6 +46,10 @@ class API extends Bundle
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'token: ' . $token
+        ));
 
         $result = curl_exec($curl);
 

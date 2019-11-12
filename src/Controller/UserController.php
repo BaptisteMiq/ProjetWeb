@@ -49,7 +49,7 @@ class UserController extends AbstractController
         // Request data name => is required (will die if empty)
         $data = API::process($request, [
             'mail' => true,
-            'pass' => true,
+            'password' => true,
         ]);
 
         // Get from API
@@ -112,6 +112,17 @@ class UserController extends AbstractController
         $session->remove('user');
 
         return $this->render('base.html.twig', [
+        ]);
+
+    }
+
+    public function profile()
+    {
+        $session = $request->getSession();
+        // $user = new User($request);
+
+        return $this->render('profile.html.twig', [
+
         ]);
 
     }
