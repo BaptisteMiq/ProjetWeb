@@ -64,7 +64,7 @@ class API extends Bundle
         $res = json_decode($result);
 
         if(!$res) {
-            return json_encode('{"error": "Impossible de se connecter pour le moment."');
+            return json_encode('{"error": "Accès au serveur de base de données impossible pour le moment."');
             // die('Could not connect to API');
         }
         if(isset($res->error)) {

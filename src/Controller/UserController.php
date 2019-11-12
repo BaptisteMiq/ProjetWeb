@@ -94,8 +94,6 @@ class UserController extends AbstractController
 
         $session->set('user', $user);
 
-        print_r($user);
-
         return $this->redirect($this->generateUrl('index_page'));
 
         // return $this->render('index.html.twig', [
@@ -107,6 +105,12 @@ class UserController extends AbstractController
     public function register(Request $request)
     {
         $session = $request->getSession();
+
+        $user = new User($request);
+
+        if($user->isLogged()) {
+            return $this->render('login.html.twig', [ 'error' => 'Vous êtes déjà connecté!' ]);
+        }
 
         // $data = [
         //     'lastname' => 'MIQUEL',
@@ -131,9 +135,33 @@ class UserController extends AbstractController
         // Connect to the API
         $result = API::call('POST', '/users/register', $data);
 
-        return new Response(
-            $result->success
-        );
+        if(!$result) {
+            return $this->render('register.html.twig', [ 'error' => 'Impossible de se créer un compte pour le moment.' ]);
+        }
+
+        if(isset($result->error)) {
+            return $this->render('login.html.twig', [ 'error' => $result->error ]);
+        }
+
+        // Login user
+        $dataReg = [
+            'mail' => $data['mail'],
+            'password' => $data['password'],
+        ];
+
+        $usr = API::call('POST', '/users/login', $dataReg);
+
+        if(!$usr) {
+            return $this->render('register.html.twig', [ 'error' => 'Compte créé, mais impossible de s\'y connecter pour le moment.' ]);
+        }
+
+        if(isset($usr->error)) {
+            return $this->render('register.html.twig', [ 'error' => $user->error ]);
+        }
+
+        $session->set('user', $user);
+
+        return $this->redirect($this->generateUrl('index_page'));
 
     }
 
