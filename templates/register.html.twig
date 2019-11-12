@@ -8,7 +8,7 @@
  
  <body>
 
-	<form method="POST" action="/register">
+	<form method="POST" action="/users/register">
 	
 	<p> 
         <label> Nom : </label>
@@ -27,10 +27,13 @@
 	
     <p> 
 		<label> Mot de passe : </label>
-		<input name="pass" required="required" type="password" placeholder="motdepasse" /> 
+		<input name="password" required="required" type="password" placeholder="motdepasse" /> 
     </p>
 
-
+    <p> 
+		<label> Centre </label>
+		<input name="center" required="required" type="text" placeholder="Centre" /> 
+    </p>
 	
     <p> 
 		<input type="submit" value="Inscription" /> 

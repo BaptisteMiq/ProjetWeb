@@ -21,7 +21,7 @@ body {
 	height: 100%;
 	width: 100%;
 	margin:auto;
-	background-color: #f2f2f2;
+	background-color: #252525;
 }
 
 footer{
@@ -34,6 +34,10 @@ footer{
 	text-align: center;
 	font-size: 24px;
 	padding-top: 20px;
+}
+
+a{
+	color: white;
 }
 
 #logo{
@@ -49,14 +53,13 @@ footer{
 
 .wrapper {
     max-width: 1370px;
-    margin: 3% auto;
+    margin: 3% 34%;
 }
 
 .fil{
 	float: right;
 	width: 75%;
 	padding-top: 30px;
-	background-color: #252525;
 }
 
 .side{
@@ -69,7 +72,8 @@ footer{
 .titrehead{
 	font-family: Montserrat;
 	line-height: 50%;
-	color: white;
+	color: hsl(39, 100%, 66%);
+	font-weight: bold;
 	font-size: 36px;
 	text-align: center;
 }
@@ -86,14 +90,21 @@ footer{
 	-webkit-text-fill-color: transparent;
 }
 
-.titre{
+.compte{
 	position: absolute; 
 	margin: 0 auto; 
 	width: 100%;
 	font-family: Verdana;
 	text-align: left;
 	font-size: 14px;
-	color: #FFF;
+	color: white;
+	padding-left: 45px;
+    padding-top: 25px;
+}
+
+.compte:hover{
+	transition: all .12s ease !important;
+	color: hsl(39, 100%, 66%);
 }
 
 

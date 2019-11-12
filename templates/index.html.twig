@@ -9,11 +9,11 @@
     </head>
     <body>
     <header>
-        {% if connected == 0 %}
+        {% if user == null %}
             <button><a href="/login">Connexion</a></button>
             <button><a href="/login">Inscription</a></button>
         {% else %}
-            <div class="titre">connected</div>
+            <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
         {% endif %}
 	</header>
 
