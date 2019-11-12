@@ -1,8 +1,51 @@
+{% set connected = 0 %}
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
     </head>
     <body>
+    <header>
+        {% if connected == 0 %}
+            <button><a href="/login">Connexion</a></button>
+            <button><a href="/login">Inscription</a></button>
+        {% else %}
+            <div class="titre">connected</div>
+        {% endif %}
+	</header>
+
+    <div id="logo" style="text-align: center">
+		<div class="wrapper">
+			 <div class="titrehead">BDE CESI TOULOUSE</div>
+             <div class="subtitrehead">C.R.E.A.M.</div>
+		</div>
+	</div>
+
+    <div class="nav-bar">
+    </div>
+
+   <div class="fil">
+        <h1>Evenements</h1>
+            
+        <article>
+            ...
+        </article>
+    </div>
+
+    <div class="side">
+        <img src="images/logo.png" style="margin: 0; height: 100%; width:100%;"></img>
+        <h4>Derniers événements</h4>
+        <ul>
+            <li><a href="#">Event 1</a></li>
+            <li><a href="#">Event 2</a></li>
+            <li><a href="#">Event 3</a></li>
+        </ul>
+    </div>  
+    </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+    </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+    </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
     </body>
 </html>

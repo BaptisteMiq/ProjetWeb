@@ -7,23 +7,33 @@
  
  
  <body>
-	<header>
-		<div class="titrehead">Projet</div>
-	</header>
+
+	<form method="POST" action="/register">
 	
-	<form method="POST" action="/login">
+	<p> 
+        <label> Nom : </label>
+        <input name="lastname" required="required" type="text" placeholder="nom"/>
+    </p>
+
+	<p> 
+        <label> Prénom : </label>
+        <input name="firstname" required="required" type="text" placeholder="prenom"/>
+    </p>
+	
 	<p> 
         <label> Mail : </label>
-        <input name="mail" required="required" type="text" placeholder="pseudo"/>
+        <input name="mail" required="required" type="text" placeholder="mail"/>
     </p>
 	
     <p> 
 		<label> Mot de passe : </label>
 		<input name="pass" required="required" type="password" placeholder="motdepasse" /> 
     </p>
+
+
 	
     <p> 
-		<input type="submit" value="Connexion" /> 
+		<input type="submit" value="Inscription" /> 
     </p>
 	</form>
 	
