@@ -53,7 +53,7 @@ a{
 
 .wrapper {
     max-width: 1370px;
-    margin: 3% 34%;
+    margin: 0 34%;
 }
 
 .fil{
@@ -71,7 +71,6 @@ a{
 
 .titrehead{
 	font-family: Montserrat;
-	line-height: 50%;
 	color: hsl(39, 100%, 66%);
 	font-weight: bold;
 	font-size: 36px;

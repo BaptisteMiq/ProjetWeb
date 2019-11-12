@@ -1,4 +1,4 @@
-{% set connected = 0 %}
+{% set user = 0 %}
 
 <!DOCTYPE html>
 <html>
@@ -9,7 +9,7 @@
     </head>
     <body>
     <header>
-        {% if user == null %}
+        {% if user == 0 %}
             <button><a href="/login">Connexion</a></button>
             <button><a href="/login">Inscription</a></button>
         {% else %}
