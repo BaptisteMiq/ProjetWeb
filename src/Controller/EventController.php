@@ -50,16 +50,6 @@ class EventController extends AbstractController
 
     }
 
-    public function showEvents(Request $request) {
-
-        $events = API::call('GET', 'events/all');
-
-        return new Response(
-            print_r($events)
-        );
-
-    }
-
     public function showEvent(Request $request) {
 
         $data = API::process($request, [
