@@ -1,5 +1,3 @@
-{% set test = 'cc' %}
-
 <!doctype html>
 <html lang="fr">
  <head>
@@ -12,26 +10,26 @@
  
  <body>
 	<header>
-		<div class="titrehead">Projet</div>
+		<div class="titrehead">Connexion</div>
 	</header>
-
-	{{ test }}
 	
+	<div class="box">
 	<form method="POST" action="/users/login">
 	<p> 
-        <label> Mail : </label>
-        <input name="mail" required="required" type="text" placeholder="pseudo"/>
+        <label> Mail : </label></br>
+        <input name="mail" required="required" type="text" placeholder="Adresse Mail"/>
     </p>
 	
     <p> 
-		<label> Mot de passe : </label>
-		<input name="password" required="required" type="password" placeholder="motdepasse" /> 
+		<label> Mot de passe : </label></br>
+		<input name="password" required="required" type="password" placeholder="Mot de passe" /> 
     </p>
 	
     <p> 
 		<input type="submit" value="Connexion" /> 
     </p>
 	</form>
+	</div>
 	
 	
  </body>

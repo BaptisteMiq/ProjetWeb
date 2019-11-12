@@ -36,6 +36,10 @@ footer{
 	padding-top: 20px;
 }
 
+label{
+	color: white;
+}
+
 a{
 	color: white;
 }
@@ -104,6 +108,15 @@ a{
 .compte:hover{
 	transition: all .12s ease !important;
 	color: hsl(39, 100%, 66%);
+}
+
+.box{
+	margin: 6% auto;
+    height: 220px;
+    width: 212px;
+    padding: 7px;
+	background-color: #252525;
+	border: 7px solid hsl(39, 100%, 66%);
 }
 
 
