@@ -26,7 +26,7 @@ class MainController extends AbstractController
 
         // $events = API::call('GET', '/events/all');
 
-        return $this->render('event.html.twig', [
+        return $this->render('index.html.twig', [
             'user' => $user,
             // 'events' => $events,
         ]);
