@@ -81,7 +81,7 @@ class API extends Bundle
         $res = array();
         foreach($data as $name => $required) 
             if($req->get($name) === null)
-                $required ? die('Argument required: ' . $name) : '';
+                $required ? $res['error'] = $name : '';
             else $res[$name] = API::sanitize($req->get($name));
         return $res;
     }

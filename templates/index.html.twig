@@ -1,4 +1,3 @@
-{% set user = 0 %}
 
 <!DOCTYPE html>
 <html>
@@ -9,10 +8,11 @@
     </head>
     <body>
     <header>
-        {% if user == 0 %}
+        {% if user == null %}
             <button><a href="/login">Connexion</a></button>
             <button><a href="/register">Inscription</a></button>
         {% else %}
+            <button><a href="./users/logout">Déconnexion</a></button>
             <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
         {% endif %}
 

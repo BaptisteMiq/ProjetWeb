@@ -13,22 +13,24 @@
 		<div class="titrehead">Inscription</div>
 	</header>
 
+  <p style="color:white; text-align:center;">{{ error is defined ? error : '' }}</p>
+
   <div class="box" style="width: 450px; height: 270px;">
-	<form method="POST" action="/users/register">
+	<form method="POST" action="/register">
 	<div style="float: left">
 	  <p> 
         <label> Nom : </label></br>
-        <input name="lastname" required="required" type="text" placeholder="Nom"/>
+        <input name="lastname" required="required" type="text" placeholder="Nom" value="{{ data is defined ? data.lastname : '' }}" />
     </p>
 
 	  <p> 
         <label> Prénom : </label></br>
-        <input name="firstname" required="required" type="text" placeholder="Prénom"/>
+        <input name="firstname" required="required" type="text" placeholder="Prénom" value="{{ data is defined ? data.firstname : '' }}" />
     </p>
 	
 	  <p> 
         <label> Mail : </label></br>
-        <input name="mail" required="required" type="text" placeholder="Adresse Mail"/>
+        <input name="mail" required="required" type="text" placeholder="Adresse Mail" value="{{ data is defined ? data.mail : '' }}" />
     </p>
   </div>
   	<div style="float: right">
@@ -39,7 +41,7 @@
 
     <p> 
 		<label> Centre </label></br>
-		<input name="id_Center" required="required" type="text" placeholder="Centre" /> 
+		<input name="id_Center" required="required" type="text" placeholder="Centre" value="{{ data is defined ? data.id_Center : '' }}" /> 
     </p>
 	
     <p> 

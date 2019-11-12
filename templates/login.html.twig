@@ -16,10 +16,10 @@
 	<p style="color:white; text-align:center;">{{ error is defined ? error : '' }}</p>
 
 	<div class="box">
-	<form method="POST" action="/users/login">
+	<form method="POST" action="/login">
 	<p> 
         <label> Mail : </label></br>
-        <input name="mail" required="required" type="text" placeholder="Adresse Mail"/>
+        <input name="mail" required="required" type="text" placeholder="Adresse Mail" value="{{ data is defined ? data.mail : '' }}" />
     </p>
 	
     <p> 
