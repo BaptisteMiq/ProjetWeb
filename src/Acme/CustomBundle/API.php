@@ -14,11 +14,11 @@ class API extends Bundle
     static function call($method, $url, $data=false, $token=0)
     {
 
-        $wait = 1;
-        if(!$fp = fsockopen(HOST, PORT, $errCode, $errStr, $wait)){   
-            die('Could not connect to API');
-        }
-        fclose($fp);
+        // $wait = 10;
+        // if(!$fp = fsockopen(HOST, PORT, $errCode, $errStr, $wait)){   
+        //     die('Could not connect to API');
+        // }
+        // fclose($fp);
 
         $curl = curl_init();
 
@@ -47,14 +47,15 @@ class API extends Bundle
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'token: ' . $token
         ));
 
         $result = curl_exec($curl);
 
         if (curl_errno($curl)) { 
-            // return curl_error($curl);
+            // print_r(curl_error($curl));
+            // die();
             return false;
          }
 
@@ -63,10 +64,12 @@ class API extends Bundle
         $res = json_decode($result);
 
         if(!$res) {
-            die('Could not connect to API');
+            return json_encode('{"error": "Impossible de se connecter pour le moment."');
+            // die('Could not connect to API');
         }
         if(isset($res->error)) {
-            die('Error: ' . $res->error);
+            return $res;
+            // die('Error: ' . $res->error);
         }
 
         return $res;

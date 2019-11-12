@@ -13,6 +13,8 @@
 		<div class="titrehead">Connexion</div>
 	</header>
 	
+	<p style="color:white; text-align:center;">{{ error is defined ? error : '' }}</p>
+
 	<div class="box">
 	<form method="POST" action="/users/login">
 	<p> 
@@ -26,7 +28,7 @@
     </p>
 	
     <p> 
-		<input type="submit" value="Connexion" /> 
+		<input class="btn btn-primary" type="submit" value="Connexion" /> 
     </p>
 	</form>
 	</div>

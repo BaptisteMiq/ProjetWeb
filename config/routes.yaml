@@ -1,3 +1,7 @@
+token:
+   path: /token
+   controller: App\Controller\UserController::token
+
 # index.html.twig
 index_page:
    path: /

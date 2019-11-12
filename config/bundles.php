@@ -17,4 +17,5 @@ return [
 
     App\Acme\CustomBundle\API::class => ['all' => true],
     App\Acme\CustomBundle\User::class => ['all' => true],
+    App\Acme\CustomBundle\Error::class => ['all' => true],
 ];

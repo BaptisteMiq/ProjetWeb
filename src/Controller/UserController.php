@@ -10,12 +10,40 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 use App\Acme\CustomBundle\API;
 use App\Acme\CustomBundle\User;
+use App\Acme\CustomBundle\Error;
 
 class UserController extends AbstractController
 {
 
-    public function loginPage()
+    public function token(Request $request) {
+
+        $session = $request->getSession();
+
+        $user = new User($request);
+
+        if(!$user->isLogged()) {
+            die('You are not logged');
+        }
+
+        API::call('GET', '/token', false, $user->getUser()->token);
+
+        return new Response(
+            'Bienvenue dans la page top secrète, ' . $user->getUser()->token
+        );
+
+    }
+
+    public function loginPage(Request $request)
     {
+
+        $session = $request->getSession();
+
+        $user = new User($request);
+
+        if($user->isLogged()) {
+            // die('You are already logged!');
+            return $this->render('login.html.twig', [ 'error' => 'Vous êtes déjà connecté!' ]);
+        }
 
         return $this->render('login.html.twig', [
 
@@ -43,7 +71,7 @@ class UserController extends AbstractController
         $user = new User($request);
 
         if($user->isLogged()) {
-            die('You are already logged!');
+            return $this->render('login.html.twig', [ 'error' => 'Vous êtes déjà connecté!' ]);
         }
 
         // Request data name => is required (will die if empty)
@@ -53,55 +81,58 @@ class UserController extends AbstractController
         ]);
 
         // Get from API
-        // $user = API::call('POST', '/users/login', $data);
-        $user = json_decode('{"id": 2, "name": "Baptiste", "mail": "baptiste.miquel@viacesi.fr"}');
+        $user = API::call('POST', '/users/login', $data);
+        // $user = json_decode('{"id": 2, "name": "Baptiste", "mail": "baptiste.miquel@viacesi.fr"}');
 
         if(!$user) {
-            die('Could not connect');
+            return $this->render('login.html.twig', [ 'error' => 'Impossible de se connecter pour le moment.' ]);
+        }
+
+        if(isset($user->error)) {
+            return $this->render('login.html.twig', [ 'error' => $user->error ]);
         }
 
         $session->set('user', $user);
 
-        // return $this->render('base.html.twig', [
-        // ]);
-        return new Response(
-            'Bienvenue, utilisateur numero ' . $user->id
-        );
+        print_r($user);
 
+        return $this->redirect($this->generateUrl('index_page'));
+
+        // return $this->render('index.html.twig', [
+
+        // ]);
+    
     }
 
     public function register(Request $request)
     {
         $session = $request->getSession();
 
-        $data = [
-            'lastname' => 'MIQUEL',
-            'firstname' => 'Baptiste',
-            'mail' => 'baptiste.miquel@viacesi.fr',
-            'pass' => 'Azertyuiop0',
-            'location' => 'TOULOUSE',
-        ];
+        // $data = [
+        //     'lastname' => 'MIQUEL',
+        //     'firstname' => 'Baptiste',
+        //     'mail' => 'baptiste.miquel@viacesi.fr',
+        //     'password' => 'Azertyuiop0',
+        //     'centerId' => 0,
+        // ];
 
-        // $data = API::process($request, [
-        //     'lastname' => true,
-        //     'firstname' => true,
-        //     'mail' => true,
-        //     'password' => true,
-        //     'location' => true,
-        // ]);
+        $data = API::process($request, [
+            'lastname' => true,
+            'firstname' => true,
+            'mail' => true,
+            'password' => true,
+            'id_Center' => true,
+        ]);
         
         // Check if valid data
         $this->checkMail($data['mail']);
-        $this->checkPassword($data['pass']);
+        $this->checkPassword($data['password']);
 
         // Connect to the API
-        // $result = API::call('POST', '/users/register', $data);
-        $result = 'OK';
+        $result = API::call('POST', '/users/register', $data);
 
-        // return $this->render('base.html.twig', [
-        // ]);
         return new Response(
-            'OK'
+            $result->success
         );
 
     }
