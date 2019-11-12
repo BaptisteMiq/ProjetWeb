@@ -2,47 +2,52 @@
 <html lang="fr">
  <head>
 	 <meta charset="utf-8">
+   <link rel="stylesheet" href="{{ asset('css/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+	 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
 	 <title>Projet Web</title>
  </head>
  
  
  <body>
+ <header>
+		<div class="titrehead">Inscription</div>
+	</header>
 
+  <div class="box" style="width: 450px; height: 270px;">
 	<form method="POST" action="/users/register">
-	
-	<p> 
-        <label> Nom : </label>
-        <input name="lastname" required="required" type="text" placeholder="nom"/>
+	<div style="float: left">
+	  <p> 
+        <label> Nom : </label></br>
+        <input name="lastname" required="required" type="text" placeholder="Nom"/>
     </p>
 
-	<p> 
-        <label> Prénom : </label>
-        <input name="firstname" required="required" type="text" placeholder="prenom"/>
+	  <p> 
+        <label> Prénom : </label></br>
+        <input name="firstname" required="required" type="text" placeholder="Prénom"/>
     </p>
 	
-	<p> 
-        <label> Mail : </label>
-        <input name="mail" required="required" type="text" placeholder="mail"/>
+	  <p> 
+        <label> Mail : </label></br>
+        <input name="mail" required="required" type="text" placeholder="Adresse Mail"/>
     </p>
-	
+  </div>
+  	<div style="float: right">
     <p> 
-		<label> Mot de passe : </label>
-		<input name="password" required="required" type="password" placeholder="motdepasse" /> 
+		<label> Mot de passe : </label></br>
+		<input name="password" required="required" type="password" placeholder="Mot de passe" /> 
     </p>
 
     <p> 
-		<label> Centre </label>
+		<label> Centre </label></br>
 		<input name="id_Center" required="required" type="text" placeholder="Centre" /> 
     </p>
 	
     <p> 
 		<input type="submit" value="Inscription" /> 
     </p>
+    </div>
 	</form>
-	
-	
-	
-	<footer></footer>
+  </div>
 	
  </body>
 </html>

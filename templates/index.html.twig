@@ -11,10 +11,12 @@
     <header>
         {% if user == 0 %}
             <button><a href="/login">Connexion</a></button>
-            <button><a href="/login">Inscription</a></button>
+            <button><a href="/register">Inscription</a></button>
         {% else %}
             <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
         {% endif %}
+
+        
 	</header>
 
     <div id="logo" style="text-align: center">

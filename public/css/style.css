@@ -119,6 +119,10 @@ a{
 	border: 7px solid hsl(39, 100%, 66%);
 }
 
+.float_right {
+	float: right;
+}
+
 
 @keyframes gradientBG {
 	0% {
