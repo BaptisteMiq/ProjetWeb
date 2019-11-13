@@ -50,20 +50,22 @@
         </div>
         <div class="col" style="z-index: -1;">
             <h1>Evenements</h1>
-                
-            <div class="event_box">
-                <div class="event_box_nav"><h2 style="margin-left: 15px">Event</h2>
-                <img src="images/bde-thumbail.jpg" style="height: 230px; width: 833px;"></img>
-                <!--<p style="height: 17%" style="padding: 12px; font-family: sans-serif;">test</p>
-                <hr style="width: 80%;"></hr>-->
-                
-                {% if user != null %}
-                    <button class="btn btn-secondary" style="float: right; margin-right: 3%; margin-top: 12px;"><a href="#">Aimer</a></button>
-                {% endif %}
-                <button class="btn btn-secondary" style="float: right; margin-right: 3%; margin-top: 12px;"><a href="#">Souscrire</a><bubble>0</bubble></button>
-                
-                <h4 style="color: black; margin: 6px;">00/00/0000</h4>
-            </div>
+
+            {% for event in events %}  
+                <div class="event_box">
+                    <div class="event_box_nav"><h2 style="margin-left: 15px">{{ event.title }}</h2>
+                    <img src="images/bde-thumbail.jpg" style="height: 230px; width: 833px;"></img>
+                    <!--<p style="height: 17%" style="padding: 12px; font-family: sans-serif;">test</p>
+                    <hr style="width: 80%;"></hr>-->
+                    
+                    {% if user != null %}
+                        <button class="btn btn-secondary" style="float: right; margin-right: 3%; margin-top: 12px;"><a href="#">Aimer</a></button>
+                    {% endif %}
+                    <button class="btn btn-secondary" style="float: right; margin-right: 3%; margin-top: 12px;"><a href="#">Souscrire</a><bubble>0</bubble></button>
+                    
+                    <h4 style="color: black; margin: 6px;">00/00/0000</h4>
+                </div>
+            {% endfor %}
         </div>
     </div>
     </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
