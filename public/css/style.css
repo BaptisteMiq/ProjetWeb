@@ -182,6 +182,7 @@ ul.nav {
     padding: 7px;
 	background-color: #252525;
 	border: 7px solid hsl(39, 100%, 66%);
+	box-shadow: 10px 7px 10px #0d0d0d;
 }
 
 .event_box{
@@ -189,7 +190,6 @@ ul.nav {
     width: 512px;
 	background-color: white;
 	border-left: 17px solid hsl(39, 100%, 66%);
-	box-shadow: #0d0d0d;
 }
 
 .event_box_nav{
