@@ -4,13 +4,12 @@ header{
 	background: linear-gradient(-45deg, #000, #252525);
 	background-size: 400% 400%;
 	animation: gradientBG 15s ease infinite;
-	height: 74px;
-	padding: 18px;
+	height: 63px;
 }
 
 .nav-bar{
 	position: sticky;
-	top: 74px;
+	top: 63px;
 	background: linear-gradient(-45deg, #272727, #313131);
 	background-size: 400% 400%;
 	animation: gradientBG 15s ease infinite;
@@ -55,7 +54,7 @@ ul.nav {
 	float: right;
 	list-style: none;
 	margin: 0;
-	padding: 0;
+	padding: 18px;
   }
   
   ul.nav li {
@@ -82,12 +81,23 @@ ul.nav {
     color: white;
 }
 
+bubble {
+	position: absolute;
+	color: white;
+    background-color: red;
+	padding: 2px;
+	padding-left: inherit;
+    padding-right: inherit;
+    font-weight: bold;
+    border-radius: 100px;
+    margin-top: -17px;
+}
+
 #logo{
     background: #eceef0 url(../images/bde-thumbail2.jpg) no-repeat 0% 55% / cover;
     width: 100%;
     height: 460px;
     display: flex;
-    padding: 0 15px;
     display: -webkit-flex;
     display: -ms-flexbox;
     box-sizing: border-box;
@@ -159,7 +169,7 @@ ul.nav {
 
 .compte{
 	position: absolute; 
-	margin: 0 auto; 
+	margin: 20px auto; 
 	width: 100%;
 	font-family: Verdana;
 	text-align: left;
