@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use App\Controller\EventController;
+
 use App\Acme\CustomBundle\API;
 
 class MainController extends AbstractController
@@ -28,9 +30,11 @@ class MainController extends AbstractController
 
         // $events = API::call('GET', '/events/all');
 
+        $events = json_decode(EventController::getEvents());
+
         return $this->render('index.html.twig', [
             'user' => $user,
-            // 'events' => $events,
+            'events' => $events,
         ]);
 
     }
