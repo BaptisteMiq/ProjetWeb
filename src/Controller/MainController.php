@@ -18,6 +18,8 @@ class MainController extends AbstractController
 
         $user = $session->get('user');
 
+        // print_r($user);
+
         // $user = json_decode('{"id": 2, "firstname": "Baptiste", "lastname": "MIQUEL", "mail": "baptiste.miquel@viacesi.fr"}');
 
         if(empty($user)) {

@@ -4,7 +4,8 @@ namespace App\Acme\CustomBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-const HOST = '10.131.128.187';
+// const HOST = '10.131.128.187';
+const HOST = '127.0.0.1';
 const PORT = 666;
 
 const SERVER = "http://" . HOST . ":" . PORT . "/api";

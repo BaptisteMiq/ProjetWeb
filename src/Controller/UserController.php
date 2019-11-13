@@ -132,10 +132,10 @@ class UserController extends AbstractController
             }
 
             if(isset($usr->error)) {
-                return $this->render('register.html.twig', [ 'error' => $user->error ]);
+                return $this->render('register.html.twig', [ 'error' => $usr->error ]);
             }
 
-            $session->set('user', $user);
+            $session->set('user', $usr);
 
             return $this->redirect($this->generateUrl('index_page'));
 

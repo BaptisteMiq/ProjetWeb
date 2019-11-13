@@ -4,6 +4,10 @@ namespace App\Acme\CustomBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+const STUDENT = 1;
+const MEMBER = 2;
+const MODERATOR = 3;
+
 class User extends Bundle
 {
 

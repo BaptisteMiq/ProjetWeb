@@ -33,20 +33,22 @@ class EventController extends AbstractController
 
         $session = $request->getSession();
 
-        if($session->get('user') === null) {
-            return new Response(
-                'You are not logged!'
-            );
+        $user = new User($request);
+
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::MODERATOR))) {
+            die('Not authorized');
         }
 
         $data = API::process($request, [
             'eventId' => true,
         ]);
-        $data['userId'] = $session->get('user')->id;
+        
+        if(!isset($data['error'])) {
+            $events = API::call('GET', '/events/subscribe', $data);
+            return new Response('OK');
+        }
 
-        $events = API::call('GET', '/events/subscribe', $data);
-
-        print_r($events);
+        return new Response('Missing ' . $data['error']);
 
     }
 
@@ -55,11 +57,13 @@ class EventController extends AbstractController
         $data = API::process($request, [
             'eid' => true,
         ]);
-        $event = API::call('GET', 'events/get', $data);
 
-        return new Response(
-            print_r($event)
-        );
+        if(!isset($data['error'])) {
+            $event = API::call('GET', 'events/get', $data);
+            return $this->render('event.html.twig', [ 'event' => $event ]);
+        }
+
+        return new Response('Missing ' . $data['error']);
 
     }
 
