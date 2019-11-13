@@ -12,7 +12,6 @@
             <button class="btn btn-primary"><a href="/login">Connexion</a></button>
             <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
         {% else %}
-            <button><a href="./users/logout">Déconnexion</a></button>
             <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
         {% endif %}
 
@@ -34,28 +33,36 @@
 	</div>
 
     <div class="nav-bar">
+    {% if user != null %}
+     <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="./users/logout">Déconnexion</a></button>
+    {% endif %}
     </div>
-
-   <div class="fil">
-        <h1>Evenements</h1>
-            
-        <div class="event_box">
-            <div class="event_box_nav"></div>
-            <img src="images/bde-thumbail.jpg" style="height: 230px; width: 833px;"></img>
-            <p style="height: 17%" style="padding: 12px; font-family: sans-serif;">test</p>
-            <hr style="width: 80%;"></hr>
-            <button class="btn btn-secondary" style="float: right; margin-right: 3%;">Souscrire</button>
+    
+    <div class="row" style="margin-top: 30px; width: 100%;">
+       <div class="col-sm-3" style="z-index: -1;">
+        <p>test</p>
+        <!--   <h4 style="color: white">Derniers événements</h4>
+            <ul>
+                <li><a href="#">Event 1</a></li>
+                <li><a href="#">Event 2</a></li>
+                <li><a href="#">Event 3</a></li>
+            </ul>-->
+        </div>
+        <div class="col" style="z-index: -1;">
+            <h1>Evenements</h1>
+                
+            <div class="event_box">
+                <div class="event_box_nav"></div>
+                <img src="images/bde-thumbail.jpg" style="height: 230px; width: 833px;"></img>
+                <!--<p style="height: 17%" style="padding: 12px; font-family: sans-serif;">test</p>
+                <hr style="width: 80%;"></hr>-->
+                {% if user != null %}
+                    <button class="btn btn-secondary" style="float: right; margin-right: 3%; margin-top: 12px;"><a href="#">Aimer</a></button>
+                {% endif %}
+                <button class="btn btn-secondary" style="float: right; margin-right: 3%; margin-top: 12px;"><a href="#">Souscrire</a></button>
+            </div>
         </div>
     </div>
-
-    <div class="side">
-     <!--   <h4 style="color: white">Derniers événements</h4>
-        <ul>
-            <li><a href="#">Event 1</a></li>
-            <li><a href="#">Event 2</a></li>
-            <li><a href="#">Event 3</a></li>
-        </ul>-->
-    </div>  
     </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
     </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
     </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
