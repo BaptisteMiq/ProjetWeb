@@ -39,19 +39,20 @@
     </div>
     
     <!-- Contenu de page -->
-    <h1>Evenements</h1>
+    <h1 class="titrepage">Evenements</h1>
     {% for event in events %}
-        <div class="event_box">
+        <div class="event_box_full">
             <div class="event_box_nav"><h2 style="margin-left: 15px">{{ event.title }}</h2></div>
-            <img src="images/bde-thumbail.jpg" style="height: 230px; width: 833px;"></img>
+            <img src="images/bde-thumbail.jpg" style="width: 100%;"></img>
             <!--<p style="height: 17%" style="padding: 12px; font-family: sans-serif;">test</p>
             <hr style="width: 80%;"></hr>-->
             {% if user != null %}
-                <button class="btn btn-secondary" style="float: right; margin-right: 3%; margin-top: 12px;"><a href="#">Aimer</a></button>
+                <button class="btn btn-secondary" style="float: right; margin-right: 3%; margin-top: 12px;"><a href="#">Publier</a></button>
             {% endif %}
             <button class="btn btn-secondary" style="float: right; margin-right: 3%; margin-top: 12px;"><a href="#">Souscrire</a><bubble>0</bubble></button>
-            
-            <h4 style="color: black; margin: 6px;">{{ event.begin_date|date("d/m/Y") }}</h4>
+            <h4 style="color: black; margin: 12px;">{{ event.begin_date|date("d/m/Y") }}</h4>
+            <h4 style="color: black; text-align: center;">{{ event.price }}€</h4>
+            <p style="float: left; margin-left: 25px; text-align: left; font-size: larger;">{{ event.description }}</p>
         </div>
     {% endfor %}
 
@@ -85,7 +86,6 @@
         </div>
     
     </div>
-
     </footer>
     </body>
 </html>

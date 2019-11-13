@@ -130,6 +130,12 @@ bubble {
 	text-align: center;
 }
 
+.titrepage{
+	text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 .subtitrehead{
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	font-weight: bold;
@@ -210,11 +216,14 @@ bubble {
 }
 
 .event_box_full{
-    height: 316px;
-	width: 850px;
+    height: 1000px;
+	width: 1000px;
 	margin-bottom: 100px;
 	background-color: white;
 	border-left: 17px solid hsl(39, 100%, 66%);
+	border-right: 17px solid hsl(39, 100%, 66%);
+	margin: auto;
+	margin-bottom: 100px;
 }
 
 .float_right {
