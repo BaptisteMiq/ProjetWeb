@@ -25,6 +25,10 @@ class EventController extends AbstractController
 
         $events = API::call('GET', '/events/all');
 
+        if(isset($events->error)) {
+            return $events->error;
+        }
+
         return json_encode($events->AllActivitiesFound);
 
     }
