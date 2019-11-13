@@ -9,21 +9,28 @@
     <body>
     <header>
         {% if user == null %}
-            <button><a href="/login">Connexion</a></button>
-            <button><a href="/register">Inscription</a></button>
+            <button class="btn btn-primary"><a href="/login">Connexion</a></button>
+            <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
         {% else %}
             <button><a href="./users/logout">Déconnexion</a></button>
             <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
         {% endif %}
 
+        <ul class="nav">
+        <li><a href="#">Accueil</a></li>
+        <li><a href="#">Evenements</a></li>
+        <li><a href="#">Boutique</a></li>
+        <li><a href="#">Contacte</a></li>
+      </ul>
         
 	</header>
 
     <div id="logo" style="text-align: center">
-		<div class="wrapper">
-			 <div class="titrehead">BDE CESI TOULOUSE</div>
-             <div class="subtitrehead">C.R.E.A.M.</div>
-		</div>
+        
+
+		<!--<div class="wrapper">
+			 <img src="images/logo.png" style="margin: 0; height: 60%; width:60%; top: 5%;"></img>
+		</div>-->
 	</div>
 
     <div class="nav-bar">
@@ -38,13 +45,12 @@
     </div>
 
     <div class="side">
-        <img src="images/logo.png" style="margin: 0; height: 100%; width:100%;"></img>
-        <h4>Derniers événements</h4>
+     <!--   <h4 style="color: white">Derniers événements</h4>
         <ul>
             <li><a href="#">Event 1</a></li>
             <li><a href="#">Event 2</a></li>
             <li><a href="#">Event 3</a></li>
-        </ul>
+        </ul>-->
     </div>  
     </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
     </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>

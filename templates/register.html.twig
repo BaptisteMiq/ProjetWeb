@@ -4,6 +4,7 @@
 	 <meta charset="utf-8">
    <link rel="stylesheet" href="{{ asset('css/bootstrap/css/bootstrap.css') }}" type="text/css"/>
 	 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
 	 <title>Projet Web</title>
  </head>
  
@@ -15,7 +16,8 @@
 
   <p style="color:white; text-align:center;">{{ error is defined ? error : '' }}</p>
 
-  <div class="box" style="width: 450px; height: 270px;">
+  <!--Container-->
+  <div class="box" style="width: 450px; height: 300px;">
 	<form method="POST" action="/register">
 	<div style="float: left">
 	  <p> 
@@ -38,18 +40,37 @@
 		<label> Mot de passe : </label></br>
 		<input name="password" required="required" type="password" placeholder="Mot de passe" /> 
     </p>
+    <p> 
+		<label> Confirmer mot de passe : </label></br>
+		<input name="sec_password" required="required" type="password" placeholder="Confirmation" /> 
+    </p>
 
     <p> 
 		<label> Centre </label></br>
 		<input name="id_Center" required="required" type="text" placeholder="Centre" value="{{ data is defined ? data.id_Center : '' }}" /> 
     </p>
 	
+    </div>
+    <div style="margin-left: 39%;">
     <p> 
-		<input type="submit" value="Inscription" /> 
+		<input class="btn btn-primary" type="submit" value="Inscription" /> 
     </p>
     </div>
 	</form>
   </div>
-	
+
+  <!--Animations-->
+	<div class="waveWrapper waveAnimation">
+		<div class="waveWrapperInner bgTop">
+			<div class="wave waveTop" style="background-image: url('images/wave3.png')"></div>
+		</div>
+		<div class="waveWrapperInner bgMiddle">
+			<div class="wave waveMiddle" style="background-image: url('images/wave2.png')"></div>
+		</div>
+		<div class="waveWrapperInner bgBottom">
+			<div class="wave waveBottom" style="background-image: url('images/wave3.png')"></div>
+		</div>
+	</div>
+  
  </body>
 </html>

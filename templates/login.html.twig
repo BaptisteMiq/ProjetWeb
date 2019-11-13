@@ -4,6 +4,7 @@
 	 <meta charset="utf-8">
 	 <link rel="stylesheet" href="{{ asset('css/bootstrap/css/bootstrap.css') }}" type="text/css"/>
 	 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
+	 <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
 	 <title>Projet Web</title>
  </head>
  
@@ -11,10 +12,12 @@
  <body>
 	<header>
 		<div class="titrehead">Connexion</div>
+		<div class="back"><a href="/">< Retour</a></div>
 	</header>
 	
 	<p style="color:white; text-align:center;">{{ error is defined ? error : '' }}</p>
 
+	<!--Container-->
 	<div class="box">
 	<form method="POST" action="/login">
 	<p> 
@@ -33,6 +36,18 @@
 	</form>
 	</div>
 	
-	
+	<!--Animations-->
+	<div class="waveWrapper waveAnimation">
+		<div class="waveWrapperInner bgTop">
+			<div class="wave waveTop" style="background-image: url('images/wave3.png')"></div>
+		</div>
+		<div class="waveWrapperInner bgMiddle">
+			<div class="wave waveMiddle" style="background-image: url('images/wave2.png')"></div>
+		</div>
+		<div class="waveWrapperInner bgBottom">
+			<div class="wave waveBottom" style="background-image: url('images/wave3.png')"></div>
+		</div>
+	</div>
+
  </body>
 </html>

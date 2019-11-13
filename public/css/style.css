@@ -5,6 +5,7 @@ header{
 	background-size: 400% 400%;
 	animation: gradientBG 15s ease infinite;
 	height: 74px;
+	padding: 18px;
 }
 
 .nav-bar{
@@ -36,16 +37,49 @@ footer{
 	padding-top: 20px;
 }
 
-label{
-	color: white;
-}
-
 a{
 	color: white;
 }
 
+a:-webkit-any-link {
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+label{
+	color: white;
+}
+
+ul.nav {
+	float: right;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+  }
+  
+  ul.nav li {
+	float: left;
+	position: relative;
+  }
+  
+  ul.nav li a {
+	transition: color 0.2s linear;
+	font-size: 18px;
+  }
+  
+  ul.nav li:hover a {
+	color: hsl(39, 100%, 66%);;
+  }
+  
+  ul.nav li a {
+	padding: 21px;
+	color: white;
+	text-decoration: initial;
+  }
+
 #logo{
-    background: #eceef0 url(../images/bde-thumbail.jpg) no-repeat 0% 100% / cover;
+    background: #eceef0 url(../images/bde-thumbail2.jpg) no-repeat 0% 100% / cover;
     width: 100%;
     height: 460px;
     display: flex;
@@ -70,7 +104,6 @@ a{
 	float: left;
 	width: 15%;
 	padding-top: 10px;
-	background-color: #e7e7e7;
 }
 
 .titrehead{
@@ -91,6 +124,33 @@ a{
   	background-clip: text;
   	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
+}
+
+.call {
+	color: white;
+  }
+  
+  .call span {
+	border: 1px solid white;
+	padding: 8px 13px;
+	font-size: 20px;
+	transition: background 0.15s linear;
+  }
+  
+  .call span:hover {
+	background: rgba(255, 255, 255, 0.1);
+	cursor: pointer;
+  }
+
+.back{
+	position: fixed;
+	font-family: Montserrat;
+	color: hsl(39, 100%, 66%);
+	font-weight: bold;
+    float: left;
+    font-size: 24px;
+    top: 15px;
+    left: 27px;
 }
 
 .compte{
@@ -122,7 +182,6 @@ a{
 .float_right {
 	float: right;
 }
-
 
 @keyframes gradientBG {
 	0% {
