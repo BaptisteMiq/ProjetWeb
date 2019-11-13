@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        {% for event in events %}
+            {{ event.id }} : {{ event.description }} <br />
+        {% endfor %}
+    </body>
+</html>

@@ -7,11 +7,6 @@ index_page:
    path: /
    controller: App\Controller\MainController::index
 
-# event.html.twig
-event_index_page:
-   path: /events
-   controller: App\Controller\EventController::index
-
 # profile.html.twig
 user_profile_page:
    path: /profile
@@ -34,3 +29,17 @@ user_logout:
 event_send_comment:
   path: /events/sendcomment
   controller: App\Controller\EventController::sendComment
+
+event_get_all:
+  path: /events/get/all
+  controller: App\Controller\EventController::getEvents
+
+# events.html.twig
+event_get_all_page:
+  path: /events
+  controller: App\Controller\EventController::showAllEventsPage
+
+# event.html.twig
+event_show_id_page:
+  path: /events/{id}
+  controller: App\Controller\EventController::showEventPage

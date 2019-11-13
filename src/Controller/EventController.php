@@ -21,49 +21,38 @@ class EventController extends AbstractController
 
     }
 
-    public function getEvents(Request $request) {
+    public function getEvents() {
 
         $events = API::call('GET', '/events/all');
 
-        print_r($events);
+        return json_encode($events->AllActivitiesFound);
+
+    }
+    
+    public function showAllEventsPage(Request $request) {
+
+        $events = json_decode($this->getEvents());
+
+        return $this->render('events.html.twig', [ 'events' => $events ]);
 
     }
 
-    public function subscribeEvent(Request $request) {
+    public function showEventPage(Request $request, $id=null) {
 
-        $session = $request->getSession();
-
-        $user = new User($request);
-
-        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::MODERATOR))) {
-            die('Not authorized');
+        if($id === null) {
+            return $this->redirect($this->generateUrl('index_page'));
         }
 
-        $data = API::process($request, [
-            'eventId' => true,
-        ]);
-        
-        if(!isset($data['error'])) {
-            $events = API::call('GET', '/events/subscribe', $data);
-            return new Response('OK');
+        $data = [];
+        $data['eid'] = API::sanitize($id);
+
+        $events = json_decode($this->getEvents());
+
+        if(!isset($events[$data['eid']])) {
+            return $this->redirect($this->generateUrl('index_page'));
         }
 
-        return new Response('Missing ' . $data['error']);
-
-    }
-
-    public function showEvent(Request $request) {
-
-        $data = API::process($request, [
-            'eid' => true,
-        ]);
-
-        if(!isset($data['error'])) {
-            $event = API::call('GET', 'events/get', $data);
-            return $this->render('event.html.twig', [ 'event' => $event ]);
-        }
-
-        return new Response('Missing ' . $data['error']);
+        return $this->render('event.html.twig', [ 'event' => $events[$data['eid']] ]);
 
     }
 
@@ -86,6 +75,29 @@ class EventController extends AbstractController
         return new Response(
             'OK'
         );
+
+    }
+
+    public function subscribeEvent(Request $request) {
+
+        $session = $request->getSession();
+
+        $user = new User($request);
+
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF))) {
+            die('Not authorized');
+        }
+
+        $data = API::process($request, [
+            'eventId' => true,
+        ]);
+        
+        if(!isset($data['error'])) {
+            $events = API::call('GET', '/events/subscribe', $data);
+            return new Response('OK');
+        }
+
+        return new Response('Missing ' . $data['error']);
 
     }
 
