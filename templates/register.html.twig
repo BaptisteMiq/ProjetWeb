@@ -2,7 +2,8 @@
 <html lang="fr">
  <head>
 	 <meta charset="utf-8">
-   <link rel="stylesheet" href="{{ asset('css/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/mdb.min.css') }}" type="text/css"/>
 	 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
    <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
 	 <title>Projet Web</title>
@@ -21,9 +22,13 @@
   <div class="box" style="width: 450px; height: 300px;">
 	<form method="POST" action="/register">
 	<div style="float: left">
-	  <p> 
-        <label> Nom : </label></br>
-        <input name="lastname" required="required" type="text" placeholder="Nom" value="{{ data is defined ? data.lastname : '' }}" />
+	  <p>
+	  	<div class="md-form input-group-lg">
+			<div class="input-group-prepend">
+				<span class="input-group-text md-addon">Nom</span>
+			</div>
+			<input class="form-control" name="lastname" required="required" type="text" value="{{ data is defined ? data.lastname : '' }}" />
+		</div>
     </p>
 
 	  <p> 
