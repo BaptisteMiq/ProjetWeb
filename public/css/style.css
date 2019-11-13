@@ -76,10 +76,12 @@ ul.nav {
 	padding: 21px;
 	color: white;
 	text-decoration: initial;
+	font-family: sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    color: white;
+	font-family: sans-serif;
+	color: white;
 }
 
 #logo{
@@ -187,7 +189,7 @@ ul.nav {
 
 .event_box{
     height: 420px;
-    width: 512px;
+    width: 850px;
 	background-color: white;
 	border-left: 17px solid hsl(39, 100%, 66%);
 }
