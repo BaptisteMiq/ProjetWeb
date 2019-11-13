@@ -5,6 +5,7 @@ header{
 	background-size: 400% 400%;
 	animation: gradientBG 15s ease infinite;
 	height: 63px;
+	z-index: 999;
 }
 
 .nav-bar{
@@ -15,6 +16,7 @@ header{
 	animation: gradientBG 15s ease infinite;
 	height: 40px;
 	border-bottom: 7px solid hsl(39, 100%, 66%);
+	z-index: 999;
 }
 
 body {
@@ -27,7 +29,7 @@ body {
 footer{
 	position: sticky;
 	width: 100%;
-	height: 70px;
+	height: 200px;
 	background-color: #0d0d0d;
 	color: #FFF;
 	font-family: Verdana;
@@ -128,6 +130,12 @@ bubble {
 	text-align: center;
 }
 
+.titrepage{
+	text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 .subtitrehead{
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	font-weight: bold;
@@ -196,14 +204,26 @@ bubble {
 
 .event_box{
     height: 316px;
-    width: 850px;
+	width: 850px;
+	margin-bottom: 100px;
 	background-color: white;
 	border-left: 17px solid hsl(39, 100%, 66%);
 }
 
 .event_box_nav{
 	background-color: #313131;
-	height: 56px;
+	height: 45px;
+}
+
+.event_box_full{
+    height: 1000px;
+	width: 1000px;
+	margin-bottom: 100px;
+	background-color: white;
+	border-left: 17px solid hsl(39, 100%, 66%);
+	border-right: 17px solid hsl(39, 100%, 66%);
+	margin: auto;
+	margin-bottom: 100px;
 }
 
 .float_right {
