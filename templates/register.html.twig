@@ -4,8 +4,13 @@
 	 <meta charset="utf-8">
    <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
    <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/mdb.min.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/modules/animations-extended.min.css') }}" type="text/css"/>
 	 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
    <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
+
+   <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
+   <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
+
 	 <title>Projet Web</title>
  </head>
  
@@ -19,49 +24,55 @@
   <p style="color:white; text-align:center;">{{ error is defined ? error : '' }}</p>
 
   <!--Container-->
-  <div class="box" style="width: 450px; height: 300px;">
+  <div class="box" style="width: 500px; height: 320px; padding: 30px; padding-top: 10px;">
 	<form method="POST" action="/register">
 	<div style="float: left">
 	  <p>
-	  	<div class="md-form input-group-lg">
-			<div class="input-group-prepend">
-				<span class="input-group-text md-addon">Nom</span>
-			</div>
-			<input class="form-control" name="lastname" required="required" type="text" value="{{ data is defined ? data.lastname : '' }}" />
+	  	<div class="md-form mt-3">
+			<label for="name">Nom</label>
+			<input id="name" class="form-control" name="lastname" required="required" type="text" value="{{ data is defined ? data.lastname : '' }}" />
 		</div>
     </p>
 
-	  <p> 
-        <label> Prénom : </label></br>
-        <input name="firstname" required="required" type="text" placeholder="Prénom" value="{{ data is defined ? data.firstname : '' }}" />
+	  <p>
+	  	<div class="md-form mt-3">
+			<label for="firstname">Prénom</label>
+        	<input id="firstname" class="form-control" name="firstname" required="required" type="text" value="{{ data is defined ? data.firstname : '' }}" />
+		</div>
     </p>
 	
 	  <p> 
-        <label> Mail : </label></br>
-        <input name="mail" required="required" type="text" placeholder="Adresse Mail" value="{{ data is defined ? data.mail : '' }}" />
+	  	<div class="md-form mt-3">
+			<label for="mail">Adresse mail</label>
+        	<input id="mail" class="form-control" name="mail" required="required" type="text" value="{{ data is defined ? data.mail : '' }}" />
+		</div>
     </p>
   </div>
   	<div style="float: right">
     <p> 
-		<label> Mot de passe : </label></br>
-		<input name="password" required="required" type="password" placeholder="Mot de passe" /> 
+		<div class="md-form mt-3">
+			<label for="pass">Mot de passe</label>
+			<input id="pass" class="form-control" name="password" required="required" type="password" /> 
+		</div>
     </p>
     <p> 
-		<label> Confirmer mot de passe : </label></br>
-		<input name="sec_password" required="required" type="password" placeholder="Confirmation" /> 
+		<div class="md-form mt-3">
+			<label for="pass2">Confirmation</label>
+			<input id="pass2" class="form-control" name="sec_password" required="required" type="password" /> 
+		</div>
     </p>
 
     <p> 
-		<label> Centre </label></br>
-		<input name="id_Center" required="required" type="text" placeholder="Centre" value="{{ data is defined ? data.id_Center : '' }}" /> 
+		<div class="md-form mt-3">
+			<label for="center">Centre</label>
+			<input id="center" class="form-control" name="id_Center" required="required" type="text"  value="{{ data is defined ? data.id_Center : '' }}" /> 
+		</div>
     </p>
 	
     </div>
-    <div style="margin-left: 39%;">
     <p> 
-		<input class="btn btn-primary" type="submit" value="Inscription" /> 
+    <button class="btn btn-primary btn-block" type="submit">S'inscrire</button>
     </p>
-    </div>
 	</form>
   </div>
 
@@ -78,5 +89,25 @@
 		</div>
 	</div>
   
+   <style>
+	input {
+		color: white !important;
+	}
+
+	.md-form input:focus {
+		box-shadow: 0 1px 0 0 hsl(39, 100%, 66%) !important;
+		border-bottom: 1px solid hsl(39, 100%, 66%) !important;
+	}
+
+	.md-form label {
+		color: white;
+	}
+
+ </style>
+
+ <script>
+	$('input').trigger("change");
+ </script>
+
  </body>
 </html>

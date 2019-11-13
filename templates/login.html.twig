@@ -2,9 +2,14 @@
 <html lang="fr">
  <head>
 	 <meta charset="utf-8">
-	 <link rel="stylesheet" href="{{ asset('css/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/mdb.min.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/modules/animations-extended.min.css') }}" type="text/css"/>
 	 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
-	 <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
+
+   <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
+   <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
 	 <title>Projet Web</title>
  </head>
  
@@ -18,21 +23,20 @@
 	<p style="color:white; text-align:center;">{{ error is defined ? error : '' }}</p>
 
 	<!--Container-->
-	<div class="box">
+	<div class="box" style="width: 250px; height: 250px; padding: 30px; padding-top: 10px;">
 	<form method="POST" action="/login">
-	<p> 
-        <label> Mail : </label></br>
-        <input name="mail" required="required" type="text" placeholder="Adresse Mail" value="{{ data is defined ? data.mail : '' }}" />
-    </p>
+
+	<div class="md-form mt-3">
+		<label for="mail">Adresse mail</label>
+		<input id="mail" class="form-control" name="mail" required="required" type="text" value="{{ data is defined ? data.mail : '' }}" />
+	</div>
+
+	<div class="md-form mt-3">
+		<label for="pass">Mot de passe</label>
+		<input id="pass" class="form-control" name="password" required="required" type="password" /> 
+	</div>
 	
-    <p> 
-		<label> Mot de passe : </label></br>
-		<input name="password" required="required" type="password" placeholder="Mot de passe" /> 
-    </p>
-	
-    <p> 
-		<input class="btn btn-primary" type="submit" value="Connexion" /> 
-    </p>
+    <button class="btn btn-primary btn-block" type="submit">Se connecter</button>
 	</form>
 	</div>
 	
@@ -48,6 +52,26 @@
 			<div class="wave waveBottom" style="background-image: url('images/wave3.png')"></div>
 		</div>
 	</div>
+
+	   <style>
+	input {
+		color: white !important;
+	}
+
+	.md-form input:focus {
+		box-shadow: 0 1px 0 0 hsl(39, 100%, 66%) !important;
+		border-bottom: 1px solid hsl(39, 100%, 66%) !important;
+	}
+
+	.md-form label {
+		color: white;
+	}
+
+ </style>
+
+ <script>
+	$('input').trigger("change");
+ </script>
 
  </body>
 </html>

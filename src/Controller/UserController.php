@@ -59,11 +59,11 @@ class UserController extends AbstractController
             // $user = json_decode('{"id": 2, "name": "Baptiste", "mail": "baptiste.miquel@viacesi.fr"}');
 
             if(!$user) {
-                return $this->render('login.html.twig', [ 'error' => 'Impossible de se connecter pour le moment.' ]);
+                return $this->render('login.html.twig', [ 'error' => 'Impossible de se connecter pour le moment.', 'data' => $data ]);
             }
 
             if(isset($user->error)) {
-                return $this->render('login.html.twig', [ 'error' => $user->error ]);
+                return $this->render('login.html.twig', [ 'error' => $user->error, 'data' => $data ]);
             }
 
             $session->set('user', $user);
