@@ -17,6 +17,7 @@
     bottom: 0;
     top: 0;
     margin: auto;
+    pointer-events: none;
 }
 .waveWrapperInner {
     position: absolute;

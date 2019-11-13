@@ -78,6 +78,10 @@ ul.nav {
 	text-decoration: initial;
   }
 
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: white;
+}
+
 #logo{
     background: #eceef0 url(../images/bde-thumbail2.jpg) no-repeat 0% 100% / cover;
     width: 100%;
@@ -171,12 +175,26 @@ ul.nav {
 }
 
 .box{
+	z-index: 50;
 	margin: 6% auto;
     height: 220px;
     width: 212px;
     padding: 7px;
 	background-color: #252525;
 	border: 7px solid hsl(39, 100%, 66%);
+}
+
+.event_box{
+    height: 420px;
+    width: 512px;
+	background-color: white;
+	border-left: 17px solid hsl(39, 100%, 66%);
+	box-shadow: #0d0d0d;
+}
+
+.event_box_nav{
+	background-color: #313131;
+	height: 65px;
 }
 
 .float_right {
