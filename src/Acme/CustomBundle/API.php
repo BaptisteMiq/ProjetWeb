@@ -88,7 +88,7 @@ class API extends Bundle
     static function process($req, $data) {
         $res = array();
         foreach($data as $name => $required) 
-            if($req->get($name) === null)
+            if($req->get($name) === null || $req->get($name) == "")
                 $required ? $res['error'] = $name : '';
             else $res[$name] = API::sanitize($req->get($name));
         return $res;

@@ -48,3 +48,13 @@ event_show_id_page:
 event_edit_page:
   path: /events/edit/{id}
   controller: App\Controller\EventController::editEventPage
+
+# event_new.html.twig
+event_new_page:
+  path: /events/add/new
+  controller: App\Controller\EventController::newEventPage
+
+event_delete:
+  path: /events/action/delete
+  controller: App\Controller\EventController::deleteEvent
+

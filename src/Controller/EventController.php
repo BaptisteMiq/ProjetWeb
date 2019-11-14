@@ -76,6 +76,58 @@ class EventController extends SiteController
         }
 
     }
+
+    public function newEventPage(Request $request) {
+
+        $user = new User($request);
+
+        $centers = API::call('GET', '/centers');
+        $recs = API::call('GET', '/recurrences');
+
+        $data = API::process($request, [
+            'title' => true,
+            'description' => true,
+            'picture' => true,
+            'begin_date' => true,
+            'end_date' => false,
+            'price' => true,
+            'id_Center' => true,
+            'id_Recurrence' => true,
+        ]);
+        $data['id_State'] = 1;
+        $data['top_event'] = 0;
+
+        if(!isset($data['error'])) {
+
+            $res = API::call('POST', '/events/add', $data, $user->getToken());
+            if(isset($res->error)) {
+                print_r($res->error);
+                exit;
+            }
+            return $this->rendering('event_new.html.twig', [ 'centers' => $centers->centers, 'recs' => $recs->recurrences ]);
+        } else {
+            print_r('Il manque: ' . $data['error']);
+            return $this->rendering('event_new.html.twig', [ 'centers' => $centers->centers, 'recs' => $recs->recurrences ]);
+        }
+
+    }
+
+    public function deleteEvent(Request $request) {
+
+        $user = new User($request);
+
+        $data = API::process($request, [
+            'id' => true,
+        ]);
+
+        if(!isset($data['error'])) {
+            $data = API::call('POST', '/events/del', $data);
+            die('OK');
+        } else {
+            die('Il manque l\'id');
+        }
+
+    }
     
     public function showAllEventsPage(Request $request) {
 
