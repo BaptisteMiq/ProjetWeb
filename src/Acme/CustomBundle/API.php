@@ -4,8 +4,8 @@ namespace App\Acme\CustomBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-const HOST = '10.131.128.187';
-// const HOST = '127.0.0.1';
+// const HOST = '10.131.128.187';
+const HOST = '127.0.0.1';
 const PORT = 666;
 
 const SERVER = "http://" . HOST . ":" . PORT . "/api";
@@ -48,11 +48,18 @@ class API extends Bundle
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5); 
+
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'token: ' . $token
         ));
 
         $result = curl_exec($curl);
+
+        $retcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        if($retcode != 200) {
+            die('API server not reachable');
+        }
 
         if (curl_errno($curl)) { 
             // print_r(curl_error($curl));

@@ -8,11 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use App\Controller\SiteController;
 use App\Acme\CustomBundle\API;
 use App\Acme\CustomBundle\User;
 use App\Acme\CustomBundle\Error;
 
-class UserController extends AbstractController
+class UserController extends SiteController
 {
 
     public function token(Request $request) {
@@ -41,8 +42,7 @@ class UserController extends AbstractController
         $user = new User($request);
 
         if($user->isLogged()) {
-            // die('You are already logged!');
-            return $this->render('login.html.twig', [ 'error' => 'Vous êtes déjà connecté!' ]);
+            return $this->rendering('login.html.twig', [ 'error' => 'Vous êtes déjà connecté!' ]);
         }
 
         // Request data name => is required (will die if empty)
@@ -59,11 +59,11 @@ class UserController extends AbstractController
             // $user = json_decode('{"id": 2, "name": "Baptiste", "mail": "baptiste.miquel@viacesi.fr"}');
 
             if(!$user) {
-                return $this->render('login.html.twig', [ 'error' => 'Impossible de se connecter pour le moment.', 'data' => $data ]);
+                return $this->rendering('login.html.twig', [ 'error' => 'Impossible de se connecter pour le moment.', 'data' => $data ]);
             }
 
             if(isset($user->error)) {
-                return $this->render('login.html.twig', [ 'error' => $user->error, 'data' => $data ]);
+                return $this->rendering('login.html.twig', [ 'error' => $user->error, 'data' => $data ]);
             }
 
             $session->set('user', $user);
@@ -72,9 +72,7 @@ class UserController extends AbstractController
 
         }
 
-        return $this->render('login.html.twig', [
-
-        ]);
+        return $this->rendering('login.html.twig');
 
     }
 
@@ -101,22 +99,22 @@ class UserController extends AbstractController
             // Check if valid data
             $cmail = $this->checkMail($data['mail']);
             if($cmail) {
-                return $this->render('register.html.twig', [ 'error' => $cmail, 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'error' => $cmail, 'data' => $data ]);
             };
             $cpass = $this->checkPassword($data['password']);
             if($cpass) {
-                return $this->render('register.html.twig', [ 'error' => $cpass, 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'error' => $cpass, 'data' => $data ]);
             }
 
             // Connect to the API
             $result = API::call('POST', '/users/register', $data);
 
             if(!$result) {
-                return $this->render('register.html.twig', [ 'error' => 'Impossible de se créer un compte pour le moment.', 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'error' => 'Impossible de se créer un compte pour le moment.', 'data' => $data ]);
             }
 
             if(isset($result->error)) {
-                return $this->render('register.html.twig', [ 'error' => $result->error, 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'error' => $result->error, 'data' => $data ]);
             }
 
             // Login user
@@ -128,11 +126,11 @@ class UserController extends AbstractController
             $usr = API::call('POST', '/users/login', $dataReg);
 
             if(!$usr) {
-                return $this->render('register.html.twig', [ 'error' => 'Compte créé, mais impossible de s\'y connecter pour le moment.' ]);
+                return $this->rendering('register.html.twig', [ 'error' => 'Compte créé, mais impossible de s\'y connecter pour le moment.' ]);
             }
 
             if(isset($usr->error)) {
-                return $this->render('register.html.twig', [ 'error' => $usr->error ]);
+                return $this->rendering('register.html.twig', [ 'error' => $usr->error ]);
             }
 
             $session->set('user', $usr);
@@ -141,7 +139,7 @@ class UserController extends AbstractController
 
         }
 
-        return $this->render('register.html.twig', [
+        return $this->rendering('register.html.twig', [
             "centers" => $centers
         ]);
 
@@ -160,9 +158,10 @@ class UserController extends AbstractController
     {
 
         $session = $request->getSession();
-        // $user = new User($request);
 
-        return $this->render('profile.html.twig', [
+        $user = new User($request);
+
+        return $this->rendering('profile.html.twig', [
 
         ]);
 

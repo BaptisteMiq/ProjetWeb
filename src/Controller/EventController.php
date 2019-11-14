@@ -8,20 +8,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use App\Controller\SiteController;
 use App\Acme\CustomBundle\API;
 use App\Acme\CustomBundle\User;
 
-class EventController extends AbstractController
+class EventController extends SiteController
 {
     public function index() {
-
-        return $this->render('event.html.twig', [
-
-        ]);
-
+        return $this->rendering('event.html.twig');
     }
 
-    public function getEvents() {
+    public static function getEvents() {
 
         $events = API::call('GET', '/events/all');
 
@@ -37,7 +34,7 @@ class EventController extends AbstractController
 
         $events = json_decode($this->getEvents());
 
-        return $this->render('events.html.twig', [ 'events' => $events ]);
+        return $this->rendering('events.html.twig');
 
     }
 
@@ -56,7 +53,7 @@ class EventController extends AbstractController
             return $this->redirect($this->generateUrl('index_page'));
         }
 
-        return $this->render('event.html.twig', [ 'event' => $events[$data['eid']] ]);
+        return $this->rendering('event.html.twig', [ 'event' => $events[$data['eid']] ]);
 
     }
 
