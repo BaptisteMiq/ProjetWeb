@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 const HOST = '10.131.128.187';
 // const HOST = '127.0.0.1';
-const PORT = 007;
+const PORT = 777;
 
 const SERVER = "http://" . HOST . ":" . PORT . "/api";
 
