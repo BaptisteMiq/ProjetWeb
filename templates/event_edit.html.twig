@@ -44,77 +44,77 @@
 
 
     <!--Container-->
-	<div class="box" style="width: 1050px; height: 1500px;">
-	<form action="/events/edit/{{ event.activity.id }}">
+    <div class="box" style="width: 777px;height: auto; margin: 5% auto;">
+    <form action="/events/edit/{{ event.activity.id }}">
 
         <div class="md-form mt-3">
             <label for="mail">Titre:</label><br>
             <input id="mail" class="form-control" name="title" type="text" value="{{ event.activity.title }}"/><br>
-	    </div>
+        </div>
 
         <div class="md-form">
             <label for="materialContactFormMessage">Description:</label><br>
             <textarea id="materialContactFormMessage" class="form-control md-textarea" name="description" type="text">{{ event.activity.description }}</textarea><br><br>
-	    </div>
+        </div>
 
         <div class="md-form mt-3">
             <label for="mail">Photo:</label><br>
             <input id="mail" class="form-control" name="picture" type="text" value="{{ event.activity.picture }}"/><br><br>
-	    </div>
+        </div>
 
         <div class="md-form mt-3">
             <label for="mail">Date début:</label><br>
             <input id="mail" class="form-control" name="begin_date" type="text" value="{{ event.activity.begin_date }}"/><br><br>
-	    </div>
+        </div>
 
         <div class="md-form mt-3">
             <label for="mail">Date fin:</label><br>
             <input id="mail" class="form-control" name="end_date" type="text" value="{{ event.activity.end_date }}"/><br><br>
-	    </div>
+        </div>
 
         <div class="md-form mt-3">
             <label for="mail">Top event:</label><br>
             <input id="mail" class="form-control" name="top_event" type="text" value="{{ event.activity.top_event }}"/><br><br>
-	    </div>
+        </div>
 
         <div class="md-form mt-3">
             <label for="mail">Prix:</label><br>
             <input id="mail" class="form-control" name="price" type="text" value="{{ event.activity.price }}"/><br><br>
-	    </div>
+        </div>
 
         <div class="md-form mt-3">
             <label for="mail">id_Center:</label><br>
             <input id="mail" class="form-control" name="id_Center" type="text" value="{{ event.activity.id_Center }}"/><br><br>
-	    </div>
+        </div>
 
         <div class="md-form mt-3">
             <label for="mail">id_State:</label><br>
             <input id="mail" class="form-control" name="id_State" type="text" value="{{ event.activity.id_State }}"/><br><br>
-	    </div>
+        </div>
 
         <div class="md-form mt-3">
             <label for="mail">id_Recurrence:</label><br>
             <input id="mail" class="form-control" name="id_Recurrence" type="text" value="{{ event.activity.id_Recurrence }}"/><br><br>
-	    </div>
-
-
-            <button class="btn btn-primary btn-block" type="submit">Modifier</button>
-        </form>
-	</div>
-
-    <!-- Animations -->
-    <div style="width: 100%; height: 300px;">
-        <div class="waveWrapper waveAnimation" style="position: relative; height: 100%; width: 100%;">
-            <div class="waveWrapperInner bgTop">
-                <div class="wave waveTop" style="background-image: url('/images/wave3.png')"></div>
-            </div>
-            <div class="waveWrapperInner bgMiddle">
-                <div class="wave waveMiddle" style="background-image: url('/images/wave2.png')"></div>
-            </div>
-            <div class="waveWrapperInner bgBottom">
-                <div class="wave waveBottom" style="background-image: url('/images/wave3.png')"></div>
-            </div>
         </div>
+
+
+            <button class="btn btn-primary btn-block" type="submit" style="margin-right: auto; margin-left: auto;">Modifier</button>
+        </form>
+    </div>
+
+        <!-- Animations -->
+        <div style="width: 100%; height: 300px;">
+            <div class="waveWrapper waveAnimation" style="position: relative; height: 100%; width: 100%;">
+                <div class="waveWrapperInner bgTop">
+                    <div class="wave waveTop" style="background-image: url('/images/wave3.png')"></div>
+                </div>
+                <div class="waveWrapperInner bgMiddle">
+                    <div class="wave waveMiddle" style="background-image: url('/images/wave2.png')"></div>
+                </div>
+                <div class="waveWrapperInner bgBottom">
+                    <div class="wave waveBottom" style="background-image: url('/images/wave3.png')"></div>
+                </div>
+            </div>
     </div>
 
     <!-- Footer -->
