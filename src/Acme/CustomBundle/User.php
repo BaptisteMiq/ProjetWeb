@@ -49,4 +49,15 @@ class User extends Bundle
 
     }
 
+    function getToken() {
+
+        $session = $this->req->getSession();
+
+        if(!$this->isLogged()) {
+            die('User not logged');
+        }
+
+        return $session->get('user')->token;
+    }
+
 }

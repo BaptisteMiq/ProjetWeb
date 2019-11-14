@@ -40,20 +40,22 @@ class EventController extends SiteController
 
     public function showEventPage(Request $request, $id=null) {
 
+        $user = new User($request);
+
         if($id === null) {
             return $this->redirect($this->generateUrl('index_page'));
         }
 
         $data = [];
-        $data['eid'] = API::sanitize($id);
+        $data['id_Activities'] = API::sanitize($id);
 
-        $events = json_decode($this->getEvents());
+        $events = API::call('GET', '/events/get', $data, $user->getToken());
 
-        if(!isset($events[$data['eid']])) {
+        if(isset($events->error)) {
             return $this->redirect($this->generateUrl('index_page'));
         }
 
-        return $this->rendering('event.html.twig', [ 'event' => $events[$data['eid']] ]);
+        return $this->rendering('event.html.twig', [ 'event' => $events ]);
 
     }
 

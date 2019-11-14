@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 const HOST = '10.131.128.187';
 // const HOST = '127.0.0.1';
-const PORT = 666;
+const PORT = 007;
 
 const SERVER = "http://" . HOST . ":" . PORT . "/api";
 
@@ -56,10 +56,10 @@ class API extends Bundle
 
         $result = curl_exec($curl);
 
-        $retcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        if($retcode != 200) {
-            die('API server not reachable');
-        }
+        // $retcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        // if($retcode != 200) {
+        //     die('API server not reachable');
+        // }
 
         if (curl_errno($curl)) { 
             // print_r(curl_error($curl));
