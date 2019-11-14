@@ -29,6 +29,12 @@ class EventController extends SiteController
         return json_encode($events->AllActivitiesFound);
 
     }
+
+    public function editEventPage(Request $request) {
+
+        
+
+    }
     
     public function showAllEventsPage(Request $request) {
 
@@ -62,11 +68,11 @@ class EventController extends SiteController
     public function sendLike(Request $request) {
 
         $user = new User($request);
-        // if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('ADMIN'))) {
-        //     die('Not authorized');
-        // }
+        if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('MEMBER') || $user->hasRank('STAFF'))) {
+            die('Not authorized');
+        }
 
-        // $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
+        $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
 
         $data = API::process($request, [    
             'eid' => true,
