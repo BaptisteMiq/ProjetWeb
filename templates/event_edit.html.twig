@@ -1,0 +1,45 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <form action="/events/edit/{{ event.activity.id }}">
+            Titre:<br>
+            <input type="text" name="title" value="{{ event.activity.title }}"><br>
+
+            Description:<br>
+            <input type="text" name="description" value="{{ event.activity.description }}"><br><br>
+
+            Photo:<br>
+            <input type="text" name="picture" value="{{ event.activity.picture }}"><br><br>
+
+            Date début:<br>
+            <input type="text" name="begin_date" value="{{ event.activity.begin_date }}"><br><br>
+
+            Date fin:<br>
+            <input type="text" name="end_date" value="{{ event.activity.end_date }}"><br><br>
+
+            Top event:<br>
+            <input type="text" name="top_event" value="{{ event.activity.top_event }}"><br><br>
+
+            Prix:<br>
+            <input type="text" name="price" value="{{ event.activity.price }}"><br><br>
+
+            id_Center:<br>
+            <input type="text" name="id_Center" value="{{ event.activity.id_Center }}"><br><br>
+
+            id_State:<br>
+            <input type="text" name="id_State" value="{{ event.activity.id_State }}"><br><br>
+
+            id_Recurrence:<br>
+            <input type="text" name="id_Recurrence" value="{{ event.activity.id_Recurrence }}"><br><br>
+
+            <input type="submit" value="Modifier">
+        </form>
+
+        <style>
+            form {
+                margin: 20px;
+            }
+        </style>
+    </body>
+</html>

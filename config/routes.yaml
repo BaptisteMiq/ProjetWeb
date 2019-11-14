@@ -43,3 +43,8 @@ event_get_all_page:
 event_show_id_page:
   path: /events/{id}
   controller: App\Controller\EventController::showEventPage
+
+# event_edit.html.twig
+event_edit_page:
+  path: /events/edit/{id}
+  controller: App\Controller\EventController::editEventPage

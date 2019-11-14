@@ -30,9 +30,50 @@ class EventController extends SiteController
 
     }
 
-    public function editEventPage(Request $request) {
+    public function editEventPage(Request $request, $id=null) {
 
-        
+        $user = new User($request);
+
+        if($id === null) {
+            return $this->redirect($this->generateUrl('index_page'));
+        }
+
+        $data = [];
+        $data['id_Activities'] = API::sanitize($id);
+        $event = API::call('GET', '/events/get', $data, $user->getToken());
+
+        $centers = API::call('GET', '/centers', $data);
+
+        if(isset($event->error) || empty($event)) {
+            print_r($event->error);
+            exit;
+            return $this->redirect($this->generateUrl('index_page'));
+        }
+
+        $data = API::process($request, [
+            'title' => true,
+            'description' => true,
+            'picture' => true,
+            'begin_date' => true,
+            'end_date' => false,
+            'top_event' => true,
+            'price' => true,
+            'id_Center' => true,
+            'id_State' => true,
+            'id_Recurrence' => true,
+        ]);
+        $data['id'] = $id;
+
+        if(!isset($data['error'])) {
+            $res = API::call('POST', '/events/update', $data, $user->getToken());
+            if(isset($res->error)) {
+                print_r($res->error);
+                exit;
+            }
+            return $this->rendering('event_edit.html.twig', [ 'event' => $event ]);
+        } else {
+            return $this->rendering('event_edit.html.twig', [ 'event' => $event ]);
+        }
 
     }
     
