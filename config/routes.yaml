@@ -8,6 +8,11 @@ index_page:
    controller: App\Controller\MainController::index
 
 # profile.html.twig
+profile_page:
+   path: /profile
+   controller: App\Controller\UserController::profilePage
+
+# profile.html.twig
 user_profile_page:
    path: /profile
    controller: App\Controller\EventController::profile
@@ -51,7 +56,7 @@ event_edit_page:
 
 # event_new.html.twig
 event_new_page:
-  path: /events/add/new
+  path: /events/action/new
   controller: App\Controller\EventController::newEventPage
 
 event_delete:

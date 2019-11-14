@@ -2,41 +2,42 @@
     <head>
     </head>
     <body>
-        <form method="POST" action="/events/add/new">
+    {{ error is defined ? error }}
+        <form method="POST" action="/events/action/new">
             Titre:<br>
-            <input type="text" name="title" value=""><br>
+            <input type="text" name="title" value="{{ data is defined ? data.title : '' }}"><br>
 
             Description:<br>
-            <input type="text" name="description" value=""><br><br>
+            <input type="text" name="description" value="{{ data is defined ? data.description : '' }}"><br><br>
 
             Photo:<br>
-            <input type="text" name="picture" value=""><br><br>
+            <input type="text" name="picture" value="{{ data is defined ? data.picture : '' }}"><br><br>
 
             Date début:<br>
-            <input type="datetime-local" id="start" name="begin_date" value="2018-07-22" min="2018-01-01" max="2018-12-31"><br><br>
+            <input type="datetime-local" name="begin_date" value="{{ data is defined ? data.begin_date : '' }}" min="2019-01-01" max="2020-12-31"><br><br>
 
             Date fin:<br>
             {# <input type="text" name="end_date" value=""><br><br> #}
-            <input type="datetime-local" id="start" name="end_date" value="2018-07-22" min="2018-01-01" max="2018-12-31"><br><br>
+            <input type="datetime-local" name="end_date" value="{{ data is defined ? data.end_date : '' }}" min="2019-01-01" max="2020-12-31"><br><br>
 
             Prix:<br>
-            <input type="number" name="price" value=""><br><br>
+            <input type="number" name="price" value="{{ data is defined ? data.price : '' }}"><br><br>
 
             Centre:<br>
-            <select name="id_Center" selected="{{ user.id_Center }}">
+            <select name="id_Center" selected="{{ data is defined ? data.id_Center : '' }}">
                 {% for center in centers %}
                 <option value="{{ center.id }}">{{ center.label }}</option>
                 {% endfor %}
             </select><br><br>
 
             Récurrence:<br>
-            <select name="id_Recurrence">
+            <select name="id_Recurrence" selected="{{ data is defined ? data.id_Recurrence : '' }}">
                 {% for rec in recs %}
                 <option value="{{ rec.id }}">Tous les {{ rec.label }} jours</option>
                 {% endfor %}
             </select><br><br>
 
-            <input type="submit" value="Modifier">
+            <input type="submit" value="Créer">
         </form>
 
         <style>

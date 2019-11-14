@@ -101,13 +101,12 @@ class EventController extends SiteController
 
             $res = API::call('POST', '/events/add', $data, $user->getToken());
             if(isset($res->error)) {
-                print_r($res->error);
-                exit;
+                return $this->rendering('event_new.html.twig', [ 'centers' => $centers->centers, 'recs' => $recs->recurrences, 'data' => $data, 'error' => $res->error ]);
             }
-            return $this->rendering('event_new.html.twig', [ 'centers' => $centers->centers, 'recs' => $recs->recurrences ]);
+
+            return $this->rendering('event_new.html.twig', [ 'centers' => $centers->centers, 'recs' => $recs->recurrences, 'data' => $data ]);
         } else {
-            print_r('Il manque: ' . $data['error']);
-            return $this->rendering('event_new.html.twig', [ 'centers' => $centers->centers, 'recs' => $recs->recurrences ]);
+            return $this->rendering('event_new.html.twig', [ 'centers' => $centers->centers, 'recs' => $recs->recurrences, 'error' => $data['error'] ]);
         }
 
     }
@@ -121,7 +120,7 @@ class EventController extends SiteController
         ]);
 
         if(!isset($data['error'])) {
-            $data = API::call('POST', '/events/del', $data);
+            $data = API::call('POST', '/events/del', $data, $user->getToken());
             die('OK');
         } else {
             die('Il manque l\'id');

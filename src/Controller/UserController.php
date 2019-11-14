@@ -154,12 +154,8 @@ class UserController extends SiteController
     
     }
 
-    public function profile()
+    public function profilePage()
     {
-
-        $session = $request->getSession();
-
-        $user = new User($request);
 
         return $this->rendering('profile.html.twig', [
 
