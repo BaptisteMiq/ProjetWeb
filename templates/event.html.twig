@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
-    </head>
     </head>
 
     <body style="background-color: #101010">
@@ -32,6 +30,9 @@
             {% if user != null %}
             <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="./users/logout">Déconnexion</a></button>
             <ul class="nav" style="padding: 0;">
+                {% if user.id_Rank == 3 %}
+                <li><a href="/events/edit/{{ event.activity.id}}">Modifier l'événement</a></li>
+                {% endif %}
                 <li><a href="#">Souscriptions</a></li>
                 <li><a href="#">Configuration</a></li>
             </ul>
@@ -61,7 +62,13 @@
             <div class="p_index"><p style="font-size: larger;text-align: justify;display: contents; color: white;">{{ event.activity.description }}</p></div>
         </div>
             <!-- Commentaires -->
-        <div class="com_space"></div>
+        <div class="com_space">
+            <div style="padding: 100px">
+                <div style="background-color: #252525; height: 100px;"></div>
+                <div style="background-color: #252525; height: 100px; margin-top: 100px;"></div>
+                <div style="background-color: #252525; height: 100px; margin-top: 100px;"></div>
+            </div>
+        </div>
 
 
         <!-- Animations -->

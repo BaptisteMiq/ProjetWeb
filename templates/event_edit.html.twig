@@ -1,40 +1,137 @@
 <html>
     <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/mdb.min.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/modules/animations-extended.min.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
+
+        <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
+        <title>Projet Web</title>
     </head>
+
     <body>
-        <form action="/events/edit/{{ event.activity.id }}">
-            Titre:<br>
-            <input type="text" name="title" value="{{ event.activity.title }}"><br>
 
-            Description:<br>
-            <input type="text" name="description" value="{{ event.activity.description }}"><br><br>
+    <!-- Header -->
+    <header>
+        {% if user == null %}
+            <button class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
+            <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
+        {% else %}
+            <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
+        {% endif %}
 
-            Photo:<br>
-            <input type="text" name="picture" value="{{ event.activity.picture }}"><br><br>
+        <ul class="nav">
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/events">Evenements</a></li>
+            <li><a href="#">Boutique</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </header>
 
-            Date début:<br>
-            <input type="text" name="begin_date" value="{{ event.activity.begin_date }}"><br><br>
+    <!-- Deuxième Header -->
+    <div class="nav-bar">
+        {% if user != null %}
+        <ul class="nav" style="padding: 0;">
+            <li><a href="#">Souscriptions</a></li>
+            <li><a href="#">Configuration</a></li>
+        </ul>
+        {% endif %}
+    </div>
 
-            Date fin:<br>
-            <input type="text" name="end_date" value="{{ event.activity.end_date }}"><br><br>
 
-            Top event:<br>
-            <input type="text" name="top_event" value="{{ event.activity.top_event }}"><br><br>
 
-            Prix:<br>
-            <input type="text" name="price" value="{{ event.activity.price }}"><br><br>
+    <!--Container-->
+	<div class="box" style="width: 1050px; height: 1500px;">
+	<form action="/events/edit/{{ event.activity.id }}">
 
-            id_Center:<br>
-            <input type="text" name="id_Center" value="{{ event.activity.id_Center }}"><br><br>
+        <div class="md-form mt-3">
+            <label for="mail">Titre:</label><br>
+            <input id="mail" class="form-control" name="title" type="text" value="{{ event.activity.title }}"/><br>
+	    </div>
 
-            id_State:<br>
-            <input type="text" name="id_State" value="{{ event.activity.id_State }}"><br><br>
+        <div class="md-form">
+            <label for="materialContactFormMessage">Description:</label><br>
+            <textarea id="materialContactFormMessage" class="form-control md-textarea" name="description" type="text">{{ event.activity.description }}</textarea><br><br>
+	    </div>
 
-            id_Recurrence:<br>
-            <input type="text" name="id_Recurrence" value="{{ event.activity.id_Recurrence }}"><br><br>
+        <div class="md-form mt-3">
+            <label for="mail">Photo:</label><br>
+            <input id="mail" class="form-control" name="picture" type="text" value="{{ event.activity.picture }}"/><br><br>
+	    </div>
 
-            <input type="submit" value="Modifier">
+        <div class="md-form mt-3">
+            <label for="mail">Date début:</label><br>
+            <input id="mail" class="form-control" name="begin_date" type="text" value="{{ event.activity.begin_date }}"/><br><br>
+	    </div>
+
+        <div class="md-form mt-3">
+            <label for="mail">Date fin:</label><br>
+            <input id="mail" class="form-control" name="end_date" type="text" value="{{ event.activity.end_date }}"/><br><br>
+	    </div>
+
+        <div class="md-form mt-3">
+            <label for="mail">Top event:</label><br>
+            <input id="mail" class="form-control" name="top_event" type="text" value="{{ event.activity.top_event }}"/><br><br>
+	    </div>
+
+        <div class="md-form mt-3">
+            <label for="mail">Prix:</label><br>
+            <input id="mail" class="form-control" name="price" type="text" value="{{ event.activity.price }}"/><br><br>
+	    </div>
+
+        <div class="md-form mt-3">
+            <label for="mail">id_Center:</label><br>
+            <input id="mail" class="form-control" name="id_Center" type="text" value="{{ event.activity.id_Center }}"/><br><br>
+	    </div>
+
+        <div class="md-form mt-3">
+            <label for="mail">id_State:</label><br>
+            <input id="mail" class="form-control" name="id_State" type="text" value="{{ event.activity.id_State }}"/><br><br>
+	    </div>
+
+        <div class="md-form mt-3">
+            <label for="mail">id_Recurrence:</label><br>
+            <input id="mail" class="form-control" name="id_Recurrence" type="text" value="{{ event.activity.id_Recurrence }}"/><br><br>
+	    </div>
+
+
+            <button class="btn btn-primary btn-block" type="submit">Modifier</button>
         </form>
+	</div>
+
+    <!-- Animations -->
+    <div style="width: 100%; height: 300px;">
+        <div class="waveWrapper waveAnimation" style="position: relative; height: 100%; width: 100%;">
+            <div class="waveWrapperInner bgTop">
+                <div class="wave waveTop" style="background-image: url('/images/wave3.png')"></div>
+            </div>
+            <div class="waveWrapperInner bgMiddle">
+                <div class="wave waveMiddle" style="background-image: url('/images/wave2.png')"></div>
+            </div>
+            <div class="waveWrapperInner bgBottom">
+                <div class="wave waveBottom" style="background-image: url('/images/wave3.png')"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="row" style="width: 100%;">
+            <div class="col-lg-6" style="z-index: 2;">
+                <h5 style="float: left; margin-left: 25px">A propos</h5>
+                <p style="float: left; margin-left: 25px; text-align: left; font-size: small;">Ayant un penchant naturel vers la programmation et le développement, un groupe de jeunes étudiants en école d'ingénieur décidèrent de fonder en Juin 2019 la plateforme HiDev. Nous construisons vos projet sur mesures et nous vous garantissons un travail de qualité ainsi que d'un suivi particulier pour s'assurer du bon fonctionnement de vos commandes. Étant en spécialité informatique nous pouvons couvrir une grande partie des projets grand publique ainsi que de l'entretien de vos serveurs, bases de données, site web, etc.. Si cependant une catégorie vous manque sur le site n'hésitez pas a nous la proposer.</p>
+            </div>
+            <div class="col" style="z-index: 2;">
+                <h5>Mentions légales</h5>
+            </div>
+            <div class="col" style="z-index: 2;">
+                <h5>Social</h5>
+            </div>
+        </div>
+    </footer>
 
         <style>
             form {
