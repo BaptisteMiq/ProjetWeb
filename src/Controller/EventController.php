@@ -253,31 +253,12 @@ class EventController extends SiteController
 
     public static function addPicture(Request $request) {
 
-        /*
-
-        $.ajax({
-            url: "{{ path('event_addPicture') }}",
-            type: 'POST',
-            data: {
-                    'link': "",
-                    'id_Activities': 0
-                },
-            success: function (data) {
-                console.log("Photo envoyée avec succès");
-            },
-            error : function(jqXHR, textStatus, errorThrown){
-                console.log("Impossible d'envoyer la photo");
-            }
-        });
-
-        */
-
         $user = new User($request);
-        if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('ADMIN') || $user->hasRank('MEMBER'))) {
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
             die('Not authorized');
         }
 
-        $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
+        // $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
 
         $data = API::process($request, [
             'link' => true,
@@ -287,11 +268,11 @@ class EventController extends SiteController
         $res = API::call('POST', '/events/addPicture', $data, $user->getToken());
 
         if(empty($res)) {
-            return new Reponse('Ne peut pas envoyer la photo pour une raison inconnue');
+            return new Response('Ne peut pas envoyer la photo pour une raison inconnue');
             die();
         }
         if($res->error) {
-            return new Reponse('Ne peut pas envoyer la photo: ' . $res->error);
+            return new Response('Ne peut pas envoyer la photo: ' . $res->error);
             die();
         }
 
@@ -326,11 +307,11 @@ class EventController extends SiteController
         $comment = API::call('POST', '/events/getComment', $data, $user->getToken());
 
         if(empty($comment)) {
-            return new Reponse('Commentaire non trouvé');
+            return new Response('Commentaire non trouvé');
             die();
         }
         if($comment->error) {
-            return new Reponse('Commentaire non trouvé: ' . $comment->error);
+            return new Response('Commentaire non trouvé: ' . $comment->error);
             die();
         }
 
@@ -344,11 +325,11 @@ class EventController extends SiteController
         $res = API::call('POST', '/events/delComment', $data, $user->getToken());
 
         if(empty($res)) {
-            return new Reponse('Ne peut pas supprimer le commentaire pour une raison inconnue');
+            return new Response('Ne peut pas supprimer le commentaire pour une raison inconnue');
             die();
         }
         if($res->error) {
-            return new Reponse('Ne peut pas supprimer le commentaire: ' . $res->error);
+            return new Response('Ne peut pas supprimer le commentaire: ' . $res->error);
             die();
         }
 
@@ -415,32 +396,12 @@ class EventController extends SiteController
 
     public static function sendComment(Request $request) {
 
-        /*
-
-        $.ajax({
-            url: "{{ path('event_sendComment') }}",
-            type: 'POST',
-            data: {
-                    'id_Picture': 0,
-                    'id_Comments': null,
-                    'content': 0
-                },
-            success: function (data) {
-                console.log("Commentaire envoyé avec succès");
-            },
-            error : function(jqXHR, textStatus, errorThrown){
-                console.log("Impossible d'envoyer le commentaire");
-            }
-        });
-
-        */
-
         $user = new User($request);
-        if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('ADMIN') || $user->hasRank('MEMBER'))) {
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
             die('Not authorized');
         }
 
-        $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
+        // $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
 
         $data = API::process($request, [    
             'id_Picture' => true,
@@ -451,11 +412,11 @@ class EventController extends SiteController
         $res = API::call('POST', '/events/addComment', $data, $user->getToken());
 
         if(empty($res)) {
-            return new Reponse('Ne peut pas envoyer le commentaire pour une raison inconnue');
+            return new Response('Ne peut pas envoyer le commentaire pour une raison inconnue');
             die();
         }
-        if($res->error) {
-            return new Reponse('Ne peut pas envoyer le commentaire: ' . $res->error);
+        if(isset($res->error)) {
+            return new Response('Ne peut pas envoyer le commentaire: ' . $res->error);
             die();
         }
 

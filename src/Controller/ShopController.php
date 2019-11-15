@@ -186,24 +186,53 @@ class ShopController extends SiteController
 
     }
 
-    public function addToCart(Request $request) {
+    public static function addToCart(Request $request) {
 
         $user = new User($request);
         // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
         //     die('Not authorized');
         // }
 
+        API::call('POST', '/shop/createCart', [], $user->getToken());
+
+        $cartId = API::call('GET', '/shop/getIdCart', [], $user->getToken());
+
+        if(empty($cartId)) {
+            return new Response('Ne peut pas obtenir l\'id du panier');
+            die();
+        }
+        if(isset($cartId->error)) {
+            return new Response('Ne peut pas obtenir l\'id du panier: ' . $cartId->error);
+            die();
+        }
+        
+        $cartId = $cartId->cart;
+
+
         $data = API::process($request, [
-            'pid' => true,
+            'id_Product' => true,
             'quantity' => true,
         ]);
-        $data['user'] = $user->getUser()->id;
+        $data['id_Cart'] = $cartId;
 
-        API::call('POST', '/shop/cart/add', $data);
+        // Check if int
+        // if($data['quantity'] < 1 || $data['quantity'] > 1000) {
+        //     return new Response('Quantité incorrecte !');
+        //     die();
+        // }
 
-        return new Response(
-            'OK'
-        );
+        $res = API::call('POST', '/shop/addProductToCart', $data, $user->getToken());
+
+        if(empty($res)) {
+            return new Response('Ne peut pas ajouter le produit pour une raison inconnue');
+            die();
+        }
+        if(isset($res->error)) {
+            return new Response('Ne peut pas envoyer le produit: ' . $res->error);
+            die();
+        }
+
+        return new Response('OK');
 
     }
 

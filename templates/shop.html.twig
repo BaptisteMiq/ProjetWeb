@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
         <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/mdb.min.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/modules/animations-extended.min.css') }}" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
+
+        <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
+
+        <title>Shop</title>
     </head>
 
     <body>
@@ -37,97 +44,55 @@
         </div>
 
         
+        <div class="row">
+        <div class="col-2" style="background-color:#111"></div>
+
+        <div class="col-10">
 
         <div class="cards">
 
-        {% for categorie in categories %}
-        <h1>{{ categorie.label }}<h1>
-            {% for product in categorie.products %}
-        {% endfor %}
+            {% for categorie in categories %}
+
+                {% if categorie.products|length > 0 %}
+                <h1>{{ categorie.label }}<h1>
 
             <div class="row justify-content-md-center" style="margin: 50px;">
 
-                <div class="col">
+                {% for product in categorie.products %}
 
-                    <!-- Card -->
-                    <div class="card">
+                    <div class="col-3">
+                        <div class="card">
+                            <img class="card-img-top" src="{{ product.picture }}" width="100%" height="200px" alt="Card image cap">
+                            <div class="card-body">
+                                <h4 class="card-title"><a>{{ product.label }}</a></h4>
+                                <p class="card-text">{{ product.description }}</p>
+                                
+                                <div class="md-form" style="font-size:18px">
+                                    <label for="qt">Quantité</label><br>
+                                    <input style="width:100%" id="qt" type="number" name="quantity" value="{{ data is defined ? data.price : '' }}">
+                                </div>
 
-                    <!-- Card image -->
-                    <img class="card-img-top" src="https://files.sympa-sympa.com/files/news/part_60/603610/3991910-Screenshot202018-12-0420at20081427-1544009633-728-ff912a04f6-1544711268.jpg" alt="Card image cap">
-
-                    <!-- Card content -->
-                    <div class="card-body">
-
-                        <!-- Title -->
-                        <h4 class="card-title"><a>Card title</a></h4>
-                        <!-- Text -->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <!-- Button -->
-                        <a href="#" class="btn btn-primary">Button</a>
-
+                                <a href="#" class="btn btn-success" onclick="addToCart({{ product.id }})">Ajouter au panier</a>
+                                {% if user.id_Rank == 2 or user.id_Rank == 3 %}
+                                <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
 
-                    </div>
-                    <!-- Card -->
+                {% endfor %}
 
                 </div>
 
-                <div class="col">
-
-                                    <!-- Card -->
-                    <div class="card">
-
-                    <!-- Card image -->
-                    <img class="card-img-top" src="https://files.sympa-sympa.com/files/news/part_60/603610/3991910-Screenshot202018-12-0420at20081427-1544009633-728-ff912a04f6-1544711268.jpg" alt="Card image cap">
-
-                    <!-- Card content -->
-                    <div class="card-body">
-
-                        <!-- Title -->
-                        <h4 class="card-title"><a>Card title</a></h4>
-                        <!-- Text -->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <!-- Button -->
-                        <a href="#" class="btn btn-primary">Button</a>
-
-                    </div>
-
-                    </div>
-                    <!-- Card -->
-                    
-                </div>
-
-                <div class="col">
-
-                                    <!-- Card -->
-                    <div class="card">
-
-                    <!-- Card image -->
-                    <img class="card-img-top" src="https://files.sympa-sympa.com/files/news/part_60/603610/3991910-Screenshot202018-12-0420at20081427-1544009633-728-ff912a04f6-1544711268.jpg" alt="Card image cap">
-
-                    <!-- Card content -->
-                    <div class="card-body">
-
-                        <!-- Title -->
-                        <h4 class="card-title"><a>Card title</a></h4>
-                        <!-- Text -->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <!-- Button -->
-                        <a href="#" class="btn btn-primary">Button</a>
-
-                    </div>
-
-                    </div>
-                    <!-- Card -->
-                </div>
-
-
-            </div>
+                {% endif %}
+                
+            {% endfor %}
 
         </div>
 
 
-
+        </div>
+        </div>
 
 
 
@@ -171,8 +136,41 @@
             text-align: center;
         }
         .card {
+            margin-bottom: 50px;
             width: 100%;
+            height: 500px;
+        }
+        .card-body {
+            background-color: #111;
+        }
+        .card-text {
+            font-size: 18px;
         }
     </style>
+
+    <script>
+        function addToCart(id) {
+            $.ajax({
+                url: "/shop/products/add",
+                type: 'POST',
+                data: {
+                        'id_Product': id,
+                        'quantity': $('#qt').val()
+                    },
+                success: function (data) {
+                    if(data == 'OK') {
+                        alert("Produit ajouté au panier!", 'success');
+                    } else {
+                        alert(data, 'error');
+                    }
+                }
+            });
+        }
+
+        $('#qt').val(1);
+        $('input').trigger("change");
+    </script>
+
+    <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
 
 </html>
