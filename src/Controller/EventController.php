@@ -181,23 +181,36 @@ class EventController extends SiteController
 
     public static function subscribeEvent(Request $request) {
 
-        /*
+        $session = $request->getSession();
 
-        $.ajax({
-            url: "{{ path('event_subscribe') }}",
-            type: 'POST',
-            data: {
-                    'id_Activities': 0
-                },
-            success: function (data) {
-                console.log("Abonné avec succès");
-            },
-            error : function(jqXHR, textStatus, errorThrown){
-                console.log("Impossible de s'abonner");
+        $user = new User($request);
+
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
+
+        $data = API::process($request, [
+            'id_Activities' => true,
+        ]);
+        
+        if(!isset($data['error'])) {
+            $ret = API::call('POST', '/events/subscribe', $data, $user->getToken());
+
+            if(empty($ret)) {
+                return new Response('Impossible de s\'inscrire'); 
             }
-        });
+            if(isset($ret->error)) {
+                return new Response('Impossible de s\'inscrire: ' . $ret->error); 
+            }
 
-        */
+            return new Response('OK');
+        }
+
+        return new Response('Missing ' . $data['error']);
+
+    }
+
+    public static function unSubscribeEvent(Request $request) {
 
         $session = $request->getSession();
 
@@ -212,7 +225,15 @@ class EventController extends SiteController
         ]);
         
         if(!isset($data['error'])) {
-            $events = API::call('GET', '/events/subscribe', $data);
+            $ret = API::call('POST', '/events/unsubscribe', $data, $user->getToken());
+
+            if(empty($ret)) {
+                return new Response('Impossible de se désinscrire'); 
+            }
+            if(isset($ret->error)) {
+                return new Response('Impossible de se déinscrire: ' . $ret->error); 
+            }
+
             return new Response('OK');
         }
 
@@ -546,6 +567,70 @@ class EventController extends SiteController
         if(empty($oldEvents)) {
             die('Event not found');
         }
+
+    }
+
+    public static function subscribeCount($id=null) {
+
+        if($id == null) {
+            return 0;
+        }
+
+        $data['id_Activities'] = $id;
+        
+        if(!isset($data['error'])) {
+            $ret = API::call('GET', '/events/getSubscribe', $data);
+
+            if(empty($ret)) {
+                return new Response('Impossible d\'obtenir la liste'); 
+            }
+            if(isset($ret->error)) {
+                return new Response('Impossible d\'obtenir la liste: ' . $ret->error); 
+            }
+
+            $reg = $ret->register;
+            return count($reg);
+
+        }
+
+        return new Response('Missing ' . $data['error']);
+
+    }
+
+    public static function getSubscribe($id=null) {
+
+        if($id == null) {
+            return false;
+        }
+
+        $data['id_Activities'] = $id;
+        
+        if(!isset($data['error'])) {
+            $ret = API::call('GET', '/events/getSubscribe', $data);
+
+            if(empty($ret)) {
+                return new Response('Impossible d\'obtenir la liste'); 
+            }
+            if(isset($ret->error)) {
+                return new Response('Impossible d\'obtenir la liste: ' . $ret->error); 
+            }
+
+            $reg = $ret->register;
+            return $reg;
+
+        }
+
+        return new Response('Missing ' . $data['error']);
+
+    }
+
+    public static function isSubscribed($id=null) {
+        
+        if($id == null) {
+            return false;
+        }
+
+        return true;
 
     }
 

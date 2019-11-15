@@ -4,12 +4,12 @@ namespace App\Acme\CustomBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-const STUDENT = 1;
-const MEMBER = 2;
-const STAFF = 3;
-
 class User extends Bundle
 {
+
+    const STUDENT = 1;
+    const STAFF = 2;
+    const MEMBER = 3;
 
     function __construct($req=null) {
 
@@ -45,7 +45,7 @@ class User extends Bundle
             die('User not logged');
         }
 
-        return  $session->get('user')->rank == $rank;
+        return  $session->get('user')->id_Rank == $rank;
 
     }
 

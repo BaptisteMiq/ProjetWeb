@@ -63,6 +63,10 @@ event_subscribe:
   path: /events/action/subscribe
   controller: App\Controller\EventController::subscribeEvent
 
+event_unSubscribe:
+  path: /events/action/unSubscribe
+  controller: App\Controller\EventController::unSubscribeEvent
+
 event_addPicture:
   path: /events/action/addPicture
   controller: App\Controller\EventController::addPicture
@@ -86,3 +90,7 @@ event_downloadSubscribedStudents:
 event_getAllPictures:
   path: /events/action/getAllPictures
   controller: App\Controller\EventController::getAllPictures
+
+event_subscribeCount:
+  path: /events/action/subscribeCount
+  controller: App\Controller\EventController::subscribeCount

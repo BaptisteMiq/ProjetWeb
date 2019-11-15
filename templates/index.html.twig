@@ -71,9 +71,13 @@
                         {% endif %}
                         <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;">
                             {% if user != null %}
-                                <a href="#">Souscrire</a><bubble>0</bubble>
+                                {% if not event.sub %}
+                                <a onclick="subscribe({{ event.id }})">Souscrire</a><bubble>{{ event.count }}</bubble>
+                                {% else %}
+                                <a onclick="unSubscribe({{ event.id }})">Se désinscrire</a><bubble>{{ event.count }}</bubble>
+                                {% endif %}
                             {% else %}
-                                <a href="/login">Souscrire</a><bubble>0</bubble>
+                                <a href="/login">Souscrire</a><bubble>{{ event.count }}</bubble>
                             {% endif %}
                         </button>
                     </div>
@@ -112,5 +116,40 @@
                 </div>
             </div>
         </footer>
+
+        <script>
+            function subscribe(id) {
+                $.ajax({
+                    url: "/events/action/subscribe",
+                    type: 'POST',
+                    data: {
+                            'id_Activities': id
+                        },
+                    success: function (data) {
+                        if(data == "OK") {
+                            location.reload(true);
+                        } else {
+                            alert(data);
+                        }
+                    }
+                });
+            }
+            function unSubscribe(id) {
+                $.ajax({
+                    url: "/events/action/unSubscribe",
+                    type: 'POST',
+                    data: {
+                            'id_Activities': id
+                        },
+                    success: function (data) {
+                        if(data == "OK") {
+                            location.reload(true);
+                        } else {
+                            alert(data);
+                        }
+                    }
+                });
+            }
+        </script>
     </body>
 </html>
