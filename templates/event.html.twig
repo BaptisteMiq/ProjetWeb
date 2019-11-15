@@ -1,3 +1,5 @@
+{{ dump(event) }}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -76,25 +78,23 @@
             <!-- Commentaires -->
         <div class="com_space">
             <div style="padding: 100px">
-
-                <div>
-                    <div class="activity_picture" style="background: #eceef0 url({{ event.pictures[0].link }}) no-repeat 0% 50% / cover; height: 550px;"></div>
-                    <div class="comm-content">
-                        <div class="comm-body">
-
-                        </div>
-                        <div class="comm-input">
-                            <div class="md-form">
-                                <label for="comment">Entrer un commentaire</label>
-                                <button class="btn btn-secondary" style="display: block;float: right;margin-bottom: 10px;" onclick="sendComment({{ event.pictures[0].id }}, {{ event.pictures[0].comments[0].id }})">Publier</button>
-                                <textarea id="comment" class="form-control md-textarea" name="comment" type="text"></textarea>
-                            </div>
+                {% for picture in event.pictures %}
+                    <div>
+                        <div class="activity_picture" style="background: #eceef0 url({{ picture.link }}) no-repeat 0% 50% / cover; height: 550px;"></div>
+                            <div class="comm-content">
+                            {% for comment in picture.comments %}
+                                <div class="comm-body">{{ comment.content }}</div>
+                            {% endfor %}
+                                <div class="comm-input">
+                                    <div class="md-form">
+                                        <label for="comment">Entrer un commentaire</label>
+                                        <button class="btn btn-secondary" style="display: block;float: right;margin-bottom: 10px;" onclick="sendComment({{ picture.id }})">Publier</button>
+                                        <textarea id="comment" class="form-control md-textarea" name="comment" type="text"></textarea>
+                                    </div>
+                                </div>
                         </div>
                     </div>
-                </div>
-
-                <div style="background-color: #252525; height: 100px; margin-bottom: 100px;"></div>
-                <div style="background-color: #252525; height: 100px; margin-bottom: 100px;"></div>
+                {% endfor %}
             </div>
         </div>
             <!-- Modal -->

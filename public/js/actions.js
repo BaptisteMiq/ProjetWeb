@@ -33,36 +33,30 @@ function unSubscribe(id) {
 
 function addPicture(id_Activities) {
     $.ajax({
-        url: "{{ path('event_addPicture') }}",
+        url: "/events/action/addPicture",
         type: 'POST',
         data: {
                 'link': $("#link").val(),
                 'id_Activities': id_Activities
             },
         success: function (data) {
-            console.log("Photo envoyée avec succès");
-        },
-        error : function(jqXHR, textStatus, errorThrown){
-            console.log("Impossible d'envoyer la photo");
+            console.log(data);
         }
     });
 }
 
-function sendComment(id_Picture, id_Comments) {
+function sendComment(id) {
 
     $.ajax({
-        url: "{{ path('event_sendComment') }}",
+        url: "/events/action/sendcomment",
         type: 'POST',
         data: {
-                'id_Picture': id_Picture,
-                'id_Comments': id_Comments,
+                'id_Picture': id,
+                'id_Comments': null,
                 'content': $("#comment").val(),
             },
         success: function (data) {
-            console.log("Commentaire envoyé avec succès");
-        },
-        error : function(jqXHR, textStatus, errorThrown){
-            console.log("Impossible d'envoyer le commentaire");
+           console.log(data);
         }
     });
 }
