@@ -254,11 +254,11 @@ class EventController extends SiteController
     public static function addPicture(Request $request) {
 
         $user = new User($request);
-        if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('ADMIN') || $user->hasRank('MEMBER'))) {
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
             die('Not authorized');
         }
 
-        $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
+        // $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
 
         $data = API::process($request, [
             'link' => true,
@@ -415,7 +415,7 @@ class EventController extends SiteController
             return new Response('Ne peut pas envoyer le commentaire pour une raison inconnue');
             die();
         }
-        if($res->error) {
+        if(isset($res->error)) {
             return new Response('Ne peut pas envoyer le commentaire: ' . $res->error);
             die();
         }
