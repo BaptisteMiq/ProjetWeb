@@ -268,11 +268,11 @@ class EventController extends SiteController
         $res = API::call('POST', '/events/addPicture', $data, $user->getToken());
 
         if(empty($res)) {
-            return new Reponse('Ne peut pas envoyer la photo pour une raison inconnue');
+            return new Response('Ne peut pas envoyer la photo pour une raison inconnue');
             die();
         }
         if($res->error) {
-            return new Reponse('Ne peut pas envoyer la photo: ' . $res->error);
+            return new Response('Ne peut pas envoyer la photo: ' . $res->error);
             die();
         }
 
@@ -307,11 +307,11 @@ class EventController extends SiteController
         $comment = API::call('POST', '/events/getComment', $data, $user->getToken());
 
         if(empty($comment)) {
-            return new Reponse('Commentaire non trouvé');
+            return new Response('Commentaire non trouvé');
             die();
         }
         if($comment->error) {
-            return new Reponse('Commentaire non trouvé: ' . $comment->error);
+            return new Response('Commentaire non trouvé: ' . $comment->error);
             die();
         }
 
@@ -325,11 +325,11 @@ class EventController extends SiteController
         $res = API::call('POST', '/events/delComment', $data, $user->getToken());
 
         if(empty($res)) {
-            return new Reponse('Ne peut pas supprimer le commentaire pour une raison inconnue');
+            return new Response('Ne peut pas supprimer le commentaire pour une raison inconnue');
             die();
         }
         if($res->error) {
-            return new Reponse('Ne peut pas supprimer le commentaire: ' . $res->error);
+            return new Response('Ne peut pas supprimer le commentaire: ' . $res->error);
             die();
         }
 
