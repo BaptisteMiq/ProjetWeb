@@ -409,6 +409,9 @@ class EventController extends SiteController
             'content' => true,
         ]);
 
+            print_r($data);
+            exit;
+
         $res = API::call('POST', '/events/addComment', $data, $user->getToken());
 
         if(empty($res)) {
