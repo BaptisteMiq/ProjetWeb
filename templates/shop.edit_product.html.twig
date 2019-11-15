@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
+    </head>
+
+    <body>
+        <!-- Header -->
+        <header>
+            {% if user == null %}
+                <button class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
+                <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
+            {% else %}
+                <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
+            {% endif %}
+
+            <ul class="nav">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/events">Evenements</a></li>
+                <li><a href="#">Boutique</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </header>
+
+        <!-- Deuxième Header -->
+        <div class="nav-bar">
+            {% if user != null %}
+            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="./users/logout">Déconnexion</a></button>
+            <ul class="nav" style="padding: 0;">
+                <li><a href="#">Souscriptions</a></li>
+                <li><a href="#">Configuration</a></li>
+            </ul>
+            {% endif %}
+        </div>
+
+        
+
+
+
+
+
+
+
+ <!--Container-->
+  <div class="box" style="width: 500px; height: auto; padding: 30px; padding-top: 10px;">
+	<form method="POST" action="/register">
+		<div style="float: left">
+			<p><div class="md-form mt-3">
+					<label for="name">Nom</label>
+					<input id="name" class="form-control" name="lastname" required="required" type="text" value="{{ data is defined ? data.lastname : '' }}" />
+			</div></p>
+
+			<p><div class="md-form mt-3">
+				<label for="firstname">Prénom</label>
+				<input id="firstname" class="form-control" name="firstname" required="required" type="text" value="{{ data is defined ? data.firstname : '' }}" />
+			</div></p>
+			
+			<p><div class="md-form mt-3">
+				<label for="mail">Adresse mail</label>
+				<input id="mail" class="form-control" name="mail" required="required" type="text" value="{{ data is defined ? data.mail : '' }}" />
+			</div></p>
+		</div>
+		<div style="float: right">
+			<p><div class="md-form mt-3">
+					<label for="pass">Mot de passe</label>
+					<input id="pass" class="form-control" name="password" required="required" type="password" /> 
+			</div></p>
+
+			<p><div class="md-form mt-3">
+					<label for="pass2">Confirmation</label>
+					<input id="pass2" class="form-control" name="sec_password" required="required" type="password" /> 
+			</div></p>
+
+			<p><div class="md-form mt-3">
+					<label for="center">Localisation</label>
+					<input id="center" class="form-control" name="id_Center" required="required" type="text"  value="{{ data is defined ? data.id_Center : '' }}" /> 
+			</div></p>
+		</div>
+		<p> 
+			<button class="btn btn-primary btn-block" type="submit">S'inscrire</button>
+		</p>
+	</form>
+  </div>
+
+
+
+
+
+
+
+        <!-- Animations -->
+        <div style="width: 100%; height: 300px;">
+            <div class="waveWrapper waveAnimation" style="position: relative; height: 100%; width: 100%;">
+                <div class="waveWrapperInner bgTop">
+                    <div class="wave waveTop" style="background-image: url('/images/wave3.png')"></div>
+                </div>
+                <div class="waveWrapperInner bgMiddle">
+                    <div class="wave waveMiddle" style="background-image: url('/images/wave2.png')"></div>
+                </div>
+                <div class="waveWrapperInner bgBottom">
+                    <div class="wave waveBottom" style="background-image: url('/images/wave3.png')"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row" style="width: 100%;">
+                <div class="col-lg-6" style="z-index: 2;">
+                    <h5 style="float: left; margin-left: 25px">A propos</h5>
+                    <p style="float: left; margin-left: 25px; text-align: left; font-size: small;">Ayant un penchant naturel vers la programmation et le développement, un groupe de jeunes étudiants en école d'ingénieur décidèrent de fonder en Juin 2019 la plateforme HiDev. Nous construisons vos projet sur mesures et nous vous garantissons un travail de qualité ainsi que d'un suivi particulier pour s'assurer du bon fonctionnement de vos commandes. Étant en spécialité informatique nous pouvons couvrir une grande partie des projets grand publique ainsi que de l'entretien de vos serveurs, bases de données, site web, etc.. Si cependant une catégorie vous manque sur le site n'hésitez pas a nous la proposer.</p>
+                </div>
+                <div class="col" style="z-index: 2;">
+                    <h5>Mentions légales</h5>
+                </div>
+                <div class="col" style="z-index: 2;">
+                    <h5>Social</h5>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

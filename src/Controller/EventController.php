@@ -93,9 +93,9 @@ class EventController extends SiteController
             'price' => true,
             'id_Center' => true,
             'id_Recurrence' => true,
+            'top_event' => true,
         ]);
         $data['id_State'] = 1;
-        $data['top_event'] = 0;
 
         if(!isset($data['error'])) {
 
@@ -153,7 +153,7 @@ class EventController extends SiteController
             return $this->redirect($this->generateUrl('index_page'));
         }
 
-        return $this->rendering('event.html.twig', [ 'event' => $events ]);
+        return $this->rendering('event.html.twig');
 
     }
 
@@ -518,40 +518,6 @@ class EventController extends SiteController
 
         print_r($pictures);
         die();
-
-    }
-
-    public function newEvent(Request $request) {
-
-        $user = new User($request);
-        // if(!$user->isLogged() || !($user->hasRank('MEMBER'))) {
-        //     die('Not authorized');
-        // }
-
-        $data = API::process($request, [
-            'title' => true,
-            'description' => true,
-            'picture' => true,
-            'begin_date' => true,
-            'end_date' => false,
-            'recurrence' => true,
-            'price' => true,
-        ]);
-        
-        // Set the center id
-        $center = null;
-        if(empty($request->get('center'))) {
-            $center = $user->getUser()->center;
-        } else {
-            $center = API::sanitize($request->get('center'));
-        }
-        $data['center'] = $center;
-
-        API::call('POST', 'events/add', $data);
-
-        return new Response(
-            'OK'
-        );
 
     }
 

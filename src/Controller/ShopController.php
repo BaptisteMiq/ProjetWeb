@@ -8,21 +8,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use App\Controller\SiteController;
 use App\Acme\CustomBundle\API;
 use App\Acme\CustomBundle\User;
 
-class ShopController extends AbstractController
+class ShopController extends SiteController
 {
 
     public function index() {
 
-        return $this->render('shop.html.twig', [
+        return $this->rendering('shop.html.twig', [
 
         ]);
 
     }
 
-    public function addItem(Request $request) {
+    public function addProduct(Request $request) {
 
         $user = new User($request);
         // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
@@ -44,27 +45,86 @@ class ShopController extends AbstractController
 
     }
 
-    public function editItem(Request $request) {
+    public function editProductPage(Request $request) {
 
         $user = new User($request);
         // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
         //     die('Not authorized');
         // }
 
+        // $data = API::process($request, [
+        //     'pid' => true,
+        //     'name' => false,
+        //     'description' => false,
+        //     'price' => false,
+        //     'category' => false,
+        // ]);
+
+        // API::call('PUT', '/shop/items/edit', $data);
+
+        // return new Response(
+        //     'OK'
+        // );
+
+
+        
+    }
+
+    public function newProductPage(Request $request) {
+
+        $user = new User($request);
+        // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
+        //     die('Not authorized');
+        // }
+        
+        $centers = API::call('GET', '/centers');
+        $categories = API::call('GET', '/shop/getCategories');
+
         $data = API::process($request, [
-            'pid' => true,
-            'name' => false,
-            'description' => false,
-            'price' => false,
-            'category' => false,
+            'label' => true,
+            'description' => true,
+            'picture' => true,
+            'price' => true,
+            'delevery_date' => true,
+            'price' => true,
+            'id_Center' => true,
+            'id_Category' => true,
         ]);
+        $data['nb_sales'] = 0;
 
-        API::call('PUT', '/shop/items/edit', $data);
+        if(!isset($data['error'])) {
 
-        return new Response(
-            'OK'
-        );
+            $res = API::call('POST', '/shop/createProduct', $data, $user->getToken());
+            if(isset($res->error)) {
 
+                return $this->rendering('shop.new_product.html.twig', [
+                    'centers' => $centers->centers,
+                    'categories' => $categories->Categories,
+                    'data' => $data,
+                    'error' => $res->error,
+                ]);
+            }
+
+            // PRODUCT CREATED
+            return $this->rendering('shop.html.twig', [
+                'centers' => $centers->centers,
+                'categories' => $categories->Categories,
+                'data' => $data,
+            ]);
+
+        } else {
+
+            return $this->rendering('shop.new_product.html.twig', [
+                'centers' => $centers->centers,
+                'categories' => $categories->Categories,
+            ]);
+        }
+
+        return $this->rendering('shop.new_product.html.twig', [
+            'centers' => $centers->centers,
+            'categories' => $categories->Categories,
+        ]);
+        
     }
 
     public function removeItem(Request $request) {

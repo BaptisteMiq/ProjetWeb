@@ -17,6 +17,21 @@ user_profile_page:
    path: /profile
    controller: App\Controller\EventController::profile
 
+# shop.html.twig
+shop_page:
+   path: /shop
+   controller: App\Controller\ShopController::index
+
+# shop.new_product.html.twig
+shop__new_page:
+   path: /shop/products/new
+   controller: App\Controller\ShopController::newProductPage
+
+# shop.edit_product.html.twig
+shop_edit_page:
+   path: /shop/products/edit
+   controller: App\Controller\ShopController::editProductPage
+
 # register.html.twig
 user_register_page:
    path: /register

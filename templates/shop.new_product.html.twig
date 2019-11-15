@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+ <head>
+	 <meta charset="utf-8">
+   <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/mdb.min.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/modules/animations-extended.min.css') }}" type="text/css"/>
+	 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
+
+   <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
+   <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
+
+	 <title>BDE Toulouse | Créer un produit</title>
+ </head>
+
+    <body>
+        <!-- Header -->
+        <header>
+            {% if user == null %}
+                <button class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
+                <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
+            {% else %}
+                <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
+            {% endif %}
+
+            <ul class="nav">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/events">Evenements</a></li>
+                <li><a href="#">Boutique</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </header>
+
+        <!-- Deuxième Header -->
+        <div class="nav-bar">
+            {% if user != null %}
+            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="./users/logout">Déconnexion</a></button>
+            <ul class="nav" style="padding: 0;">
+                <li><a href="#">Souscriptions</a></li>
+                <li><a href="#">Configuration</a></li>
+            </ul>
+            {% endif %}
+        </div>
+
+
+ <!--Container-->
+   <div class="box" style="width: 777px;height: auto; margin: 5% auto;">
+
+    <p style="text-align:center; color: #FAA">{{ error is defined ? error : '' }}</p>
+
+	<form method="POST" action="/shop/products/new">
+        <p><div class="md-form mt-3">
+                <label for="name">Nom</label>
+                <input id="name" class="form-control" name="label" required="required" type="text" value="{{ data is defined ? data.label : '' }}" />
+        </div></p>
+
+        <p><div class="md-form mt-3">
+            <label for="desc">Description</label>
+            <textarea id="desc" class="md-textarea form-control" name="description" required="required" cols="" rows="1">{{ data is defined ? data.description : '' }}</textarea>
+        </div></p>
+        
+        <p><div class="md-form mt-3">
+            <label for="pic">Photo</label>
+            <input id="pic" class="form-control" name="picture" required="required" type="text" value="{{ data is defined ? data.picture : '' }}" />
+        </div></p>
+
+        	<p><div class="md-form mt-3">
+			    <label for="price">Prix</label>
+				<input id="price" class="form-control" name="price" required="required" type="number" value="{{ data is defined ? data.price : '' }}" /> 
+			</div></p>
+
+			<p><div class="md-form mt-3">
+					<label for="dtime">Temps de livraison (en jours)</label>
+					<input id="dtime" class="form-control" name="delevery_date" required="required" type="number" value="{{ data is defined ? data.delevery_date : '' }}" /> 
+			</div></p>
+
+            <div class="md-form">
+                <select id="cent" class="browser-default custom-select" style="width: auto" name="id_Center" selected="{{ data is defined ? data.id_Center : user.id_Center }}">
+                    {% for center in centers %}
+                    <option value="{{ center.id }}">{{ center.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="md-form">
+                <select class="browser-default custom-select" style="width: auto" name="id_Category" selected="{{ data is defined ? data.id_Category : '' }}">
+                    <option selected>Catégorie</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.label }}</option>
+                    {% endfor %}
+                </select><br><br><br>
+            </div>
+		<p> 
+			<button class="btn btn-primary btn-block" type="submit">Ajouter le produit</button>
+		</p>
+	</form>
+  </div>
+
+
+
+
+
+
+
+        <!-- Animations -->
+        <div style="width: 100%; height: 300px;">
+            <div class="waveWrapper waveAnimation" style="position: relative; height: 100%; width: 100%;">
+                <div class="waveWrapperInner bgTop">
+                    <div class="wave waveTop" style="background-image: url('/images/wave3.png')"></div>
+                </div>
+                <div class="waveWrapperInner bgMiddle">
+                    <div class="wave waveMiddle" style="background-image: url('/images/wave2.png')"></div>
+                </div>
+                <div class="waveWrapperInner bgBottom">
+                    <div class="wave waveBottom" style="background-image: url('/images/wave3.png')"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row" style="width: 100%;">
+                <div class="col-lg-6" style="z-index: 2;">
+                    <h5 style="float: left; margin-left: 25px">A propos</h5>
+                    <p style="float: left; margin-left: 25px; text-align: left; font-size: small;">Ayant un penchant naturel vers la programmation et le développement, un groupe de jeunes étudiants en école d'ingénieur décidèrent de fonder en Juin 2019 la plateforme HiDev. Nous construisons vos projet sur mesures et nous vous garantissons un travail de qualité ainsi que d'un suivi particulier pour s'assurer du bon fonctionnement de vos commandes. Étant en spécialité informatique nous pouvons couvrir une grande partie des projets grand publique ainsi que de l'entretien de vos serveurs, bases de données, site web, etc.. Si cependant une catégorie vous manque sur le site n'hésitez pas a nous la proposer.</p>
+                </div>
+                <div class="col" style="z-index: 2;">
+                    <h5>Mentions légales</h5>
+                </div>
+                <div class="col" style="z-index: 2;">
+                    <h5>Social</h5>
+                </div>
+            </div>
+        </footer>
+
+        <style>
+            form {
+                margin: 20px;
+            }
+        </style>
+
+         <script>
+            $('input').trigger("change");
+            $('textarea').trigger("change");
+        </script>
+    </body>
+</html>
