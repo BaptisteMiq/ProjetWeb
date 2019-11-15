@@ -65,8 +65,17 @@
                     <div class="col" style="z-index: 2;">
                         {% if user != null %}
                         <button class="btn btn-secondary" style="float: right; margin-right: 4%; margin-top: 12px;"><a href="#">Publier</a></button>
+                            {% if user.id_Rank == 3 %}
+                            
+                            {% endif %}
                         {% endif %}
-                        <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;"><a href="#">Souscrire</a><bubble>0</bubble></button>
+                        <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;">
+                            {% if user != null %}
+                                <a href="#">Souscrire</a><bubble>0</bubble>
+                            {% else %}
+                                <a href="/login">Souscrire</a><bubble>0</bubble>
+                            {% endif %}
+                        </button>
                     </div>
                 </div>
                 <div class="p_index"><p style="font-size: larger;text-align: justify;display: contents;">{{ event.description }}</p></div>
