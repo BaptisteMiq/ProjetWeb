@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
+        <title>BDE CESI TOULOUSE</title>
     </head>
 
     <body>
@@ -30,6 +31,9 @@
             {% if user != null %}
             <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="./users/logout">Déconnexion</a></button>
             <ul class="nav" style="padding: 0;">
+                {% if user.id_Rank == 3 %}
+                    <li><a href="/events/action/new">Ajouter un événement</a></li>
+                {% endif %}
                 <li><a href="#">Souscriptions</a></li>
                 <li><a href="#">Configuration</a></li>
             </ul>

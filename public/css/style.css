@@ -271,6 +271,12 @@ input, textarea{
 	background-color: white;
 }
 
+.custom-select {
+	color: #ffc252;
+	background-color: #252525;
+    border: 1px solid #ffc252;
+}
+
 @keyframes gradientBG {
 	0% {
 		background-position: 0% 50%;
