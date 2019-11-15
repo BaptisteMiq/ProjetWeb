@@ -36,9 +36,11 @@ class SiteController extends AbstractController
 		$preferences = null;
 		$preferencesAll = API::call('GET', '/preferences')->preferences;
 
-		foreach ($preferencesAll as $key => $value) {
-			if($value->id == $user->id_Preferences) {
-				$preferences = $value;
+		if($user != null) {
+			foreach ($preferencesAll as $key => $value) {
+				if($value->id == $user->id_Preferences) {
+					$preferences = $value;
+				}
 			}
 		}
 

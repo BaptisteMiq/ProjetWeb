@@ -16,6 +16,12 @@ use App\Acme\CustomBundle\Error;
 class UserController extends SiteController
 {
 
+    public function adminPage(Request $request) {
+
+        return $this->rendering('admin.html.twig');
+
+    }
+
     public function token(Request $request) {
 
         $session = $request->getSession();

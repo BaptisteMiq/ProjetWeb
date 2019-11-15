@@ -122,3 +122,7 @@ event_getAllPictures:
 event_subscribeCount:
   path: /events/action/subscribeCount
   controller: App\Controller\EventController::subscribeCount
+
+user_admin_page:
+  path: /admin
+  controller: App\Controller\UserController::adminPage
