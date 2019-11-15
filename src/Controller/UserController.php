@@ -99,22 +99,22 @@ class UserController extends SiteController
             // Check if valid data
             $cmail = $this->checkMail($data['mail']);
             if($cmail) {
-                return $this->rendering('register.html.twig', [ 'error' => $cmail, 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'centers' => $centers, 'error' => $cmail, 'data' => $data ]);
             };
             $cpass = $this->checkPassword($data['password']);
             if($cpass) {
-                return $this->rendering('register.html.twig', [ 'error' => $cpass, 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'centers' => $centers, 'error' => $cpass, 'data' => $data ]);
             }
 
             // Connect to the API
             $result = API::call('POST', '/users/register', $data);
 
             if(!$result) {
-                return $this->rendering('register.html.twig', [ 'error' => 'Impossible de se créer un compte pour le moment.', 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'centers' => $centers, 'error' => 'Impossible de se créer un compte pour le moment.', 'data' => $data ]);
             }
 
             if(isset($result->error)) {
-                return $this->rendering('register.html.twig', [ 'error' => $result->error, 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'centers' => $centers, 'error' => $result->error, 'data' => $data ]);
             }
 
             // Login user
