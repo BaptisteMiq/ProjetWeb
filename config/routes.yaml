@@ -23,9 +23,14 @@ shop_page:
    controller: App\Controller\ShopController::index
 
 # shop.new_product.html.twig
-shop__new_page:
+shop_new_product_page:
    path: /shop/products/new
    controller: App\Controller\ShopController::newProductPage
+
+# shop.edit_product.html.twig
+shop_edit_product_page:
+   path: /shop/products/edit/{id}
+   controller: App\Controller\ShopController::editProductPage
 
 # shop.edit_product.html.twig
 shop_edit_page:

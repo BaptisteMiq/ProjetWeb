@@ -17,8 +17,10 @@ class ShopController extends SiteController
 
     public function index() {
 
-        return $this->rendering('shop.html.twig', [
+        $categories = API::call('GET', '/shop/getCategoriesAndProducts');
 
+        return $this->rendering('shop.html.twig', [
+            'categories' => $categories->Categories
         ]);
 
     }
@@ -45,28 +47,70 @@ class ShopController extends SiteController
 
     }
 
-    public function editProductPage(Request $request) {
+    public function editProductPage(Request $request, $id=null) {
+
+        if($id == null) {
+            return $this->redirect('/shop');
+        }
+
+        $data = [];
+        $data['id'] = $id;
+        $product = API::call('GET', '/shop/getProduct', $data);
+
+        if(isset($product->error)) {
+            return $this->redirect('/shop');
+        }
 
         $user = new User($request);
         // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
         //     die('Not authorized');
         // }
+        
+        $centers = API::call('GET', '/centers');
+        $categories = API::call('GET', '/shop/getCategories');
 
-        // $data = API::process($request, [
-        //     'pid' => true,
-        //     'name' => false,
-        //     'description' => false,
-        //     'price' => false,
-        //     'category' => false,
-        // ]);
+        $data = API::process($request, [
+            'id' => true,
+            'label' => true,
+            'description' => true,
+            'picture' => true,
+            'price' => true,
+            'delevery_date' => true,
+            'price' => true,
+            'id_Center' => true,
+            'id_Category' => true,
+        ]);
+        $data['nb_sales'] = 0;
 
-        // API::call('PUT', '/shop/items/edit', $data);
+        if(!isset($data['error'])) {
 
-        // return new Response(
-        //     'OK'
-        // );
+            $res = API::call('POST', '/shop/updateProduct', $data, $user->getToken());
+            if(isset($res->error)) {
 
+                return $this->rendering('shop.edit_product.html.twig', [
+                    'centers' => $centers->centers,
+                    'categories' => $categories->Categories,
+                    'data' => $product->product,
+                    'error' => $res->error,
+                ]);
+            }
 
+            // PRODUCT CREATED
+            return $this->redirect('/shop');
+
+        } else {
+
+            return $this->rendering('shop.edit_product.html.twig', [
+                'centers' => $centers->centers,
+                'categories' => $categories->Categories,
+                'data' => $product->product,
+            ]);
+        }
+
+        return $this->rendering('shop.edit_product.html.twig', [
+            'centers' => $centers->centers,
+            'categories' => $categories->Categories,
+        ]);
         
     }
 
@@ -106,11 +150,7 @@ class ShopController extends SiteController
             }
 
             // PRODUCT CREATED
-            return $this->rendering('shop.html.twig', [
-                'centers' => $centers->centers,
-                'categories' => $categories->Categories,
-                'data' => $data,
-            ]);
+            return $this->redirect('/shop');
 
         } else {
 
