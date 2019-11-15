@@ -31,10 +31,6 @@ user_logout:
   path: /users/logout
   controller: App\Controller\UserController::logout
 
-event_send_comment:
-  path: /events/sendcomment
-  controller: App\Controller\EventController::sendComment
-
 event_get_all:
   path: /events/get/all
   controller: App\Controller\EventController::getEvents
@@ -63,3 +59,30 @@ event_delete:
   path: /events/action/delete
   controller: App\Controller\EventController::deleteEvent
 
+event_subscribe:
+  path: /events/action/subscribe
+  controller: App\Controller\EventController::subscribeEvent
+
+event_addPicture:
+  path: /events/action/addPicture
+  controller: App\Controller\EventController::addPicture
+
+event_sendComment:
+  path: /events/action/sendcomment
+  controller: App\Controller\EventController::sendComment
+
+event_delComment:
+  path: /events/action/delcomment
+  controller: App\Controller\EventController::delComment
+
+event_delPicture:
+  path: /events/action/delPicture
+  controller: App\Controller\EventController::delPicture
+
+event_downloadSubscribedStudents:
+  path: /events/action/downloadSubscribedStudents
+  controller: App\Controller\EventController::downloadSubscribedStudents
+
+event_getAllPictures:
+  path: /events/action/getAllPictures
+  controller: App\Controller\EventController::getAllPictures

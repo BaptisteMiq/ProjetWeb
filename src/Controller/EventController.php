@@ -179,18 +179,36 @@ class EventController extends SiteController
 
     }
 
-    public function subscribeEvent(Request $request) {
+    public static function subscribeEvent(Request $request) {
+
+        /*
+
+        $.ajax({
+            url: "{{ path('event_subscribe') }}",
+            type: 'POST',
+            data: {
+                    'id_Activities': 0
+                },
+            success: function (data) {
+                console.log("Abonné avec succès");
+            },
+            error : function(jqXHR, textStatus, errorThrown){
+                console.log("Impossible de s'abonner");
+            }
+        });
+
+        */
 
         $session = $request->getSession();
 
         $user = new User($request);
 
-        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF))) {
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
             die('Not authorized');
         }
 
         $data = API::process($request, [
-            'eventId' => true,
+            'id_Activities' => true,
         ]);
         
         if(!isset($data['error'])) {
@@ -202,54 +220,283 @@ class EventController extends SiteController
 
     }
 
-    public function sendComment(Request $request) {
+    public static function addPicture(Request $request) {
+
+        /*
+
+        $.ajax({
+            url: "{{ path('event_addPicture') }}",
+            type: 'POST',
+            data: {
+                    'link': "",
+                    'id_Activities': 0
+                },
+            success: function (data) {
+                console.log("Photo envoyée avec succès");
+            },
+            error : function(jqXHR, textStatus, errorThrown){
+                console.log("Impossible d'envoyer la photo");
+            }
+        });
+
+        */
 
         $user = new User($request);
-        // if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('ADMIN'))) {
-        //     die('Not authorized');
-        // }
-
-        // $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
-
-        // Handle file upload
-        $i = 0;
-        foreach($request->files as $file) {
-
-            if($i > 2) {
-                die('You uploaded too many pictures! Limit: 2');
-            }
-
-            if(!empty($file)) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $filename = $originalFilename.'-'.uniqid();
-                try {
-                    $file->move('img', $filename);
-                } catch(FileException $e) {
-                    die('Failed to upload file :(');
-                }
-
-                $data = [
-                    'file' => 'img/' . $filename
-                ];
-                API::call('POST', '/events/comments/addPic', $data);
-            }
-
-            $i++;
+        if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('ADMIN') || $user->hasRank('MEMBER'))) {
+            die('Not authorized');
         }
 
+        $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
+
+        $data = API::process($request, [
+            'link' => true,
+            'id_Activities' => true,
+        ]);
+
+        $res = API::call('POST', '/events/addPicture', $data, $user->getToken());
+
+        if(empty($res)) {
+            return new Reponse('Ne peut pas envoyer la photo pour une raison inconnue');
+            die();
+        }
+        if($res->error) {
+            return new Reponse('Ne peut pas envoyer la photo: ' . $res->error);
+            die();
+        }
+
+        return new Reponse('OK');
+
+    }
+
+    public static function delComment(Request $request) {
+
+        /*
+
+        $.ajax({
+            url: "{{ path('event_delComment') }}",
+            type: 'POST',
+            data: {
+                    'id': 0
+                },
+            success: function (data) {
+                console.log("Commentaire supprimé avec succès");
+            },
+            error : function(jqXHR, textStatus, errorThrown){
+                console.log("Impossible de supprimer le commentaire");
+            }
+        });
+
+        */
 
         $data = API::process($request, [    
-            'eid' => true,
+            'id' => true,
+        ]);
+
+        $comment = API::call('POST', '/events/getComment', $data, $user->getToken());
+
+        if(empty($comment)) {
+            return new Reponse('Commentaire non trouvé');
+            die();
+        }
+        if($comment->error) {
+            return new Reponse('Commentaire non trouvé: ' . $comment->error);
+            die();
+        }
+
+        $user = new User($request);
+
+        // Logged, member or staff or its own comment only
+        if(!$user->isLogged() || !($user->hasRank('STAFF') || $user->hasRank('MEMBER') || $user->getUser()->id == $comment->id_User)) {
+            die('Not authorized');
+        }
+
+        $res = API::call('POST', '/events/delComment', $data, $user->getToken());
+
+        if(empty($res)) {
+            return new Reponse('Ne peut pas supprimer le commentaire pour une raison inconnue');
+            die();
+        }
+        if($res->error) {
+            return new Reponse('Ne peut pas supprimer le commentaire: ' . $res->error);
+            die();
+        }
+
+        return new Response('OK');
+
+    }
+
+    public static function delPicture(Request $request) {
+
+        /*
+
+        $.ajax({
+            url: "{{ path('event_delPicture') }}",
+            type: 'POST',
+            data: {
+                    'id': 0
+                },
+            success: function (data) {
+                console.log("Photo supprimée avec succès");
+            },
+            error : function(jqXHR, textStatus, errorThrown){
+                console.log("Impossible de supprimer la photo");
+            }
+        });
+
+        */
+
+        $data = API::process($request, [    
+            'id' => true,
+        ]);
+
+        $pic = API::call('POST', '/events/delPicture', $data, $user->getToken());
+
+        if(empty($pic)) {
+            return new Reponse('Photo non trouvée');
+            die();
+        }
+        if($pic->error) {
+            return new Reponse('Photo non trouvée: ' . $pic->error);
+            die();
+        }
+
+        $user = new User($request);
+
+        // Logged, member or staff or its own comment only
+        if(!$user->isLogged() || !($user->hasRank('STAFF') || $user->hasRank('MEMBER') || $user->getUser()->id == $pic->id_User)) {
+            die('Not authorized');
+        }
+
+        $res = API::call('POST', '/events/delPicture', $data, $user->getToken());
+
+        if(empty($res)) {
+            return new Reponse('Ne peut pas supprimer la photo pour une raison inconnue');
+            die();
+        }
+        if($res->error) {
+            return new Reponse('Ne peut pas supprimer la photo: ' . $res->error);
+            die();
+        }
+
+        return new Response('OK');
+
+    }
+
+    public static function sendComment(Request $request) {
+
+        /*
+
+        $.ajax({
+            url: "{{ path('event_sendComment') }}",
+            type: 'POST',
+            data: {
+                    'id_Picture': 0,
+                    'id_Comments': null,
+                    'content': 0
+                },
+            success: function (data) {
+                console.log("Commentaire envoyé avec succès");
+            },
+            error : function(jqXHR, textStatus, errorThrown){
+                console.log("Impossible d'envoyer le commentaire");
+            }
+        });
+
+        */
+
+        $user = new User($request);
+        if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('ADMIN') || $user->hasRank('MEMBER'))) {
+            die('Not authorized');
+        }
+
+        $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
+
+        $data = API::process($request, [    
+            'id_Picture' => true,
+            'id_Comments' => false,
             'content' => true,
         ]);
-        $data['uid'] = $user->getUser()->id;
 
-        API::call('POST', '/events/comments/add', $data);
+        $res = API::call('POST', '/events/addComment', $data, $user->getToken());
 
-        return new Response(
-            'OK'
-        );
+        if(empty($res)) {
+            return new Reponse('Ne peut pas envoyer le commentaire pour une raison inconnue');
+            die();
+        }
+        if($res->error) {
+            return new Reponse('Ne peut pas envoyer le commentaire: ' . $res->error);
+            die();
+        }
 
+        return new Response('OK');
+
+    }
+
+    public static function downloadSubscribedStudents(Request $request) {
+
+        /*
+
+        $.ajax({
+            url: "{{ path('event_sendComment') }}",
+            type: 'POST',
+            data: {
+                    'id: 0,
+                },
+            success: function (data) {
+                console.log(data);
+            },
+            error : function(jqXHR, textStatus, errorThrown){
+                console.log("Impossible de récupérer les inscrits de cet évènement");
+            }
+        });
+
+        */
+
+        $user = new User($request);
+        if(!$user->isLogged() || !($user->hasRank('ADMIN') || $user->hasRank('MEMBER'))) {
+            die('Not authorized');
+        }
+
+        $data = API::process($request, [
+            'id' => true,
+        ]);
+
+        $res = API::call('GET', '/events/getSubscribe', $data, $user->getToken());
+
+        if(empty($res)) {
+            return new Reponse('Ne peut pas récupérer la liste des inscrits');
+            die();
+        }
+        if($res->error) {
+            return new Reponse('Ne peut pas récupérer la liste des inscrits: ' . $res->error);
+            die();
+        }
+
+        // Process data to generate PDF / CSV
+        // ...
+
+        print_r($res);
+        die();
+
+    }
+
+    public function getAllPictures(Request $request) {
+
+        $user = new User($request);
+        if(!$user->isLogged() || !$user->hasRank('ADMIN')) {
+            die('Not authorized');
+        }
+
+        $events = API::call('GET', '/events/all', $data, $user->getToken())->AllActivitiesFound;
+
+        $pictures = [];
+
+        foreach ($event as $key => $value) {
+            array_push($pictures, $value->picture);
+        }
+
+        print_r($pictures);
+        die();
 
     }
 
@@ -301,5 +548,31 @@ class EventController extends SiteController
         }
 
     }
+
+    // Handle file upload
+    // $i = 0;
+    // foreach($request->files as $file) {
+
+    //     if($i > 2) {
+    //         die('You uploaded too many pictures! Limit: 2');
+    //     }
+
+    //     if(!empty($file)) {
+    //         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+    //         $filename = $originalFilename.'-'.uniqid();
+    //         try {
+    //             $file->move('img', $filename);
+    //         } catch(FileException $e) {
+    //             die('Failed to upload file :(');
+    //         }
+
+    //         $data = [
+    //             'file' => 'img/' . $filename
+    //         ];
+    //         API::call('POST', '/events/comments/addPic', $data);
+    //     }
+
+    //     $i++;
+    // }
 
 }
