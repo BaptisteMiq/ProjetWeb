@@ -32,6 +32,10 @@ shop_edit_product_page:
    path: /shop/products/edit/{id}
    controller: App\Controller\ShopController::editProductPage
 
+shop_add_product_cart:
+   path: /shop/products/add
+   controller: App\Controller\ShopController::addToCart
+
 # shop.edit_product.html.twig
 shop_edit_page:
    path: /shop/products/edit

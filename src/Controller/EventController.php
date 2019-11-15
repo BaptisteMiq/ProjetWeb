@@ -451,11 +451,11 @@ class EventController extends SiteController
         $res = API::call('POST', '/events/addComment', $data, $user->getToken());
 
         if(empty($res)) {
-            return new Reponse('Ne peut pas envoyer le commentaire pour une raison inconnue');
+            return new Response('Ne peut pas envoyer le commentaire pour une raison inconnue');
             die();
         }
         if($res->error) {
-            return new Reponse('Ne peut pas envoyer le commentaire: ' . $res->error);
+            return new Response('Ne peut pas envoyer le commentaire: ' . $res->error);
             die();
         }
 
