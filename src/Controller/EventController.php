@@ -157,7 +157,7 @@ class EventController extends SiteController
 		$sub = EventController::getSubscribe($events->activity->id);
 			if(count($sub) > 0 && $user != null) {
 				foreach ($sub as $key2 => $value2) {
-					if($user->id == $value2->id_User) {
+					if($user->getUser()->id == $value2->id_User) {
 						$events->sub = true;
 					}
 				}
