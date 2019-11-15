@@ -256,10 +256,6 @@ input, textarea{
 	color: white !important;
 }
 
-.md-form{
-	margin-bottom: -2.5rem;
-}
-
 .md-form input:focus, .md-form textarea:focus {
 	box-shadow: 0 1px 0 0 hsl(39, 100%, 66%) !important;
 	border-bottom: 1px solid hsl(39, 100%, 66%) !important;

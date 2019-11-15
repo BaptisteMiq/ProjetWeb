@@ -24,55 +24,48 @@
   <p style="color:white; text-align:center;">{{ error is defined ? error : '' }}</p>
 
   <!--Container-->
-  <div class="box" style="width: 500px; height: 320px; padding: 30px; padding-top: 10px;">
+  <div class="box" style="width: 500px; height: auto; padding: 30px; padding-top: 10px;">
 	<form method="POST" action="/register">
-	<div style="float: left">
-	  <p>
-	  	<div class="md-form mt-3">
-			<label for="name">Nom</label>
-			<input id="name" class="form-control" name="lastname" required="required" type="text" value="{{ data is defined ? data.lastname : '' }}" />
-		</div>
-    </p>
+		<div style="float: left">
+			<p><div class="md-form mt-3">
+					<label for="name">Nom</label>
+					<input id="name" class="form-control" name="lastname" required="required" type="text" value="{{ data is defined ? data.lastname : '' }}" />
+			</div></p>
 
-	  <p>
-	  	<div class="md-form mt-3">
-			<label for="firstname">Prénom</label>
-        	<input id="firstname" class="form-control" name="firstname" required="required" type="text" value="{{ data is defined ? data.firstname : '' }}" />
-		</div>
-    </p>
-	
-	  <p> 
-	  	<div class="md-form mt-3">
-			<label for="mail">Adresse mail</label>
-        	<input id="mail" class="form-control" name="mail" required="required" type="text" value="{{ data is defined ? data.mail : '' }}" />
-		</div>
-    </p>
-  </div>
-  	<div style="float: right">
-    <p> 
-		<div class="md-form mt-3">
-			<label for="pass">Mot de passe</label>
-			<input id="pass" class="form-control" name="password" required="required" type="password" /> 
-		</div>
-    </p>
-    <p> 
-		<div class="md-form mt-3">
-			<label for="pass2">Confirmation</label>
-			<input id="pass2" class="form-control" name="sec_password" required="required" type="password" /> 
-		</div>
-    </p>
+			<p><div class="md-form mt-3">
+				<label for="firstname">Prénom</label>
+				<input id="firstname" class="form-control" name="firstname" required="required" type="text" value="{{ data is defined ? data.firstname : '' }}" />
+			</div></p>
+			
+			<p><div class="md-form mt-3">
+				<label for="mail">Adresse mail</label>
+				<input id="mail" class="form-control" name="mail" required="required" type="text" value="{{ data is defined ? data.mail : '' }}" />
+			</div></p>
 
-    <p> 
-		<div class="md-form mt-3">
-			<label for="center">Centre</label>
-			<input id="center" class="form-control" name="id_Center" required="required" type="text"  value="{{ data is defined ? data.id_Center : '' }}" /> 
+			<p><div class="md-form mt-3">
+				<label for="mail">Localisation</label>
+				<input id="mail" class="form-control" name="mail" required="required" type="text" value="{{ data is defined ? data.mail : '' }}" />
+			</div></p>
 		</div>
-    </p>
-	
-    </div>
-    <p> 
-    <button class="btn btn-primary btn-block" type="submit">S'inscrire</button>
-    </p>
+		<div style="float: right">
+			<p><div class="md-form mt-3">
+					<label for="pass">Mot de passe</label>
+					<input id="pass" class="form-control" name="password" required="required" type="password" /> 
+			</div></p>
+
+			<p><div class="md-form mt-3">
+					<label for="pass2">Confirmation</label>
+					<input id="pass2" class="form-control" name="sec_password" required="required" type="password" /> 
+			</div></p>
+
+			<p><div class="md-form mt-3">
+					<label for="center">Centre</label>
+					<input id="center" class="form-control" name="id_Center" required="required" type="text"  value="{{ data is defined ? data.id_Center : '' }}" /> 
+			</div></p>
+		</div>
+		<p> 
+			<button class="btn btn-primary btn-block" type="submit">S'inscrire</button>
+		</p>
 	</form>
   </div>
 
