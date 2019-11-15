@@ -401,7 +401,7 @@ class EventController extends SiteController
             die('Not authorized');
         }
 
-        $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
+        // $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
 
         $data = API::process($request, [    
             'id_Picture' => true,
