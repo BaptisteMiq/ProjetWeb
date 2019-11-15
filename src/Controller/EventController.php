@@ -397,7 +397,7 @@ class EventController extends SiteController
     public static function sendComment(Request $request) {
 
         $user = new User($request);
-        if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('ADMIN') || $user->hasRank('MEMBER'))) {
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
             die('Not authorized');
         }
 
@@ -408,9 +408,6 @@ class EventController extends SiteController
             'id_Comments' => false,
             'content' => true,
         ]);
-
-            print_r($data);
-            exit;
 
         $res = API::call('POST', '/events/addComment', $data, $user->getToken());
 
