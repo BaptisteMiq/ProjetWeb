@@ -38,7 +38,93 @@
 
         
 
+        <div class="cards">
 
+        {% for categorie in categories %}
+        <h1>{{ categorie.label }}<h1>
+            {% for product in categorie.products %}
+        {% endfor %}
+
+            <div class="row justify-content-md-center" style="margin: 50px;">
+
+                <div class="col">
+
+                    <!-- Card -->
+                    <div class="card">
+
+                    <!-- Card image -->
+                    <img class="card-img-top" src="https://files.sympa-sympa.com/files/news/part_60/603610/3991910-Screenshot202018-12-0420at20081427-1544009633-728-ff912a04f6-1544711268.jpg" alt="Card image cap">
+
+                    <!-- Card content -->
+                    <div class="card-body">
+
+                        <!-- Title -->
+                        <h4 class="card-title"><a>Card title</a></h4>
+                        <!-- Text -->
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <!-- Button -->
+                        <a href="#" class="btn btn-primary">Button</a>
+
+                    </div>
+
+                    </div>
+                    <!-- Card -->
+
+                </div>
+
+                <div class="col">
+
+                                    <!-- Card -->
+                    <div class="card">
+
+                    <!-- Card image -->
+                    <img class="card-img-top" src="https://files.sympa-sympa.com/files/news/part_60/603610/3991910-Screenshot202018-12-0420at20081427-1544009633-728-ff912a04f6-1544711268.jpg" alt="Card image cap">
+
+                    <!-- Card content -->
+                    <div class="card-body">
+
+                        <!-- Title -->
+                        <h4 class="card-title"><a>Card title</a></h4>
+                        <!-- Text -->
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <!-- Button -->
+                        <a href="#" class="btn btn-primary">Button</a>
+
+                    </div>
+
+                    </div>
+                    <!-- Card -->
+                    
+                </div>
+
+                <div class="col">
+
+                                    <!-- Card -->
+                    <div class="card">
+
+                    <!-- Card image -->
+                    <img class="card-img-top" src="https://files.sympa-sympa.com/files/news/part_60/603610/3991910-Screenshot202018-12-0420at20081427-1544009633-728-ff912a04f6-1544711268.jpg" alt="Card image cap">
+
+                    <!-- Card content -->
+                    <div class="card-body">
+
+                        <!-- Title -->
+                        <h4 class="card-title"><a>Card title</a></h4>
+                        <!-- Text -->
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <!-- Button -->
+                        <a href="#" class="btn btn-primary">Button</a>
+
+                    </div>
+
+                    </div>
+                    <!-- Card -->
+                </div>
+
+
+            </div>
+
+        </div>
 
 
 
@@ -77,4 +163,16 @@
             </div>
         </footer>
     </body>
+
+
+    <style>
+        h1 {
+            color: white;
+            text-align: center;
+        }
+        .card {
+            width: 100%;
+        }
+    </style>
+
 </html>

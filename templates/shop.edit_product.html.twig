@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
-    </head>
+ <head>
+	 <meta charset="utf-8">
+   <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/mdb.min.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/modules/animations-extended.min.css') }}" type="text/css"/>
+	 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
+
+   <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
+   <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
+
+	 <title>BDE Toulouse | Créer un produit</title>
+ </head>
 
     <body>
         <!-- Header -->
@@ -36,51 +43,55 @@
             {% endif %}
         </div>
 
-        
-
-
-
-
-
-
 
  <!--Container-->
-  <div class="box" style="width: 500px; height: auto; padding: 30px; padding-top: 10px;">
-	<form method="POST" action="/register">
-		<div style="float: left">
-			<p><div class="md-form mt-3">
-					<label for="name">Nom</label>
-					<input id="name" class="form-control" name="lastname" required="required" type="text" value="{{ data is defined ? data.lastname : '' }}" />
+   <div class="box" style="width: 777px;height: auto; margin: 5% auto;">
+
+    <p style="text-align:center; color: #FAA">{{ error is defined ? error : '' }}</p>
+
+	<form method="POST" action="/shop/products/edit/{{ data.id }}">
+        <p><div class="md-form mt-3">
+                <label for="name">Nom</label>
+                <input id="name" class="form-control" name="label" required="required" type="text" value="{{ data is defined ? data.label : '' }}" />
+        </div></p>
+
+        <p><div class="md-form mt-3">
+            <label for="desc">Description</label>
+            <textarea id="desc" class="md-textarea form-control" name="description" required="required" cols="" rows="1">{{ data is defined ? data.description : '' }}</textarea>
+        </div></p>
+        
+        <p><div class="md-form mt-3">
+            <label for="pic">Photo</label>
+            <input id="pic" class="form-control" name="picture" required="required" type="text" value="{{ data is defined ? data.picture : '' }}" />
+        </div></p>
+
+        	<p><div class="md-form mt-3">
+			    <label for="price">Prix</label>
+				<input id="price" class="form-control" name="price" required="required" type="number" value="{{ data is defined ? data.price : '' }}" /> 
 			</div></p>
 
 			<p><div class="md-form mt-3">
-				<label for="firstname">Prénom</label>
-				<input id="firstname" class="form-control" name="firstname" required="required" type="text" value="{{ data is defined ? data.firstname : '' }}" />
-			</div></p>
-			
-			<p><div class="md-form mt-3">
-				<label for="mail">Adresse mail</label>
-				<input id="mail" class="form-control" name="mail" required="required" type="text" value="{{ data is defined ? data.mail : '' }}" />
-			</div></p>
-		</div>
-		<div style="float: right">
-			<p><div class="md-form mt-3">
-					<label for="pass">Mot de passe</label>
-					<input id="pass" class="form-control" name="password" required="required" type="password" /> 
+					<label for="dtime">Temps de livraison (en jours)</label>
+					<input id="dtime" class="form-control" name="delevery_date" required="required" type="number" value="{{ data is defined ? data.delevery_date : '' }}" /> 
 			</div></p>
 
-			<p><div class="md-form mt-3">
-					<label for="pass2">Confirmation</label>
-					<input id="pass2" class="form-control" name="sec_password" required="required" type="password" /> 
-			</div></p>
+            <div class="md-form">
+                <select id="cent" class="browser-default custom-select" style="width: auto" name="id_Center">
+                    {% for center in centers %}
+                    <option value="{{ center.id }}" {{ data.id_Center == center.id ? 'selected' : '' }}>{{ center.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-			<p><div class="md-form mt-3">
-					<label for="center">Localisation</label>
-					<input id="center" class="form-control" name="id_Center" required="required" type="text"  value="{{ data is defined ? data.id_Center : '' }}" /> 
-			</div></p>
-		</div>
+            <div class="md-form">
+                <select class="browser-default custom-select" style="width: auto" name="id_Category">
+                    {% for category in categories %}
+                    <option value="{{ category.id }}" {{ data.id_Category == category.id ? 'selected' : '' }}>{{ category.label }}</option>
+                    {% endfor %}
+                </select><br><br><br>
+            </div>
 		<p> 
-			<button class="btn btn-primary btn-block" type="submit">S'inscrire</button>
+			<button class="btn btn-primary btn-block" type="submit">Editer le produit</button>
 		</p>
 	</form>
   </div>
@@ -121,5 +132,16 @@
                 </div>
             </div>
         </footer>
+
+        <style>
+            form {
+                margin: 20px;
+            }
+        </style>
+
+         <script>
+            $('input').trigger("change");
+            $('textarea').trigger("change");
+        </script>
     </body>
 </html>
