@@ -253,25 +253,6 @@ class EventController extends SiteController
 
     public static function addPicture(Request $request) {
 
-        /*
-
-        $.ajax({
-            url: "{{ path('event_addPicture') }}",
-            type: 'POST',
-            data: {
-                    'link': "",
-                    'id_Activities': 0
-                },
-            success: function (data) {
-                console.log("Photo envoyée avec succès");
-            },
-            error : function(jqXHR, textStatus, errorThrown){
-                console.log("Impossible d'envoyer la photo");
-            }
-        });
-
-        */
-
         $user = new User($request);
         if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('ADMIN') || $user->hasRank('MEMBER'))) {
             die('Not authorized');
@@ -414,26 +395,6 @@ class EventController extends SiteController
     }
 
     public static function sendComment(Request $request) {
-
-        /*
-
-        $.ajax({
-            url: "{{ path('event_sendComment') }}",
-            type: 'POST',
-            data: {
-                    'id_Picture': 0,
-                    'id_Comments': null,
-                    'content': 0
-                },
-            success: function (data) {
-                console.log("Commentaire envoyé avec succès");
-            },
-            error : function(jqXHR, textStatus, errorThrown){
-                console.log("Impossible d'envoyer le commentaire");
-            }
-        });
-
-        */
 
         $user = new User($request);
         if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('ADMIN') || $user->hasRank('MEMBER'))) {

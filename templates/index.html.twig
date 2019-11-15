@@ -6,7 +6,8 @@
         <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
         <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
-
+        
+        <script src="{{ asset('js/actions.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
     
@@ -14,8 +15,8 @@
         <!-- Header -->
         <header>
             {% if user == null %}
-                <button class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
-                <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
+                <button class="btn btn-primary" style="margin: 10px;" onclick="location.href='/login'">Connexion</button>
+                <button class="btn btn-secondary" onclick="location.href='/register'">Inscription</button>
             {% else %}
                 <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
             {% endif %}
@@ -38,7 +39,7 @@
         <!-- Deuxième Header -->
         <div class="nav-bar">
             {% if user != null %}
-            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="./users/logout">Déconnexion</a></button>
+            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;" onclick="location.href='./users/logout'">Déconnexion</button>
             <ul class="nav" style="padding: 0;">
                 <li><a href="#">Souscriptions</a></li>
                 <li><a href="#">Configuration</a></li>
@@ -64,22 +65,17 @@
                     </div>
                     <div class="col" style="z-index: 2;">
                         {% if user != null %}
-                        <button class="btn btn-secondary" style="float: right; margin-right: 4%; margin-top: 12px;"><a href="#">Publier</a></button>
+                            <button class="btn btn-secondary" style="float: right; margin-right: 4%; margin-top: 12px;" onclick="location.href='#'">Publier</button>
                             {% if user.id_Rank == 3 %}
-                            
                             {% endif %}
-                        {% endif %}
-                        <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;">
-                            {% if user != null %}
-                                {% if not event.sub %}
-                                <a onclick="subscribe({{ event.id }})">Souscrire</a><bubble>{{ event.count }}</bubble>
-                                {% else %}
-                                <a onclick="unSubscribe({{ event.id }})">Se désinscrire</a><bubble>{{ event.count }}</bubble>
-                                {% endif %}
+                            {% if not event.sub %}
+                                <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;" onclick="subscribe({{ event.id }})">Souscrire<bubble>{{ event.count }}</bubble></button>
                             {% else %}
-                                <a href="/login">Souscrire</a><bubble>{{ event.count }}</bubble>
+                                <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;" onclick="unSubscribe({{ event.id }})">Se désinscrire<bubble>{{ event.count }}</bubble></button>
                             {% endif %}
-                        </button>
+                        {% else %}
+                            <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;" onclick="location.href='/login'">Souscrire<bubble>{{ event.count }}</bubble></button>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="p_index"><p style="font-size: larger;text-align: justify;display: contents;">{{ event.description }}</p></div>
@@ -116,40 +112,5 @@
                 </div>
             </div>
         </footer>
-
-        <script>
-            function subscribe(id) {
-                $.ajax({
-                    url: "/events/action/subscribe",
-                    type: 'POST',
-                    data: {
-                            'id_Activities': id
-                        },
-                    success: function (data) {
-                        if(data == "OK") {
-                            location.reload(true);
-                        } else {
-                            alert(data);
-                        }
-                    }
-                });
-            }
-            function unSubscribe(id) {
-                $.ajax({
-                    url: "/events/action/unSubscribe",
-                    type: 'POST',
-                    data: {
-                            'id_Activities': id
-                        },
-                    success: function (data) {
-                        if(data == "OK") {
-                            location.reload(true);
-                        } else {
-                            alert(data);
-                        }
-                    }
-                });
-            }
-        </script>
     </body>
 </html>
