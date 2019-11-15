@@ -154,12 +154,49 @@ class UserController extends SiteController
     
     }
 
-    public function profilePage()
+    public function profilePage(Request $request)
     {
 
-        return $this->rendering('profile.html.twig', [
+        $user = new User($request);
+        if(!$user->isLogged()) {
+            die('Not authorized');
+        }
 
+        $data = API::process($request, [    
+            'theme' => true,
+            'notification' => true,
         ]);
+
+
+        if(!isset($data['error'])) {
+
+            $dataId = [];
+
+            if($data['theme'] == 1 && $data['notification'] == false) {
+                $dataId['id_Preferences'] = 1;
+            } else if($data['theme'] == 1 && $data['notification'] == true) {
+                $dataId['id_Preferences'] = 2;
+            } else if($data['theme'] == 2 && $data['notification'] == false) {
+                $dataId['id_Preferences'] = 3;
+            } else if($data['theme'] == 2 && $data['notification'] == true) {
+                $dataId['id_Preferences'] = 4;
+            }
+    
+            $res = API::call('POST', '/updatePreference', $dataId, $user->getToken());
+
+            if(isset($res->error)) {
+                return $this->rendering('profile.html.twig');
+            }
+
+            return $this->rendering('profile.html.twig');
+
+        } else {
+
+            return $this->rendering('profile.html.twig');
+
+        }
+
+        return $this->rendering('profile.html.twig');
 
     }
 
@@ -190,4 +227,5 @@ class UserController extends SiteController
          return false;
 
     }
+
 }

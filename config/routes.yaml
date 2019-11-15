@@ -55,6 +55,10 @@ user_logout:
   path: /users/logout
   controller: App\Controller\UserController::logout
 
+user_edit_preferences:
+  path: /users/preferences/edit
+  controller: App\Controller\UserController::editPreferences
+
 event_get_all:
   path: /events/get/all
   controller: App\Controller\EventController::getEvents

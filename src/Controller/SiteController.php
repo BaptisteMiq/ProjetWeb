@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Controller\EventController;
+use App\Acme\CustomBundle\API;
 
 class SiteController extends AbstractController
 {
@@ -32,8 +33,18 @@ class SiteController extends AbstractController
 
 		}
 
+		$preferences = null;
+		$preferencesAll = API::call('GET', '/preferences')->preferences;
+
+		foreach ($preferencesAll as $key => $value) {
+			if($value->id == $user->id_Preferences) {
+				$preferences = $value;
+			}
+		}
+
 		$defaultParameters = array(
 			'user' => $user,
+			'preferences' => $preferences,
 			'events' => $events,
 		);
 		
