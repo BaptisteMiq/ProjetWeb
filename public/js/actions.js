@@ -16,6 +16,20 @@ function subscribe(id) {
     });
 }
 
+function acceptCookie() {
+    $.ajax({
+        url: "/events/action/subscribe",
+        type: 'POST',
+        data: {},
+        success: function (data) {
+            if(data == "OK") {
+            } else {
+                alert(data);
+            }
+        }
+    });
+}
+
 function unSubscribe(id) {
     $.ajax({
         url: "/events/action/unSubscribe",

@@ -164,6 +164,10 @@ event_getSubscribe:
   path: /events/action/getSubscribe/{id}
   controller: App\Controller\EventController::getSubscribeCSV
 
+event_getPicture:
+  path: /events/action/getPictureCSV
+  controller: App\Controller\EventController::getPictureCSV
+
 shop_buy_cart:
   path: /events/cart/buy
   controller: App\Controller\ShopController::buyCart

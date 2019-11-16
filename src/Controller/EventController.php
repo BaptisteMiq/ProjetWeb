@@ -620,6 +620,50 @@ class EventController extends SiteController
         return new Response('Missing ' . $data['error']);
     }
 
+    public function getPictureCSV() {
+        
+        $data = [];
+
+        if(!isset($data['error'])) {
+            $ret = API::call('GET', '/events/getAllPicture', $data);
+
+            if(empty($ret)) {
+                return new Response('Impossible d\'obtenir la liste'); 
+            }
+            if(isset($ret->error)) {
+                return new Response('Impossible d\'obtenir la liste: ' . $ret->error); 
+            }
+
+            $reg = $ret->Activities;
+            $resp = "CATEGORIE;LIEN;NOM;PRENOM;MAIL";
+
+            foreach ($reg as $p => $pic) {
+                $pics = $pic->pictures;
+                foreach($pics as $ps) {
+                    $resp .= "\n$ps->name;$ps->link;$ps->userLastname;$ps->userFirstname;$ps->userMail";
+                }
+            }
+
+            $filename = 'liste_image.csv';
+            $fileContent = $resp;
+
+            $response = new Response($fileContent);
+
+            $disposition = $response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $filename
+            );
+
+            $response->headers->set('Content-Disposition', $disposition);
+
+            return $response;
+
+        }
+
+        return new Response('Missing ' . $data['error']);
+
+    }
+
     public function getSubscribeCSV($id=null) {
 
         if($id == null) {
@@ -653,19 +697,6 @@ class EventController extends SiteController
 
             $filename = 'liste_inscrits.csv';
             $fileContent = $resp;
-
-            // $temp = tmpfile();
-            // fwrite($temp, $fileContent);
-
-            // $metaDatas = stream_get_meta_data($temp);
-            // $tmpFilename = $metaDatas['uri'];
-
-            // file_put_contents($tmpFilename, $fileContent);
-            
-            // rename($tmpFilename, $tmpFilename .= '.csv');
-
-            // EventController::csvToPDF($temp, $tmpFilename);
-            // exit;
 
             $response = new Response($fileContent);
 
