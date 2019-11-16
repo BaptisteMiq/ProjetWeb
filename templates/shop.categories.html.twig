@@ -11,14 +11,14 @@
    <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
    <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
 
-	 <title>Editer un produit</title>
+	 <title>Gestion des catégories</title>
  </head>
 
     <body>
         <!-- Header -->
         <header>
             {% if user == null %}
-                <button class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
+                <bu ton class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
                 <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
             {% else %}
                 <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
@@ -44,59 +44,34 @@
         </div>
 
 
- <!--Container-->
-   <div class="box" style="width: 777px;height: auto; margin: 5% auto;">
+    <div class="row">
+    <div class="col">
+    
+        <div class="box" style="width: 777px;height: auto; margin: 5% auto;">
+            {% for category in categories %}
+                <h1>{{ category.label }}</h1>
+                <button class="btn btn-danger btn-block" onclick="removeCategory({{ category.id }})">Supprimer la catégorie</button>
+                <br /><br /><br />
+            {% endfor %}
+        </div>
 
-    <p style="text-align:center; color: #FAA">{{ error is defined ? error : '' }}</p>
+    </div>
+    <div class="col">
 
-	<form method="POST" action="/shop/products/edit/{{ data.id }}">
-        <p><div class="md-form mt-3">
+        <div class="box" style="width: 777px;height: auto; margin: 5% auto;">
+            <p style="text-align:center; color: #FAA">{{ error is defined ? error : '' }}</p>
                 <label for="name">Nom</label>
                 <input id="name" class="form-control" name="label" required="required" type="text" value="{{ data is defined ? data.label : '' }}" />
-        </div></p>
+                <br />
+                <p>
+                    <button class="btn btn-primary btn-block" onclick="createCategory()">Créer la catégorie</button>
+                </p>
+        </div>
+    
+    </div>
+    </div>
 
-        <p><div class="md-form mt-3">
-            <label for="desc">Description</label>
-            <textarea id="desc" class="md-textarea form-control" name="description" required="required" cols="" rows="1">{{ data is defined ? data.description : '' }}</textarea>
-        </div></p>
-        
-        <p><div class="md-form mt-3">
-            <label for="pic">Photo</label>
-            <input id="pic" class="form-control" name="picture" required="required" type="text" value="{{ data is defined ? data.picture : '' }}" />
-        </div></p>
 
-        	<p><div class="md-form mt-3">
-			    <label for="price">Prix</label>
-				<input id="price" class="form-control" name="price" required="required" type="number" step=".01" value="{{ data is defined ? data.price : '' }}" /> 
-			</div></p>
-
-			<p><div class="md-form mt-3">
-					<label for="dtime">Temps de livraison (en jours)</label>
-					<input id="dtime" class="form-control" name="delevery_date" required="required" type="number" value="{{ data is defined ? data.delevery_date : '' }}" /> 
-			</div></p>
-
-            <div class="md-form">
-                <select id="cent" class="browser-default custom-select" style="width: auto" name="id_Center">
-                    {% for center in centers %}
-                    <option value="{{ center.id }}" {{ data.id_Center == center.id ? 'selected' : '' }}>{{ center.label }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="md-form">
-                <select class="browser-default custom-select" style="width: auto" name="id_Category">
-                    {% for category in categories %}
-                    <option value="{{ category.id }}" {{ data.id_Category == category.id ? 'selected' : '' }}>{{ category.label }}</option>
-                    {% endfor %}
-                </select><br><br><br>
-            </div>
-		<p> 
-			<button class="btn btn-primary btn-block" type="submit">Editer le produit</button>
-		</p>
-	</form>
-  </div>
-
-    <button class="btn btn-danger btn-block" onclick="removeProduct({{ data.id }})" style="width: 400px;">Supprimer le produit</button>
 
 
 
@@ -140,21 +115,35 @@
             }
         </style>
 
-           <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
-
-
          <script>
 
-          function removeProduct(id) {
+        function removeCategory(id) {
             $.ajax({
-                url: "/shop/products/remove",
+                url: "/shop/categories/remove",
                 type: 'POST',
                 data: {
                         'id': id,
                     },
                 success: function (data) {
                     if(data == 'OK') {
-                        location.href = "/shop";
+                        location.reload(true);
+                    } else {
+                        alert(data, 'error');
+                    }
+                }
+            });
+        }
+
+         function createCategory() {
+            $.ajax({
+                url: "/shop/categories/new",
+                type: 'POST',
+                data: {
+                        'label': $("#name").val(),
+                    },
+                success: function (data) {
+                    if(data == 'OK') {
+                        location.reload(true);
                     } else {
                         alert(data, 'error');
                     }
@@ -166,4 +155,7 @@
             $('textarea').trigger("change");
         </script>
     </body>
+
+        <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
+
 </html>

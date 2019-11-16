@@ -11,7 +11,7 @@
         <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
         <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
 
-        <title>Shop</title>
+        <title>Panier</title>
     </head>
 
     <body>
@@ -43,19 +43,13 @@
             {% endif %}
         </div>
 
+        
         <div class="row">
-
-        <div class="col-2"></div>
+        <div class="col-2" style="background-color:#111"></div>
 
         <div class="col-10">
 
         <div class="cards">
-
-        <br /><br /><br />
-        <h1>Top ventes<h1>
-        <div class="row justify-content-md-center" style="margin: 50px;">
-            
-        </div>
 
             {% for categorie in categories %}
 
@@ -66,27 +60,22 @@
 
                 {% for product in categorie.products %}
 
-                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                    <div class="col-3">
                         <div class="card">
-                            {# <img class="card-img-top" src="{{ product.picture }}" width="100%" height="200px" alt="Card image cap"> #}
-                            <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
+                            <img class="card-img-top" src="{{ product.picture }}" width="100%" height="200px" alt="Card image cap">
+                            <div class="card-body">
+                                <h4 class="card-title"><a>{{ product.label }}</a></h4>
+                                <p class="card-text">{{ product.description }}</p>
+                                
+                                <div class="md-form" style="font-size:18px">
+                                    <label for="qt">Quantité</label><br>
+                                    <input style="width:100%" id="qt" type="number" name="quantity" value="{{ data is defined ? data.price : '' }}">
+                                </div>
+
+                                <a href="#" class="btn btn-success" onclick="addToCart({{ product.id }})">Ajouter au panier</a>
                                 {% if user.id_Rank == 2 or user.id_Rank == 3 %}
                                 <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
                                 {% endif %}
-                                <div class="card-sub">
-                                    <h5 class="card-title price-text">{{ product.price|number_format(2) }} €</h5>
-                                    <h4 class="card-title"><a>{{ product.label }}</a></h4>
-                                    <p class="card-text">{{ product.description }}</p>
-                                    <div class="md-form" style="font-size:18px">
-                                        <label for="qt">Quantité</label><br>
-                                        <input style="width:100%" id="qt" type="number" name="quantity" value="1" min="1" max="1000">
-                                    </div>
-                                    {% if user == null %}
-                                    <a href="/login" class="btn btn-success btn-sm">Ajouter au panier</a>
-                                    {% else %}
-                                    <button href="#" class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">Ajouter au panier</button>
-                                    {% endif %}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,22 +92,7 @@
 
 
         </div>
-
-        <!-- LEFT PANEL -->
-         <div class="left-pan" style="background-color:#111; position:fixed; height: 100%; width: 350px; text-align: center; padding: 20px;">
-
-            {% if user != null %}
-            {% if user.id_Rank == 3 %}
-            <h2>Panel membre</h2>
-            <button class="btn btn-secondary" onclick="location.href='/shop/products/new'">Ajouter un produit</button>
-            <button class="btn btn-secondary" onclick="location.href='/shop/categories'">Gérer les catégories</button>
-            {% endif %}
-            {% endif %}
-
         </div>
-
-        </div>
-        
 
 
 
@@ -163,7 +137,7 @@
         }
         .card {
             margin-bottom: 50px;
-            width: 320px;
+            width: 100%;
             height: 500px;
         }
         .card-body {
@@ -171,45 +145,6 @@
         }
         .card-text {
             font-size: 18px;
-        }
-        .card-sub {
-            width: 100%;
-            height: 140px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 10px;
-        }
-        .card:hover {
-            filter: contrast(1.1);
-            transition: .1s;
-        }
-        .card-sub > .btn-sm {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-        }
-        .card-sub > .md-form {
-            width: 40%;
-            position: absolute;
-            bottom: -18px;
-        }
-        .card-sub > .price-text {
-            position: absolute;
-            right: 5px;
-            bottom: 28px;
-        }
-        .card-body > .btn-danger {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-        }
-
-        @media screen and (max-width: 992px) {
-            .left-pan {
-                display: none !important;
-            }
         }
     </style>
 
