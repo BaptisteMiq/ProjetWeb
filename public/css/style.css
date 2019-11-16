@@ -335,12 +335,12 @@ opacity: 0.5 !important;
 	margin-bottom: 0;
 }
 
-.form-control {
+/* .form-control {
 	background-color: #ffc252 !important;
     border: 0 !important;
     color: black !important;
     font-weight: bolder;
-}
+} */
 
 @keyframes gradientBG {
 	0% {

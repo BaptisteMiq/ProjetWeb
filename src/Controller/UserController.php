@@ -169,6 +169,19 @@ class UserController extends SiteController
             die('Not authorized');
         }
 
+        $dataUser = API::process($request, [
+            'id' => true,
+            'lastname' => true,
+            'firstname' => true,
+            'mail' => true,
+            'password' => true,
+            'id_Preferences' => true,
+            'id_Center' => true
+        ]);   
+
+        $dataUser['id'] = $user->getUser()->id;
+        $dataUser['id_Preferences'] = $user->getUser()->id_Preferences;
+
         $data = API::process($request, [    
             'theme' => true,
             'notification' => true,
@@ -215,20 +228,50 @@ class UserController extends SiteController
             }
     
             $res = API::call('POST', '/updatePreference', $dataId, $user->getToken());
+            // $res = API::call('POST', '/users/update', $dataUser, $user->getToken());
 
             if(isset($res->error)) {
-                return $this->rendering('profile.html.twig' , [ 'centers' => $centers->centers, 'preference' => $preference, 'data' => $data, 'error' => $res->error ]);
+                return $this->rendering('profile.html.twig' , [ 'centers' => $centers->centers, 'datauser' => $dataUser, 'preference' => $preference, 'data' => $data, 'error' => $res->error ]);
             }
 
-            return $this->rendering('profile.html.twig', [ 'centers' => $centers->centers, 'preference' => $preference, 'data' => $data ]);
+            return $this->rendering('profile.html.twig', [ 'centers' => $centers->centers, 'datauser' => $dataUser, 'preference' => $preference, 'data' => $data ]);
 
         } else {
 
-            return $this->rendering('profile.html.twig', [ 'centers' => $centers->centers, 'preference' => $preference, 'error' => $data['error'] ]);
+            return $this->rendering('profile.html.twig', [ 'centers' => $centers->centers, 'datauser' => $dataUser, 'preference' => $preference, 'error' => $data['error'] ]);
 
         }
 
         return $this->rendering('profile.html.twig');
+
+    }
+
+    public static function updateProfile(Request $request) {
+
+        $user = new User($request);
+
+        $data = API::process($request, [
+            'id' => true,
+            'lastname' => true,
+            'firstname' => true,
+            'mail' => true,
+            'password' => true,
+            'id_Preferences' => true,
+            'id_Center' => true
+        ]);
+
+        $res = API::call('POST', '/users/update', $data, $user->getToken());
+
+        if(empty($res)) {
+            return new Response('Ne peut pas modifier l\'utilisateur');
+            die();
+        }
+        if(isset($res->error)) {
+            return new Response('Ne peut pas modifier l\'utilisateur: ' . $res->error);
+            die();
+        }
+
+        return new Response('OK');
 
     }
 

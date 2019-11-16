@@ -12,11 +12,6 @@ profile_page:
    path: /profile
    controller: App\Controller\UserController::profilePage
 
-# profile.preference.html.twig
-profile_page:
-   path: /profile/preference
-   controller: App\Controller\UserController::profilePreferencePage
-
 # profile.html.twig
 user_profile_page:
    path: /profile
