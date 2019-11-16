@@ -83,3 +83,24 @@ function delComment(id) {
             }
     });
 }
+
+function addToCart(id) {
+    $.ajax({
+        url: "/shop/products/add",
+        type: 'POST',
+        data: {
+                'id_Product': id,
+                'quantity': $('#qt').val()
+            },
+        success: function (data) {
+            if(data == 'OK') {
+                alert("Produit ajouté au panier!", 'success');
+            } else {
+                alert(data, 'error');
+            }
+        }
+    });
+}
+
+$('#qt').val(1);
+$('input').trigger("change");
