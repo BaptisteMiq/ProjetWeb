@@ -588,16 +588,11 @@ class EventController extends SiteController
         if($id == null) {
             return false;
         }
+        $data = [];
         $data['id_Picture'] = $id;
         
         if(!isset($data['error'])) {
             $ret = API::call('GET', '/events/getLike', $data, $user->getToken());
-            if(empty($ret)) {
-                return false; 
-            }
-            if(isset($ret->error)) {
-                return false; 
-            }
             return $ret;
         }
         return new Response('Missing ' . $data['error']);
