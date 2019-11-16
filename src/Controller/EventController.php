@@ -593,7 +593,7 @@ class EventController extends SiteController
         
         if(!isset($data['error'])) {
             $ret = API::call('GET', '/events/getLike', $data, $user->getToken());
-            return $ret;
+            return $ret == "OK";
         }
         return new Response('Missing ' . $data['error']);
     }
