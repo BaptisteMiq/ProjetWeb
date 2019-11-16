@@ -73,13 +73,13 @@ function sendComment(id_Picture) {
 function delComment(id) {
 
     $.ajax({
-        url: "{{ path('event_delComment') }}",
+        url: "/events/action/delcomment",
         type: 'POST',
         data: {
-                'id': 0
+                'id': id
             },
             success: function (data) {
-                console.log(data);
-             }
+                location.reload(true);    
+            }
     });
 }

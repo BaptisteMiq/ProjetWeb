@@ -281,46 +281,26 @@ class EventController extends SiteController
 
     }
 
-    public static function delComment(Request $request) {
+    public function delComment(Request $request) {
 
-        /*
-
-        $.ajax({
-            url: "{{ path('event_delComment') }}",
-            type: 'POST',
-            data: {
-                    'id': 0
-                },
-            success: function (data) {
-                console.log("Commentaire supprimé avec succès");
-            },
-            error : function(jqXHR, textStatus, errorThrown){
-                console.log("Impossible de supprimer le commentaire");
-            }
-        });
-
-        */
+        $user = new User($request);
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         $data = API::process($request, [    
             'id' => true,
         ]);
 
-        $comment = API::call('POST', '/events/getComment', $data, $user->getToken());
+        $comment = API::call('GET', '/events/getComment', $data, $user->getToken());
 
         if(empty($comment)) {
-            return new Response('Commentaire non trouvé');
+            return new Response('Impossible de trouver le commentaire');
             die();
         }
-        if($comment->error) {
-            return new Response('Commentaire non trouvé: ' . $comment->error);
+        if(isset($comment->error)) {
+            return new Response('Impossible de trouver le commentaire: ' . $comment->error);
             die();
-        }
-
-        $user = new User($request);
-
-        // Logged, member or staff or its own comment only
-        if(!$user->isLogged() || !($user->hasRank('STAFF') || $user->hasRank('MEMBER') || $user->getUser()->id == $comment->id_User)) {
-            die('Not authorized');
         }
 
         $res = API::call('POST', '/events/delComment', $data, $user->getToken());
@@ -329,7 +309,7 @@ class EventController extends SiteController
             return new Response('Ne peut pas supprimer le commentaire pour une raison inconnue');
             die();
         }
-        if($res->error) {
+        if(isset($res->error)) {
             return new Response('Ne peut pas supprimer le commentaire: ' . $res->error);
             die();
         }

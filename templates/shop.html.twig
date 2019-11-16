@@ -57,10 +57,11 @@
             {% for product in mostPop %}
                     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                         <div class="card">
-                            {# <img class="card-img-top" src="{{ product.picture }}" width="100%" height="200px" alt="Card image cap"> #}
                             <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
+                                {% if user != null %}
                                 {% if user.id_Rank == 2 or user.id_Rank == 3 %}
                                 <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
+                                {% endif %}
                                 {% endif %}
                                 <div class="card-sub">
                                     <h5 class="card-title price-text">{{ product.price|number_format(2) }} €</h5>
@@ -95,8 +96,10 @@
                         <div class="card">
                             {# <img class="card-img-top" src="{{ product.picture }}" width="100%" height="200px" alt="Card image cap"> #}
                             <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
+                                {% if user != null %}
                                 {% if user.id_Rank == 2 or user.id_Rank == 3 %}
                                 <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
+                                {% endif %}
                                 {% endif %}
                                 <div class="card-sub">
                                     <h5 class="card-title price-text">{{ product.price|number_format(2) }} €</h5>
