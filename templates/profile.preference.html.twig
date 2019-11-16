@@ -20,7 +20,7 @@
             <button class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
             <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
         {% else %}
-            <div class="compte" style="left: 20"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
+            <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
         {% endif %}
 
         <ul class="nav">
@@ -34,8 +34,6 @@
     <!-- Deuxième Header -->
     <div class="nav-bar">
         {% if user != null %}
-        <a href="/"><img src="images/down-arrow.png" class="previous_arrow"></img></a>
-        <button class="btn btn-primary" style="padding: inherit; margin: 4px; width: 106px;float: inherit; left: 67" onclick="location.href='./users/logout'">Déconnexion</button>
         <ul class="nav" style="padding: 0;">
             <li><a href="#">Souscriptions</a></li>
             <li><a href="#">Configuration</a></li>
@@ -48,7 +46,7 @@
     <!--Container-->
     <div class="row">
         <div class="col box" style="width: 777px;height: auto; margin: 5% auto;margin-left: 10%;margin-right: 5%">
-        <form method="POST"action="/profile">
+        <form action="/profile/preference">
             <h1>Profil</h1>
             <div class="row">
                 <div class="md-form mt-3 col">
@@ -64,12 +62,12 @@
             <div class="row">
                 <div class="md-form mt-3 col">
                     <label class="col" for="mail">Mail</label><br>
-                    <input id="mail" class="form-control" name="mail" required="required" type="text" value="{{user.mail}}"/><br><br>
+                    <input id="mail" class="form-control" name="mail" required="required" type="text" value="{{user.lastname}}"/><br><br>
                 </div>
 
                 <div class="md-form mt-3 col">
                     <label class="col" for="mail">Modifier le mot de passe</label><br>
-                    <input id="password" class="form-control" name="password" required="required" type="text" value=""/><br><br>
+                    <input id="password" class="form-control" name="password" type="text" value=""/><br><br>
                 </div>
                 </div>
                 
@@ -87,7 +85,7 @@
         </div>
 
         <div class="box col" style="width: 777px;height: auto; margin: 5% auto;margin-left: 5%;margin-right: 10%">
-            <form method='POST' action="/profile/preference">
+            <form action="/profile">
 
                 <h1>Préférence</h1>
 

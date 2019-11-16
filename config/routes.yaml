@@ -17,11 +17,6 @@ profile_pref_page:
    path: /profile/preference
    controller: App\Controller\UserController::profilePreferencePage
 
-# profile.html.twig
-user_profile_page:
-   path: /profile
-   controller: App\Controller\EventController::profile
-
 # shop.html.twig
 shop_page:
    path: /shop

@@ -99,28 +99,28 @@ class UserController extends SiteController
             'password' => true,
             'id_Center' => true,
         ]);
-        
+
         if(!isset($data['error'])) {
             
             // Check if valid data
             $cmail = $this->checkMail($data['mail']);
             if($cmail) {
-                return $this->rendering('register.html.twig', [ 'centers' => $centers, 'error' => $cmail, 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'centers' => $centers->centers, 'error' => $cmail, 'data' => $data ]);
             };
             $cpass = $this->checkPassword($data['password']);
             if($cpass) {
-                return $this->rendering('register.html.twig', [ 'centers' => $centers, 'error' => $cpass, 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'centers' => $centers->centers, 'error' => $cpass, 'data' => $data ]);
             }
 
             // Connect to the API
             $result = API::call('POST', '/users/register', $data);
 
             if(!$result) {
-                return $this->rendering('register.html.twig', [ 'centers' => $centers, 'error' => 'Impossible de se créer un compte pour le moment.', 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'centers' => $centers->centers, 'error' => 'Impossible de se créer un compte pour le moment.', 'data' => $data ]);
             }
 
             if(isset($result->error)) {
-                return $this->rendering('register.html.twig', [ 'centers' => $centers, 'error' => $result->error, 'data' => $data ]);
+                return $this->rendering('register.html.twig', [ 'centers' => $centers->centers, 'error' => $result->error, 'data' => $data ]);
             }
 
             // Login user
@@ -146,7 +146,7 @@ class UserController extends SiteController
         }
 
         return $this->rendering('register.html.twig', [
-            "centers" => $centers
+            "centers" => $centers->centers
         ]);
 
     }
@@ -161,6 +161,75 @@ class UserController extends SiteController
     }
 
     public function profilePage(Request $request)
+    {
+        $centers = API::call('GET', '/centers');
+
+        $user = new User($request);
+        if(!$user->isLogged()) {
+            die('Not authorized');
+        }
+
+        $dataUser = API::process($request, [
+            'lastname' => true,
+            'firstname' => true,
+            'mail' => true,
+            'password' => true,
+            'id_Center' => true
+        ]);   
+
+        $dataUser['id'] = $user->getUser()->id;
+        $dataUser['id_Preferences'] = $user->getUser()->id_Preferences;
+
+        if($user->getUser()->id_Preferences == 1) {
+            $preference = [    
+                'theme' => 1,
+                'notification' => false,
+            ];
+        } else if($user->getUser()->id_Preferences == 2) {
+            $preference = [    
+                'theme' => 1,
+                'notification' => true,
+            ];
+        } else if($user->getUser()->id_Preferences == 3) {
+            $preference = [    
+                'theme' => 2,
+                'notification' => false,
+            ];
+        } else if($user->getUser()->id_Preferences == 4) {
+            $preference = [    
+                'theme' => 2,
+                'notification' => true,
+            ];
+        } 
+
+        if(!isset($dataUser['error'])) {
+
+            $user->getUser()->lastname = $dataUser['lastname'];
+            $user->getUser()->firstname = $dataUser['firstname'];
+            $user->getUser()->mail = $dataUser['mail'];
+            $user->getUser()->password = "";
+            $user->getUser()->id_Center = $dataUser['id_Center'];
+            $user->getUser()->id_Preferences = $dataUser['id_Preferences'];
+    
+            $res = API::call('POST', '/users/update', $dataUser, $user->getToken());
+
+            if(isset($res->error)) {
+                return $this->rendering('profile.html.twig' , [ 'centers' => $centers->centers, 'datauser' => $dataUser, 'preference' => $preference, 'error' => $res->error ]);
+            }
+
+            return $this->rendering('profile.html.twig', [ 'centers' => $centers->centers, 'datauser' => $dataUser, 'preference' => $preference]);
+
+        } else {
+
+            return $this->rendering('profile.html.twig', [ 'centers' => $centers->centers, 'preference' => $preference, 'error' => $dataUser['error'] ]);
+
+        }
+
+        return $this->rendering('profile.html.twig');
+
+    }
+
+    public function profilePreferencePage(Request $request)
     {
         $centers = API::call('GET', '/centers');
 
@@ -231,47 +300,18 @@ class UserController extends SiteController
             // $res = API::call('POST', '/users/update', $dataUser, $user->getToken());
 
             if(isset($res->error)) {
-                return $this->rendering('profile.html.twig' , [ 'centers' => $centers->centers, 'datauser' => $dataUser, 'preference' => $preference, 'data' => $data, 'error' => $res->error ]);
+                return $this->redirect('/profile');
             }
 
-            return $this->rendering('profile.html.twig', [ 'centers' => $centers->centers, 'datauser' => $dataUser, 'preference' => $preference, 'data' => $data ]);
+            return $this->redirect('/profile');
 
         } else {
 
-            return $this->rendering('profile.html.twig', [ 'centers' => $centers->centers, 'datauser' => $dataUser, 'preference' => $preference, 'error' => $data['error'] ]);
+            return $this->redirect('/profile');
 
         }
 
-        return $this->rendering('profile.html.twig');
-
-    }
-
-    public static function updateProfile(Request $request) {
-
-        $user = new User($request);
-
-        $data = API::process($request, [
-            'id' => true,
-            'lastname' => true,
-            'firstname' => true,
-            'mail' => true,
-            'password' => true,
-            'id_Preferences' => true,
-            'id_Center' => true
-        ]);
-
-        $res = API::call('POST', '/users/update', $data, $user->getToken());
-
-        if(empty($res)) {
-            return new Response('Ne peut pas modifier l\'utilisateur');
-            die();
-        }
-        if(isset($res->error)) {
-            return new Response('Ne peut pas modifier l\'utilisateur: ' . $res->error);
-            die();
-        }
-
-        return new Response('OK');
+        return $this->redirect('/profile');
 
     }
 
