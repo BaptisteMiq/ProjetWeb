@@ -55,8 +55,11 @@
 			</div></p>
 
 			<p><div class="md-form mt-3">
-					<label for="center">Localisation</label>
-					<input id="center" class="form-control" name="id_Center" required="required" type="text"  value="{{ data is defined ? data.id_Center : '' }}" /> 
+					<select class="browser-default custom-select" style="width: auto" name="id_Center">
+                        {% for center in centers %}
+                        <option value="{{ center.id }}">{{ center.label }}</option>
+                        {% endfor %}
+                    </select><br><br><br>
 			</div></p>
 		</div>
 		<p> 
