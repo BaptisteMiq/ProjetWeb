@@ -47,7 +47,7 @@ function alert(content, type = 'null', time = 100) {
   alerts[aI].style.opacity = "0.9";
   alerts[aI].style.borderRadius = "4px";
   alerts[aI].style.padding = "7px 4px 4px 4px";
-  alerts[aI].style.fontSize = "16px";
+  alerts[aI].style.fontSize = "14px";
   //alerts[aI].style.fontWeight = "900";
   alerts[aI].style.color = "#EEE";
   alerts[aI].style.overflow = "hidden";

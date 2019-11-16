@@ -25,7 +25,17 @@ class ShopController extends SiteController
 
     }
 
-    public function addProduct(Request $request) {
+    public function categoriesPage(Request $request) {
+
+        $categories = API::call('GET', '/shop/getCategories');
+
+        return $this->rendering('shop.categories.html.twig', [
+            'categories' => $categories->Categories,
+        ]);
+
+    }
+
+    public function newCategory(Request $request) {
 
         $user = new User($request);
         // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
@@ -33,18 +43,43 @@ class ShopController extends SiteController
         // }
 
         $data = API::process($request, [
-            'name' => true,
-            'description' => true,
-            'price' => true,
-            'category' => true,
+            'label' => true,
         ]);
 
-        API::call('POST', '/shop/items/add', $data);
+        if(!isset($data['error'])) {
+            $res = API::call('POST', '/shop/createCategory', $data, $user->getToken());
+            if(isset($res->error)) {
+                return new Response($res->error);
+            }
+            return new Response('OK');
+        } else {
+            return new Response($data['error']); 
+        }
+        return new Response('OK');
+    }
 
-        return new Response(
-            'OK'
-        );
+    public function removeCategory(Request $request) {
 
+        $user = new User($request);
+        // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
+        //     die('Not authorized');
+        // }
+
+        $data = API::process($request, [
+            'id' => true,
+        ]);
+
+        if(!isset($data['error'])) {
+
+            $res = API::call('POST', '/shop/deleteCategory', $data, $user->getToken());
+            if(isset($res->error)) {
+                return new Response($res->error);
+            }
+            return new Response('OK');
+        } else {
+            return new Response($data['error']); 
+        }
+        return new Response('OK');
     }
 
     public function editProductPage(Request $request, $id=null) {
@@ -167,7 +202,7 @@ class ShopController extends SiteController
         
     }
 
-    public function removeItem(Request $request) {
+    public static function removeProduct(Request $request) {
 
         $user = new User($request);
         // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
@@ -175,14 +210,27 @@ class ShopController extends SiteController
         // }
 
         $data = API::process($request, [
-            'pid' => true,
+            'id' => true,
         ]);
 
-        API::call('POST', '/shop/items/remove', $data);
+        $res = API::call('POST', '/shop/deleteProduct', $data, $user->getToken());
 
-        return new Response(
-            'OK'
-        );
+        if(empty($res)) {
+            return new Response('Ne peut pas supprimer le produit');
+            die();
+        }
+        if(isset($res->error)) {
+            return new Response('Ne peut pas supprimer le produit: ' . $res->error);
+            die();
+        }
+
+        return new Response('OK');
+
+    }
+
+    public function cartPage(Request $request) {
+
+        return $this->rendering('shop_cart.html.twig');
 
     }
 
@@ -256,6 +304,12 @@ class ShopController extends SiteController
         );
 
     }
+
+    // public static function getMostPopularProducts() {
+
+    //     $categories = API::call('GET', '/shop/getCategories');
+
+    // }
 
     public function buy(Request $request) {
 

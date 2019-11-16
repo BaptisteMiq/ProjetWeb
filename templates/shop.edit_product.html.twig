@@ -11,7 +11,7 @@
    <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
    <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
 
-	 <title>BDE Toulouse | Créer un produit</title>
+	 <title>Editer un produit</title>
  </head>
 
     <body>
@@ -67,7 +67,7 @@
 
         	<p><div class="md-form mt-3">
 			    <label for="price">Prix</label>
-				<input id="price" class="form-control" name="price" required="required" type="number" value="{{ data is defined ? data.price : '' }}" /> 
+				<input id="price" class="form-control" name="price" required="required" type="number" step=".01" value="{{ data is defined ? data.price : '' }}" /> 
 			</div></p>
 
 			<p><div class="md-form mt-3">
@@ -96,6 +96,7 @@
 	</form>
   </div>
 
+    <button class="btn btn-danger btn-block" onclick="removeProduct({{ data.id }})" style="width: 400px;">Supprimer le produit</button>
 
 
 
@@ -139,7 +140,28 @@
             }
         </style>
 
+           <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
+
+
          <script>
+
+          function removeProduct(id) {
+            $.ajax({
+                url: "/shop/products/remove",
+                type: 'POST',
+                data: {
+                        'id': id,
+                    },
+                success: function (data) {
+                    if(data == 'OK') {
+                        location.href = "/shop";
+                    } else {
+                        alert(data, 'error');
+                    }
+                }
+            });
+        }
+
             $('input').trigger("change");
             $('textarea').trigger("change");
         </script>

@@ -27,6 +27,27 @@ shop_page:
    path: /shop
    controller: App\Controller\ShopController::index
 
+# shop_cart.html.twig
+shop_cart_page:
+   path: /shop/cart
+   controller: App\Controller\ShopController::cartPage
+
+shop_remove_product:
+   path: /shop/products/remove
+   controller: App\Controller\ShopController::removeProduct
+
+shop_categories_page:
+   path: /shop/categories
+   controller: App\Controller\ShopController::categoriesPage
+
+shop_new_category:
+   path: /shop/categories/new
+   controller: App\Controller\ShopController::newCategory
+
+shop_remove_category:
+   path: /shop/categories/remove
+   controller: App\Controller\ShopController::removeCategory
+
 # shop.new_product.html.twig
 shop_new_product_page:
    path: /shop/products/new
