@@ -58,7 +58,7 @@ shop_add_product_cart:
    controller: App\Controller\ShopController::addToCart
 
 shop_remove_product_cart:
-   path: /shop/products/remove
+   path: /shop/products/removecart
    controller: App\Controller\ShopController::removeFromCart
 
 # shop.edit_product.html.twig
@@ -151,6 +151,10 @@ event_subscribeCount:
 event_getSubscribe:
   path: /events/action/getSubscribe/{id}
   controller: App\Controller\EventController::getSubscribeCSV
+
+shop_buy_cart:
+  path: /events/cart/buy
+  controller: App\Controller\ShopController::buyCart
 
 user_admin_page:
   path: /admin

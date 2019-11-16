@@ -65,31 +65,36 @@
             <div class="com_space">
                 <div style="padding: 100px">
 
-
-                    {% else %}
+                    {% if event.pictures is defined %}
                         {% for picture in event.pictures %}
-                            <div>
-                                <div class="activity_picture" style="background: #eceef0 url({{ picture.link }}) no-repeat 0% 50% / cover; height: 550px;"></div>
-                                <div class="comm-content">
-                                {% for comment in picture.comments %}
-                                    <div class="comm-body">
-                                    {{ comment.content }}
-                                    {% if user.id == comment.id_User %}
-                                    <a href="#" onclick="delComment({{ comment.id }})"><img src="/images/cross.png" style="width: 20px;float: right;"></img></a>
-                                    {% endif %}
-                                    </div>
-                                {% endfor %}
-                                    <div class="comm-input">
-                                        <div class="md-form">
-                                            <label for="comment">Entrer un commentaire</label>
-                                            <button class="btn btn-secondary" style="display: block;float: right;margin-bottom: 10px;margin-right: 0;" onclick="sendComment({{ picture.id }})">Publier</button>
-                                            <textarea id="comment{{ picture.id }}" class="form-control md-textarea" name="comment" type="text" style="background-color: #ffc252 !important;border: 0 !important;color: #414141 !important;font-weight: bolder;"></textarea>
+                                <div>
+                                    <div class="activity_picture" style="background: #eceef0 url({{ picture.link }}) no-repeat 0% 50% / cover; height: 550px;"></div>
+                                    <div class="comm-content">
+                                    {% for comment in picture.comments %}
+                                        <div class="comm-body">
+                                        {{ comment.content }}
+                                        {% if user.id == comment.id_User %}
+                                        <a href="#" onclick="delComment({{ comment.id }})"><img src="/images/cross.png" style="width: 20px;float: right;"></img></a>
+                                        {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                        <div class="comm-input">
+                                            <div class="md-form">
+                                                <label for="comment">Entrer un commentaire</label>
+                                                <button class="btn btn-secondary" style="display: block;float: right;margin-bottom: 10px;margin-right: 0;" onclick="sendComment({{ picture.id }})">Publier</button>
+                                                <textarea id="comment{{ picture.id }}" class="form-control md-textarea" name="comment" type="text" style="background-color: #ffc252 !important;border: 0 !important;color: #414141 !important;font-weight: bolder;"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         {% endfor %}
-                  
+                    {% else %}
+                        <div>
+                            <div class="comm-content">
+                                <button type="button" class="btn btn-primary" style="width: -webkit-fill-available;font-variant: all-petite-caps;font-weight: bold;" data-toggle="modal" data-target="#exampleModalCenter">Ajouter une photo</button>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
                 <!-- Modal -->

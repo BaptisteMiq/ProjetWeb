@@ -69,7 +69,7 @@
                                     <p class="card-text">{{ product.description }}</p>
                                     <div class="md-form" style="font-size:18px">
                                         <label for="qt">Quantité</label><br>
-                                        <input style="width:100%" id="qt" type="number" name="quantity" value="1" min="1" max="1000">
+                                        <input style="width:100%" id="qt-{{ product.id }}" type="number" name="quantity" value="1" min="1" max="1000">
                                     </div>
                                     {% if user == null %}
                                     <a href="/login" class="btn btn-success btn-sm">Ajouter au panier</a>
@@ -107,7 +107,7 @@
                                     <p class="card-text">{{ product.description }}</p>
                                     <div class="md-form" style="font-size:18px">
                                         <label for="qt">Quantité</label><br>
-                                        <input style="width:100%" id="qt" type="number" name="quantity" value="1" min="1" max="1000">
+                                        <input style="width:100%" id="qt-{{ product.id }}" type="number" name="quantity" value="1" min="1" max="1000">
                                     </div>
                                     {% if user == null %}
                                     <a href="/login" class="btn btn-success btn-sm">Ajouter au panier</a>
@@ -138,9 +138,11 @@
             {% if user != null %}
             {% if user.id_Rank == 3 %}
             <h2>Panel membre</h2>
-            <button class="btn btn-secondary" onclick="location.href='/shop/products/new'">Ajouter un produit</button>
-            <button class="btn btn-secondary" onclick="location.href='/shop/categories'">Gérer les catégories</button>
+                <button class="btn btn-secondary" onclick="location.href='/shop/products/new'">Ajouter un produit</button>
+                <button class="btn btn-secondary" onclick="location.href='/shop/categories'">Gérer les catégories</button>
             {% endif %}
+            <h2>Panel utilisateur</h2>
+                <button class="btn btn-secondary" onclick="location.href='/shop/cart'">Panier</button>
             {% endif %}
 
         </div>
@@ -249,11 +251,12 @@
                 type: 'POST',
                 data: {
                         'id_Product': id,
-                        'quantity': $('#qt').val()
+                        'quantity': $('#qt-' + id).val()
                     },
                 success: function (data) {
                     if(data == 'OK') {
                         alert("Produit ajouté au panier!", 'success');
+                        location.href = '/shop/cart';
                     } else {
                         alert(data, 'error');
                     }
