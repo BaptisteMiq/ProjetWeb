@@ -76,6 +76,10 @@ user_login_page:
    path: /login
    controller: App\Controller\UserController::loginPage
 
+user_accept_cookies:
+   path: /cookies
+   controller: App\Controller\UserController::acceptCookies
+
 user_logout:
   path: /users/logout
   controller: App\Controller\UserController::logout

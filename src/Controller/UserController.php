@@ -154,8 +154,21 @@ class UserController extends SiteController
     public function logout(Request $request) {
 
         $session = $request->getSession();
+        $session->set('cookies', true);
+        var_dump($session);
+        exit;
         $session->remove('user');
 
+        return $this->redirect($this->generateUrl('index_page'));
+    
+    }
+
+    public function acceptCookies(Request $request) {
+
+        $session = $request->getSession();
+        $session->set('cookies', true);
+        var_dump($session);
+        exit;
         return $this->redirect($this->generateUrl('index_page'));
     
     }

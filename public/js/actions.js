@@ -16,9 +16,9 @@ function subscribe(id) {
     });
 }
 
-function acceptCookie() {
+function acceptCookies() {
     $.ajax({
-        url: "/events/action/subscribe",
+        url: "/cookies",
         type: 'POST',
         data: {},
         success: function (data) {
