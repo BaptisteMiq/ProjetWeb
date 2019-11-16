@@ -155,6 +155,11 @@ class EventController extends SiteController
         }
 
         $events->sub = false;
+
+        foreach ($events->pictures as $k => $v) {
+            $v->like = EventController::getLike($request, $v->id);
+        }
+
         $sub = EventController::getSubscribe($events->activity->id);
         $events->count = EventController::subscribeCount($events->activity->id);
         if(count($sub) > 0 && $user != null) {
@@ -169,25 +174,65 @@ class EventController extends SiteController
 
     }
 
-    public function sendLike(Request $request) {
+    public function likePicture(Request $request) {
+
+        $session = $request->getSession();
 
         $user = new User($request);
-        if(!$user->isLogged() || !($user->hasRank('STUDENT') || $user->hasRank('MEMBER') || $user->hasRank('STAFF'))) {
+
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
             die('Not authorized');
         }
 
-        $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
-
-        $data = API::process($request, [    
-            'eid' => true,
+        $data = API::process($request, [
+            'id_Picture' => true,
         ]);
-        $data['uid'] = $user->getUser()->id;
+        
+        if(!isset($data['error'])) {
+            $ret = API::call('POST', '/events/like', $data, $user->getToken());
 
-        API::call('POST', '/events/like/add', $data);
+            if(empty($ret)) {
+                return new Response('Impossible de like'); 
+            }
+            if(isset($ret->error)) {
+                return new Response('Impossible de like: ' . $ret->error); 
+            }
 
-        return new Response(
-            'OK'
-        );
+            return new Response('OK');
+        }
+
+        return new Response('Missing ' . $data['error']);
+
+    }
+
+    public function unlikePicture(Request $request) {
+
+        $session = $request->getSession();
+
+        $user = new User($request);
+
+        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
+
+        $data = API::process($request, [
+            'id_Picture' => true,
+        ]);
+
+        if(!isset($data['error'])) {
+            $ret = API::call('POST', '/events/unlike', $data, $user->getToken());
+
+            if(empty($ret)) {
+                return new Response('Impossible de unlike'); 
+            }
+            if(isset($ret->error)) {
+                return new Response('Impossible de unlike: ' . $ret->error); 
+            }
+
+            return new Response('OK');
+        }
+
+        return new Response('Missing ' . $data['error']);
 
     }
 
@@ -532,6 +577,28 @@ class EventController extends SiteController
             }
             $reg = $ret->register;
             return $reg;
+        }
+        return new Response('Missing ' . $data['error']);
+    }
+
+    public static function getLike($req, $id=null) {
+
+        $user = new User($req);
+
+        if($id == null) {
+            return false;
+        }
+        $data['id_Picture'] = $id;
+        
+        if(!isset($data['error'])) {
+            $ret = API::call('GET', '/events/getLike', $data, $user->getToken());
+            if(empty($ret)) {
+                return false; 
+            }
+            if(isset($ret->error)) {
+                return false; 
+            }
+            return $ret;
         }
         return new Response('Missing ' . $data['error']);
     }

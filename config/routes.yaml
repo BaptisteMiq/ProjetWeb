@@ -124,6 +124,14 @@ event_addPicture:
   path: /events/action/addPicture
   controller: App\Controller\EventController::addPicture
 
+event_picture_like:
+  path: /events/action/like
+  controller: App\Controller\EventController::likePicture
+
+event_picture_unlike:
+  path: /events/action/unlike
+  controller: App\Controller\EventController::unlikePicture
+
 event_sendComment:
   path: /events/action/sendcomment
   controller: App\Controller\EventController::sendComment
