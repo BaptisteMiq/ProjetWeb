@@ -237,14 +237,14 @@ class ShopController extends SiteController
         $cart = API::call('GET', '/shop/getCart', [], $user->getToken());
 
         if(empty($cart)) {
-            return $this->rendering('shop_cart.html.twig', [
-                'products' => [],
-            ]);
+            return $this->redirect('/shop');
         }
         if(!isset($cart->cart)) {
-            return $this->rendering('shop_cart.html.twig', [
-                'products' => [],
-            ]);
+            return $this->redirect('/shop');
+        }
+
+        if(count($cart->cart) < 1) {
+            return $this->redirect('/shop');
         }
 
         return $this->rendering('shop_cart.html.twig', [
@@ -326,9 +326,8 @@ class ShopController extends SiteController
         $data = API::process($request, [
             'id_Product' => true,
         ]);
-        $data['id_Cart'] = $cartId;
 
-        $res = API::call('POST', '/shop/removeProductFromCart', $data, $user->getToken());
+        $res = API::call('POST', '/shop/delProductToCart', $data, $user->getToken());
 
         if(empty($res)) {
             return new Response('Ne peut pas enlever le produit pour une raison inconnue');
@@ -396,47 +395,66 @@ class ShopController extends SiteController
         return $minIndex;
     }
 
-    public function buy(Request $request) {
+    public static function buyCart(Request $request) {
 
         $user = new User($request);
         // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
         //     die('Not authorized');
         // }
 
-        $data = API::process($request, [
-            'cid' => true,
-        ]);
-        $data['user'] = $user->getUser()->id;
+        $cart = API::call('GET', '/shop/getCart', [], $user->getToken());
 
-        $items = API::call('POST', '/shop/cart/getItems', $data);
-
-        $totPrice = 0;
-        foreach ($items as $item) {
-            $totPrice += $item->quantity * $item->price;
+        if(empty($cart)) {
+            return new Response('Impossible de trouver le panier');
         }
+        if(isset($cart->error)) {
+            return new Response('Impossible de trouver le panier: ' . $cart->error);
+        }
+
+        $del = API::call('POST', '/shop/deleteCart', [], $user->getToken());
+
+        if(empty($del)) {
+            return new Response('Achat impossible');
+        }
+        if(isset($del->error)) {
+            return new Response('Achat impossible: ' . $del->error);
+        }
+
+        $cart = $cart->cart;
+
+        foreach ($cart as $item) {
+            $data = [];
+            $data['nb_sales'] = $item->quantity;
+            $data['id'] = $item->product->id;
+            $res = API::call('POST', '/shop/updateNbSalesProduct', $data, $user->getToken());
+        }
+
+        // $members = [];
+        // foreach ($member as $key => $value) {
+        //     # code...
+        // }
+        // $this->sendMail($dest, $subject, $content)
 
         // Take all the money from the user
         // ...
 
-        $receipt = "";
-        $receipt .= "RECEIPT:<br />-----------";
-        $receipt .= "TO " . $user->getUser()->lastname . ' ' . $user->getUser()->firstname . '<br /><br />';
-        foreach ($items as $item) {
-            $receipt .= $item->name . ' x ' . $item->quantity . ' : ' . $item->price . '€ TTC<br />';
-            $receipt .= $item->description . '<br /><br />';
-        }
-        $receipt .= 'TOT: ' . $totPrice . '€<br />';
-        $buyTime = date("l jS \of F Y h:i:s A");
-        $receipt .= '<br />Bought: ' . $buyTime; 
-
-        API::call('POST', '/shop/cart/remove', $data);
+        // $receipt = "";
+        // $receipt .= "RECEIPT:<br />-----------";
+        // $receipt .= "TO " . $user->getUser()->lastname . ' ' . $user->getUser()->firstname . '<br /><br />';
+        // foreach ($cart as $item) {
+        //     $receipt .= $item->product->label . ' x ' . $item->quantity . ' : ' . $item->product->price . '€ TTC<br />';
+        //     $receipt .= $item->product->description . '<br /><br />';
+        // }
+        // $receipt .= 'TOT: ' . $totPrice . '€<br />';
+        // $buyTime = date("l jS \of F Y h:i:s A");
+        // $receipt .= '<br />Bought: ' . $buyTime; 
 
         // Send mail to members
         // ...
 
-        return new Response(
-            $receipt
-        );
+        // return $receipt;
+
+        return new Response('OK');
 
     }
 

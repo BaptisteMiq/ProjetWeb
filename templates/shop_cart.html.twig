@@ -35,7 +35,7 @@
         <!-- Deuxième Header -->
         <div class="nav-bar">
             {% if user != null %}
-            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="./users/logout">Déconnexion</a></button>
+            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="/users/logout">Déconnexion</a></button>
             <ul class="nav" style="padding: 0;">
                 <li><a href="#">Souscriptions</a></li>
                 <li><a href="#">Configuration</a></li>
@@ -83,11 +83,15 @@
         </div>
 
         <!-- LEFT PANEL -->
-         <div class="left-pan" style="background-color:#111; position:fixed; right:0; height: 100%; width: 350px; text-align: center; padding: 20px;">
+         <div class="left-pan" style="overflow-y: scroll; background-color:#111; position:fixed; right:0; height: 100%; width: 350px; text-align: center; padding: 20px;">
 
             <h2>Passer commande</h2>
-            <h4>Prix total: {{ priceTot }} €</h4>
-            <h4>TTC: {{ priceTot * 1.2 }} €</h4>
+            <h4>Sous-total: {{ priceTot|number_format(2) }} €</h4>
+            <h4>TTC: {{ (priceTot * 1.2)|number_format(2) }} €</h4>
+            
+            <p style="color:white;">Vos données personnelles seront utilisées pour le traitement de votre commande, vous accompagner au cours de votre visite du site web, et pour d’autres raisons décrites dans notre <a style="color:blue;" href="#">politique de confidentialité</a>.</p>
+
+            <a href="#"><div id="paypal-button-container"></div></a>
             <button id="buy" class="btn btn-success" onclick="buyCart()">Acheter</button>
 
         </div>
@@ -199,7 +203,7 @@
     <script>
         function removeFromCart(id) {
             $.ajax({
-                url: "/shop/products/remove",
+                url: "/shop/products/removecart",
                 type: 'POST',
                 data: {
                         'id_Product': id,
@@ -207,6 +211,7 @@
                 success: function (data) {
                     if(data == 'OK') {
                         alert("Produit supprimé du panier!", 'success');
+                        location.reload(true);
                     } else {
                         alert(data, 'error');
                     }
@@ -218,11 +223,33 @@
 
             $('#buy').attr("disabled", true);
 
+            $.ajax({
+                url: "/events/cart/buy",
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    if(data == 'OK') {
+                        alert("Achat réussi!", 'success');
+                        location.reload(true);
+                    } else {
+                        alert(data, 'error');
+                        $('#buy').attr("disabled", false);
+                    }
+                }
+            });
+
         }
 
         $('#qt').val(1);
         $('input').trigger("change");
     </script>
+
+      <script src="https://www.paypal.com/sdk/js?client-id=AVgXX5EMt4zaPbhz0qT3cuKkaAUeAwSicYXe2VzON39IOoamgtw6Sg5F9wUbOP-3Rn7jVnoOHd4NxpGr"></script>
+
+  <script>
+    paypal.Buttons().render('#paypal-button-container');
+    // This function displays Smart Payment Buttons on your web page.
+  </script>
 
     <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
 
