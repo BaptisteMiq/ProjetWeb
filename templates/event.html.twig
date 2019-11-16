@@ -1,5 +1,3 @@
-{{ dump(event) }}
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,21 +14,7 @@
 
     <body style="background-color: #101010">
         <!-- Header -->
-        <header>
-            {% if user == null %}
-                <button class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
-                <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
-            {% else %}
-                <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
-            {% endif %}
-
-            <ul class="nav">
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/events">Evenements</a></li>
-                <li><a href="#">Boutique</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </header>
+        {% include "header.html" %}
 
         <!-- Deuxième Header -->
         <div class="nav-bar">
@@ -39,6 +23,8 @@
             <ul class="nav" style="padding: 0;">
                 {% if user.id_Rank == 3 %}
                 <li><a href="/events/edit/{{ event.activity.id}}">Modifier l'événement</a></li>
+                {% elseif user.id_Rank == 4 %}
+                <li><a href="#">Télécharger les photos</a></li>
                 {% endif %}
                 <li><a href="#">Souscriptions</a></li>
                 <li><a href="#">Configuration</a></li>
@@ -83,13 +69,18 @@
                         <div class="activity_picture" style="background: #eceef0 url({{ picture.link }}) no-repeat 0% 50% / cover; height: 550px;"></div>
                             <div class="comm-content">
                             {% for comment in picture.comments %}
-                                <div class="comm-body">{{ comment.content }}</div>
+                                <div class="comm-body">
+                                {{ comment.content }}
+                                {% if user.id == comment.id_User %}
+                                <a href="" onclick="delComment({{ comment.id }})"><img src="/images/cross.png" style="width: 20px;float: right;"></img></a>
+                                {% endif %}
+                                </div>
                             {% endfor %}
                                 <div class="comm-input">
                                     <div class="md-form">
                                         <label for="comment">Entrer un commentaire</label>
-                                        <button class="btn btn-secondary" style="display: block;float: right;margin-bottom: 10px;" onclick="sendComment({{ picture.id }})">Publier</button>
-                                        <textarea id="comment" class="form-control md-textarea" name="comment" type="text"></textarea>
+                                        <button class="btn btn-secondary" style="display: block;float: right;margin-bottom: 10px;margin-right: 0;" onclick="sendComment({{ picture.id }})">Publier</button>
+                                        <textarea id="comment{{ picture.id }}" class="form-control md-textarea" name="comment" type="text" style="background-color: #ffc252 !important;border: 0 !important;color: #414141 !important;font-weight: bolder;"></textarea>
                                     </div>
                                 </div>
                         </div>
@@ -122,35 +113,7 @@
                 </div>
             </div>
 
-        <!-- Animations -->
-        <div style="width: 100%; height: 300px;">
-            <div class="waveWrapper waveAnimation" style="position: relative; height: 100%; width: 100%;">
-                <div class="waveWrapperInner bgTop">
-                    <div class="wave waveTop" style="background-image: url('/images/wave3.png')"></div>
-                </div>
-                <div class="waveWrapperInner bgMiddle">
-                    <div class="wave waveMiddle" style="background-image: url('/images/wave2.png')"></div>
-                </div>
-                <div class="waveWrapperInner bgBottom">
-                    <div class="wave waveBottom" style="background-image: url('/images/wave3.png')"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row" style="width: 100%;">
-                <div class="col-lg-6" style="z-index: 2;">
-                    <h5 style="float: left; margin-left: 25px">A propos</h5>
-                    <p style="float: left; margin-left: 25px; text-align: left; font-size: small;">Ayant un penchant naturel vers la programmation et le développement, un groupe de jeunes étudiants en école d'ingénieur décidèrent de fonder en Juin 2019 la plateforme HiDev. Nous construisons vos projet sur mesures et nous vous garantissons un travail de qualité ainsi que d'un suivi particulier pour s'assurer du bon fonctionnement de vos commandes. Étant en spécialité informatique nous pouvons couvrir une grande partie des projets grand publique ainsi que de l'entretien de vos serveurs, bases de données, site web, etc.. Si cependant une catégorie vous manque sur le site n'hésitez pas a nous la proposer.</p>
-                </div>
-                <div class="col" style="z-index: 2;">
-                    <h5>Mentions légales</h5>
-                </div>
-                <div class="col" style="z-index: 2;">
-                    <h5>Social</h5>
-                </div>
-            </div>
-        </footer>
+        <!-- Footer & Animations -->
+        {% include "footer.html" %}
     </body>
 </html>

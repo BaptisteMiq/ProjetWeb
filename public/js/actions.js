@@ -1,3 +1,4 @@
+
 function subscribe(id) {
     $.ajax({
         url: "/events/action/subscribe",
@@ -14,6 +15,7 @@ function subscribe(id) {
         }
     });
 }
+
 function unSubscribe(id) {
     $.ajax({
         url: "/events/action/unSubscribe",
@@ -40,23 +42,44 @@ function addPicture(id_Activities) {
                 'id_Activities': id_Activities
             },
         success: function (data) {
-            console.log(data);
+            if(data == "OK") {
+                location.reload(true);
+            } else {
+                alert(data);
+            }
         }
     });
 }
 
-function sendComment(id) {
-
+function sendComment(id_Picture) {
+    
     $.ajax({
         url: "/events/action/sendcomment",
         type: 'POST',
         data: {
-                'id_Picture': id,
-                'id_Comments': null,
-                'content': $("#comment").val(),
+                'id_Picture': id_Picture,
+                'content': $("#comment"+ id_Picture).val(),
             },
         success: function (data) {
-           console.log(data);
+            if(data == "OK") {
+                location.reload(true);
+            } else {
+                alert(data);
+            }
         }
+    });
+}
+
+function delComment(id) {
+
+    $.ajax({
+        url: "{{ path('event_delComment') }}",
+        type: 'POST',
+        data: {
+                'id': 0
+            },
+            success: function (data) {
+                console.log(data);
+             }
     });
 }
