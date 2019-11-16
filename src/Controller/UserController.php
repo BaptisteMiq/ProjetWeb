@@ -162,6 +162,7 @@ class UserController extends SiteController
 
     public function profilePage(Request $request)
     {
+        $centers = API::call('GET', '/centers');
 
         $user = new User($request);
         if(!$user->isLogged()) {
@@ -173,6 +174,27 @@ class UserController extends SiteController
             'notification' => true,
         ]);
 
+        if($user->getUser()->id_Preferences == 1) {
+            $preference = [    
+                'theme' => 1,
+                'notification' => false,
+            ];
+        } else if($user->getUser()->id_Preferences == 2) {
+            $preference = [    
+                'theme' => 1,
+                'notification' => true,
+            ];
+        } else if($user->getUser()->id_Preferences == 3) {
+            $preference = [    
+                'theme' => 2,
+                'notification' => false,
+            ];
+        } else if($user->getUser()->id_Preferences == 4) {
+            $preference = [    
+                'theme' => 2,
+                'notification' => true,
+            ];
+        } 
 
         if(!isset($data['error'])) {
 
@@ -180,25 +202,29 @@ class UserController extends SiteController
 
             if($data['theme'] == 1 && $data['notification'] == false) {
                 $dataId['id_Preferences'] = 1;
+                $user->getUser()->id_Preferences = 1;
             } else if($data['theme'] == 1 && $data['notification'] == true) {
                 $dataId['id_Preferences'] = 2;
+                $user->getUser()->id_Preferences = 2;
             } else if($data['theme'] == 2 && $data['notification'] == false) {
                 $dataId['id_Preferences'] = 3;
+                $user->getUser()->id_Preferences = 3;
             } else if($data['theme'] == 2 && $data['notification'] == true) {
                 $dataId['id_Preferences'] = 4;
+                $user->getUser()->id_Preferences = 4;
             }
     
             $res = API::call('POST', '/updatePreference', $dataId, $user->getToken());
 
             if(isset($res->error)) {
-                return $this->rendering('profile.html.twig');
+                return $this->rendering('profile.html.twig' , [ 'centers' => $centers->centers, 'preference' => $preference, 'data' => $data, 'error' => $res->error ]);
             }
 
-            return $this->rendering('profile.html.twig');
+            return $this->rendering('profile.html.twig', [ 'centers' => $centers->centers, 'preference' => $preference, 'data' => $data ]);
 
         } else {
 
-            return $this->rendering('profile.html.twig');
+            return $this->rendering('profile.html.twig', [ 'centers' => $centers->centers, 'preference' => $preference, 'error' => $data['error'] ]);
 
         }
 

@@ -51,29 +51,34 @@
             <div class="row">
                 <div class="md-form mt-3 col">
                     <label class="col" for="mail">Prénom</label><br>
-                    <input id="mail" class="form-control" name="firstname" type="text" value="{{user.firstname}}"/><br><br>
+                    <input id="firstname" class="form-control" name="firstname" required="required" type="text" value="{{user.firstname}}"/><br><br>
                 </div>
 
                 <div class="md-form mt-3 col">
                     <label class="col" for="mail">Nom</label><br>
-                    <input id="mail" class="form-control" name="lastname" type="text" value="{{user.lastname}}"/><br><br>
+                    <input id="lastname" class="form-control" name="lastname" required="required" type="text" value="{{user.lastname}}"/><br><br>
                 </div>
             </div>
             <div class="row">
                 <div class="md-form mt-3 col">
                     <label class="col" for="mail">Mail</label><br>
-                    <input id="mail" class="form-control" name="mail" type="text" value="{{user.mail}}"/><br><br>
+                    <input id="mail" class="form-control" name="mail" required="required" type="text" value="{{user.mail}}"/><br><br>
                 </div>
 
                 <div class="md-form mt-3 col">
                     <label class="col" for="mail">Modifier le mot de passe</label><br>
-                    <input id="mail" class="form-control" name="password" type="text" value=""/><br><br>
+                    <input id="password" class="form-control" name="password" type="text" value=""/><br><br>
                 </div>
                 </div>
-            <div class="md-form mt-3">
-                <label for="mail">Centre de formation</label><br>
-                <input id="mail" class="form-control" name="end_date" type="text" value="{{user.id_Center}}"/><br><br>
-            </div>
+                
+                {# <div class="md-form">
+                    <select class="browser-default custom-select" style="width: auto" name="id_Center" selected="{{ data is defined ? data : '' }}">
+                        <option selected>Localisation</option>
+                        {% for center in centers %}
+                        <option value="{{ center.id }}">{{ center.label }}</option>
+                        {% endfor %}
+                    </select><br><br><br>
+                </div>  #}
 
                 <button class="btn btn-primary btn-block" type="submit" style="margin-right: auto; margin-left: auto;">Modifier</button>
             </form>
@@ -84,14 +89,20 @@
 
                 <h1>Préférence</h1>
 
-                <div class="md-form mt-3">
-                    <label for="mail">Thème</label><br>
-                    <input id="mail" class="form-control" name="theme" type="text" value="{{user.firstname}}"/><br><br>
+                <div class="md-form">
+                    <select class="browser-default custom-select" style="width: auto" name="theme" selected="{{ preference.theme }}">
+                        <option>Thème</option>
+                        <option value="1" {{preference.theme == '1' ? 'selected' :''}}>Sombre</option>
+                        <option value="2" {{preference.theme == '2' ? 'selected' :''}}>Clair</option>
+                    </select><br><br><br>
                 </div>
 
-                <div class="md-form mt-3">
-                    <label for="mail">Notification</label><br>
-                    <input id="mail" class="form-control" name="notification" type="text" value="{{user.id_Center}}"/><br><br>
+                <div class="md-form">
+                    <select class="browser-default custom-select" style="width: auto" name="notification" selected="{{ preference.notification }}">
+                        <option>Notification</option>
+                        <option value="1" {{preference.notification == '1' ? 'selected' :''}}>Oui</option>
+                        <option value="0" {{preference.notification == '0' ? 'selected' :''}}>Non</option>
+                    </select><br><br><br>
                 </div>
 
                     <button class="btn btn-primary btn-block" type="submit" style="position: relative;margin-right: auto; margin-left: auto;top: 105">Modifier</button>
