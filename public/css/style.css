@@ -226,6 +226,40 @@ bubbleIndex {
     height: 300px;
 }
 
+.like_button {
+    background: #eceef000 url(/images/heart_not_activated.png) no-repeat 0% 100% / cover;
+    height: 60px;
+    width: 60px;
+    float: right;
+	margin: 20px;
+	transition: transform .2s;
+}
+
+.like_button:active:hover {
+    transform: scale(0.5);
+}
+
+.like_button:hover {
+	transform: scale(1.5);
+}
+
+.unlike_button {
+	background: #eceef000 url(/images/heart_activated.png) no-repeat 0% 100% / cover;
+	height: 60px;
+    width: 60px;
+    float: right;
+	margin: 20px;
+	transition: transform .2s;
+}
+
+.unlike_button:active:hover {
+	transform: scale(0.5);
+}
+
+.unlike_button:hover {
+	transform: scale(1.5);
+}
+
 .previous_arrow{
 	transform: rotate(90deg);
     display: inline-block;
@@ -403,7 +437,17 @@ opacity: 0.5 !important;
     transform: rotate(45deg);
   }
 
-
+.rubbon {
+    font-size: large;
+    position: absolute;
+    background-color: green;
+    height: 30px;
+    border-bottom-right-radius: 25px;
+    width: 170px;
+    color: white;
+    text-align: center;
+    font-variant: all-petite-caps;
+}
 
 
 @keyframes gradientBG {

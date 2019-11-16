@@ -104,3 +104,37 @@ function addToCart(id) {
 
 $('#qt').val(1);
 $('input').trigger("change");
+
+function like(id) {
+    $.ajax({
+        url: "/events/action/like",
+        type: 'POST',
+        data: {
+                'id_Picture': id
+            },
+        success: function (data) {
+            if(data == "OK") {
+                location.reload(true);
+            } else {
+                alert(data);
+            }
+        }
+    });
+}
+
+function unlike(id) {
+    $.ajax({
+        url: "/events/action/unlike",
+        type: 'POST',
+        data: {
+                'id_Picture': id
+            },
+        success: function (data) {
+            if(data == "OK") {
+                location.reload(true);
+            } else {
+                alert(data);
+            }
+        }
+    });
+}
