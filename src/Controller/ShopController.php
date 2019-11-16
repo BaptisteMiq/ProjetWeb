@@ -18,9 +18,11 @@ class ShopController extends SiteController
     public function index() {
 
         $categories = API::call('GET', '/shop/getCategoriesAndProducts');
+        $mostPop = ShopController::getMostPopularProducts();
 
         return $this->rendering('shop.html.twig', [
-            'categories' => $categories->Categories
+            'categories' => $categories->Categories,
+            'mostPop' => $mostPop,
         ]);
 
     }
@@ -305,11 +307,58 @@ class ShopController extends SiteController
 
     }
 
-    // public static function getMostPopularProducts() {
+    public static function getMostPopularProducts() {
 
-    //     $categories = API::call('GET', '/shop/getCategories');
+        $categories = API::call('GET', '/shop/getCategoriesAndProducts')->Categories;
 
-    // }
+        $mostPop = [];
+        $products = [];
+        foreach ($categories as $k1 => $category) {
+            foreach ($category->products as $k2 => $product) {
+
+                $products[] = $product;
+
+                if(count($mostPop) < 3) {
+                    $mostPop[] = $product;
+                }
+            }
+        }
+
+        $mostPopCopy = $mostPop;
+        foreach ($products as $k1 => $product) {
+            foreach ($mostPop as $k2 => $mp) {
+                if($mp->nb_sales < $product->nb_sales && !ShopController::checkProductInObj($mostPopCopy, $product)) {
+                    $mostPopCopy[ShopController::getMinInArr($mostPopCopy)] = $product;
+                    break;
+                }
+            }
+            $mostPop = $mostPopCopy;
+        }
+
+        return $mostPop;
+
+    }
+
+    protected static function checkProductInObj($obj, $prod) {
+        foreach ($obj as $k => $v) {
+            if($v->id == $prod->id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected static function getMinInArr($arr) {
+        $minIndex = 0;
+        $min = $arr[0];
+        foreach ($arr as $k => $v) {
+            if($v->nb_sales < $min->nb_sales) {
+                $minIndex = $k;
+                $min = $v;
+            }
+        }
+        return $minIndex;
+    }
 
     public function buy(Request $request) {
 

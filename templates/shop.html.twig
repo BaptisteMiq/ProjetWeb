@@ -54,7 +54,32 @@
         <br /><br /><br />
         <h1>Top ventes<h1>
         <div class="row justify-content-md-center" style="margin: 50px;">
-            
+            {% for product in mostPop %}
+                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                        <div class="card">
+                            {# <img class="card-img-top" src="{{ product.picture }}" width="100%" height="200px" alt="Card image cap"> #}
+                            <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
+                                {% if user.id_Rank == 2 or user.id_Rank == 3 %}
+                                <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
+                                {% endif %}
+                                <div class="card-sub">
+                                    <h5 class="card-title price-text">{{ product.price|number_format(2) }} €</h5>
+                                    <h4 class="card-title"><a>{{ product.label }}</a></h4>
+                                    <p class="card-text">{{ product.description }}</p>
+                                    <div class="md-form" style="font-size:18px">
+                                        <label for="qt">Quantité</label><br>
+                                        <input style="width:100%" id="qt" type="number" name="quantity" value="1" min="1" max="1000">
+                                    </div>
+                                    {% if user == null %}
+                                    <a href="/login" class="btn btn-success btn-sm">Ajouter au panier</a>
+                                    {% else %}
+                                    <button href="#" class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">Ajouter au panier</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
         </div>
 
             {% for categorie in categories %}
