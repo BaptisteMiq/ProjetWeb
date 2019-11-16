@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 use App\Controller\SiteController;
 use App\Acme\CustomBundle\API;
@@ -535,6 +536,26 @@ class EventController extends SiteController
     }
 
     public static function getSubscribe($id=null) {
+        if($id == null) {
+            return false;
+        }
+        $data['id_Activities'] = $id;
+        
+        if(!isset($data['error'])) {
+            $ret = API::call('GET', '/events/getSubscribe', $data);
+            if(empty($ret)) {
+                return new Response('Impossible d\'obtenir la liste'); 
+            }
+            if(isset($ret->error)) {
+                return new Response('Impossible d\'obtenir la liste: ' . $ret->error); 
+            }
+            $reg = $ret->register;
+            return $reg;
+        }
+        return new Response('Missing ' . $data['error']);
+    }
+
+    public function getSubscribeCSV($id=null) {
 
         if($id == null) {
             return false;
@@ -553,13 +574,113 @@ class EventController extends SiteController
             }
 
             $reg = $ret->register;
-            return $reg;
+
+            if(count($reg) < 1) {
+                return new Response("Personne n'est inscrit sur cette liste!"); 
+            }
+
+            $resp = "IDENTIFIANT;NOM;PRENOM;MAIL";
+            
+            foreach ($reg as $k => $usr) {
+                $resp .= "\n$usr->id_User;Jean;Bernard;jb@cesi.fr";
+            }
+
+            $filename = 'liste_inscrits.csv';
+            $fileContent = $resp;
+
+            $temp = tmpfile();
+            fwrite($temp, $fileContent);
+
+            $metaDatas = stream_get_meta_data($temp);
+            $tmpFilename = $metaDatas['uri'];
+
+            file_put_contents($tmpFilename, $fileContent);
+            
+            rename($tmpFilename, $tmpFilename .= '.csv');
+
+            // EventController::csvToPDF($temp, $tmpFilename);
+            // exit;
+
+            $response = new Response($fileContent);
+
+            $disposition = $response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $filename
+            );
+
+            $response->headers->set('Content-Disposition', $disposition);
+
+            return $response;
 
         }
 
         return new Response('Missing ' . $data['error']);
 
     }
+
+    // public static function csvToPDF($temp, $file) {
+
+    //     $endpoint = "https://sandbox.zamzar.com/v1/jobs";
+    //     $apiKey = "7a9b61238125c036249649ca2b792d4830706226";
+    //     $sourceFile = curl_file_create($file);
+    //     $targetFormat = "pdf";
+        
+    //     $postData = array(
+    //       "source_file" => $sourceFile,
+    //       "target_format" => $targetFormat
+    //     );
+        
+    //     $ch = curl_init(); // Init curl
+    //     curl_setopt($ch, CURLOPT_URL, $endpoint); // API endpoint
+    //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return response as a string
+    //     curl_setopt($ch, CURLOPT_USERPWD, $apiKey . ":"); // Set the API key as the basic auth username
+    //     $body = curl_exec($ch);
+    //     curl_close($ch);
+        
+    //     $response = json_decode($body, true);
+
+    //     sleep(5);
+        
+    //     echo "Response:\n---------\n";
+    //     print_r($response);
+
+    //     $jobID = $response['id'];
+    //     $endpoint = "https://sandbox.zamzar.com/v1/jobs/$jobID";
+    //     $apiKey = "7a9b61238125c036249649ca2b792d4830706226";
+
+    //     $ch = curl_init(); // Init curl
+    //     curl_setopt($ch, CURLOPT_URL, $endpoint); // API endpoint
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return response as a string
+    //     curl_setopt($ch, CURLOPT_USERPWD, $apiKey . ":"); // Set the API key as the basic auth username
+    //     $body = curl_exec($ch);
+    //     curl_close($ch);
+
+    //     $job = json_decode($body, true);
+
+    //     echo "Job:\n----\n";
+    //     print_r($job);
+
+    //     $fileID = $job['target_files'][0]['id'];
+    //     $localFilename = "converted.pdf";;
+    //     $endpoint = "https://sandbox.zamzar.com/v1/files/$fileID/content";
+    //     $apiKey = "7a9b61238125c036249649ca2b792d4830706226";
+
+    //     $ch = curl_init(); // Init curl
+    //     curl_setopt($ch, CURLOPT_URL, $endpoint); // API endpoint
+    //     curl_setopt($ch, CURLOPT_USERPWD, $apiKey . ":"); // Set the API key as the basic auth username
+    //     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+
+    //     $fh = fopen($localFilename, "wb");
+    //     curl_setopt($ch, CURLOPT_FILE, $fh);
+
+    //     $body = curl_exec($ch);
+    //     curl_close($ch);
+
+    //     echo "File downloaded\n";
+        
+    // }
 
     public static function isSubscribed($id=null) {
         

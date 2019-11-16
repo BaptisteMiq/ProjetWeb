@@ -12,6 +12,11 @@ profile_page:
    path: /profile
    controller: App\Controller\UserController::profilePage
 
+# profile.preference.html.twig
+profile_pref_page:
+   path: /profile/preference
+   controller: App\Controller\UserController::profilePreferencePage
+
 # profile.html.twig
 user_profile_page:
    path: /profile
@@ -56,6 +61,10 @@ shop_edit_product_page:
 shop_add_product_cart:
    path: /shop/products/add
    controller: App\Controller\ShopController::addToCart
+
+shop_remove_product_cart:
+   path: /shop/products/remove
+   controller: App\Controller\ShopController::removeFromCart
 
 # shop.edit_product.html.twig
 shop_edit_page:
@@ -143,6 +152,10 @@ event_getAllPictures:
 event_subscribeCount:
   path: /events/action/subscribeCount
   controller: App\Controller\EventController::subscribeCount
+
+event_getSubscribe:
+  path: /events/action/getSubscribe/{id}
+  controller: App\Controller\EventController::getSubscribeCSV
 
 user_admin_page:
   path: /admin

@@ -232,7 +232,24 @@ class ShopController extends SiteController
 
     public function cartPage(Request $request) {
 
-        return $this->rendering('shop_cart.html.twig');
+        $user = new User($request);
+
+        $cart = API::call('GET', '/shop/getCart', [], $user->getToken());
+
+        if(empty($cart)) {
+            return $this->rendering('shop_cart.html.twig', [
+                'products' => [],
+            ]);
+        }
+        if(!isset($cart->cart)) {
+            return $this->rendering('shop_cart.html.twig', [
+                'products' => [],
+            ]);
+        }
+
+        return $this->rendering('shop_cart.html.twig', [
+            'products' => $cart->cart,
+        ]);
 
     }
 
@@ -293,17 +310,36 @@ class ShopController extends SiteController
         //     die('Not authorized');
         // }
 
+        $cartId = API::call('GET', '/shop/getIdCart', [], $user->getToken());
+
+        if(empty($cartId)) {
+            return new Response('Ne peut pas obtenir l\'id du panier');
+            die();
+        }
+        if(isset($cartId->error)) {
+            return new Response('Ne peut pas obtenir l\'id du panier: ' . $cartId->error);
+            die();
+        }
+        
+        $cartId = $cartId->cart;
+
         $data = API::process($request, [
-            'cid' => true,
-            'pid' => true,
+            'id_Product' => true,
         ]);
-        $data['user'] = $user->getUser()->id;
+        $data['id_Cart'] = $cartId;
 
-        API::call('POST', '/shop/cart/remove', $data);
+        $res = API::call('POST', '/shop/removeProductFromCart', $data, $user->getToken());
 
-        return new Response(
-            'OK'
-        );
+        if(empty($res)) {
+            return new Response('Ne peut pas enlever le produit pour une raison inconnue');
+            die();
+        }
+        if(isset($res->error)) {
+            return new Response('Ne peut pas enlever le produit: ' . $res->error);
+            die();
+        }
+
+        return new Response('OK');
 
     }
 

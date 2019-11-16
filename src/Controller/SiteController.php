@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Controller\EventController;
 use App\Acme\CustomBundle\API;
+use \Mailjet\Resources;
 
 class SiteController extends AbstractController
 {
@@ -51,6 +52,33 @@ class SiteController extends AbstractController
 		);
 		
 		return $this->render($template, array_merge($defaultParameters, $parameters));
+	}
+
+	public static function sendMail($dest, $subject, $content) {
+		$mj = new \Mailjet\Client('ea071e172cf98babfd2aaad4628ffecf','23deab9ba116903135bb292983675dbc',true,['version' => 'v3.1']);
+		$body = [
+			'Messages' => [
+			[
+				'From' => [
+				'Email' => "baptistechama@gmail.com",
+				'Name' => "BDE CESI"
+				],
+				'To' => [
+				[
+					'Email' => $dest,
+					'Name' => "Bapt"
+				]
+				],
+				'Subject' => $subject,
+				'TextPart' => $content,
+				// 'HTMLPart' => "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!",
+				'CustomID' => "AppGettingStartedTest"
+			]
+			]
+		];
+		$response = $mj->post(Resources::$Email, ['body' => $body]);
+		$response->success();
+		// var_dump($response->getData());
 	}
 
 }
