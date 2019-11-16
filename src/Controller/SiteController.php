@@ -31,7 +31,6 @@ class SiteController extends AbstractController
 					}
 				}
 			}
-
 		}
 
 		$preferences = null;
@@ -60,7 +59,7 @@ class SiteController extends AbstractController
 			'Messages' => [
 			[
 				'From' => [
-				'Email' => "baptistechama@gmail.com",
+				'Email' => "baptiste.miquel@viacesi.fr",
 				'Name' => "BDE CESI"
 				],
 				'To' => [
@@ -70,8 +69,8 @@ class SiteController extends AbstractController
 				]
 				],
 				'Subject' => $subject,
-				'TextPart' => $content,
-				// 'HTMLPart' => "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!",
+				'TextPart' => "",
+				'HTMLPart' => $content,
 				'CustomID' => "AppGettingStartedTest"
 			]
 			]

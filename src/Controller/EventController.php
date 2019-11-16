@@ -155,13 +155,14 @@ class EventController extends SiteController
         }
 
         $events->sub = false;
-		$sub = EventController::getSubscribe($events->activity->id);
-			if(count($sub) > 0 && $user != null) {
-				foreach ($sub as $key2 => $value2) {
-					if($user->getUser()->id == $value2->id_User) {
-						$events->sub = true;
-					}
-				}
+        $sub = EventController::getSubscribe($events->activity->id);
+        $events->count = EventController::subscribeCount($events->activity->id);
+        if(count($sub) > 0 && $user != null) {
+            foreach ($sub as $key2 => $value2) {
+                if($user->getUser()->id == $value2->id_User) {
+                    $events->sub = true;
+                }
+            }
 		}
         
         return $this->rendering('event.html.twig', [ 'event' => $events ]);
