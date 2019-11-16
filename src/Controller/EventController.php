@@ -156,8 +156,10 @@ class EventController extends SiteController
 
         $events->sub = false;
 
-        foreach ($events->pictures as $k => $v) {
-            $v->like = EventController::getLike($request, $v->id);
+        if(isset($events->pictures)) {
+            foreach ($events->pictures as $k => $v) {
+                $v->like = EventController::getLike($request, $v->id);
+            }
         }
 
         $sub = EventController::getSubscribe($events->activity->id);
@@ -598,6 +600,26 @@ class EventController extends SiteController
         return new Response('Missing ' . $data['error']);
     }
 
+    public static function getAllLike($req, $id=null) {
+
+        $user = new User($req);
+
+        if($id == null) {
+            return false;
+        }
+        $data = [];
+        $data['id_Picture'] = $id;
+        
+        if(!isset($data['error'])) {
+            $ret = API::call('GET', '/events/getAllLike', $data, $user->getToken());
+            if(isset($ret->error)) {
+                return 0;
+            }
+            return count($ret->AllLike);
+        }
+        return new Response('Missing ' . $data['error']);
+    }
+
     public function getSubscribeCSV($id=null) {
 
         if($id == null) {
@@ -625,21 +647,22 @@ class EventController extends SiteController
             $resp = "IDENTIFIANT;NOM;PRENOM;MAIL";
             
             foreach ($reg as $k => $usr) {
-                $resp .= "\n$usr->id_User;Jean;Bernard;jb@cesi.fr";
+                $user = API::call('GET', '/users/get', ['id' => $usr->id_User])->user[0];
+                $resp .= "\n$usr->id_User;$user->lastname;$user->firstname;$user->mail";
             }
 
             $filename = 'liste_inscrits.csv';
             $fileContent = $resp;
 
-            $temp = tmpfile();
-            fwrite($temp, $fileContent);
+            // $temp = tmpfile();
+            // fwrite($temp, $fileContent);
 
-            $metaDatas = stream_get_meta_data($temp);
-            $tmpFilename = $metaDatas['uri'];
+            // $metaDatas = stream_get_meta_data($temp);
+            // $tmpFilename = $metaDatas['uri'];
 
-            file_put_contents($tmpFilename, $fileContent);
+            // file_put_contents($tmpFilename, $fileContent);
             
-            rename($tmpFilename, $tmpFilename .= '.csv');
+            // rename($tmpFilename, $tmpFilename .= '.csv');
 
             // EventController::csvToPDF($temp, $tmpFilename);
             // exit;

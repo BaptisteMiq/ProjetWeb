@@ -132,6 +132,10 @@ event_picture_unlike:
   path: /events/action/unlike
   controller: App\Controller\EventController::unlikePicture
 
+event_picture_getAllLike:
+  path: /events/action/getAllLike
+  controller: App\Controller\EventController::getAllLike
+
 event_sendComment:
   path: /events/action/sendcomment
   controller: App\Controller\EventController::sendComment
