@@ -9,10 +9,15 @@
    <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-
+<link rel="stylesheet" type="text/css"
+    href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
    <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
    <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script
+  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+  crossorigin="anonymous"></script>
 
 	 <title>Admin Control Panel</title>
  </head>
@@ -53,6 +58,13 @@
             <div class="box" style="width: 50%;height: auto; margin: 5% auto;">
 
                 <table id="eventList" class="display nowrap" style="width:100%"></table>
+
+            </div>
+
+            <!--Container-->
+            <div class="box" style="width: 50%;height: auto; margin: 5% auto;">
+
+                <table id="commentList" class="display nowrap" style="width:100%"></table>
 
             </div>
 
@@ -119,6 +131,17 @@
                 text-overflow: ellipsis;
                 overflow: hidden;
             }
+            #commentList {
+            table-layout: fixed;
+            width: 100% !important;
+            }
+            #commentList td,
+                #commentList th{
+                width: auto !important;
+                /* white-space: normal; */
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
             .table-link {
                 color: #77B !important;
             }
@@ -129,6 +152,13 @@
                 padding: 0 5px 0 5px;
                 margin: 2px;
             }
+
+            .ui-menu .ui-menu-item a{
+                background:red;
+                height:10px;
+                font-size:8px;
+            }
+
         </style>
 
            <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
@@ -155,18 +185,51 @@
             } );
             } );
 
+              $( function() {
+
+                var res = [];
+                dataSet.forEach(dt => {
+                    var dtCopy = [...dt];
+                    dtCopy.splice(1, 1);
+                    dtCopy[4] = dtCopy[4].replace(/<a.+?>/g, '').replace('</a>', '');
+                    dtCopy.splice(5, 1);
+                    res.push(dtCopy);
+                });
+                
+                var availableTags = [...new Set(res.join().split(','))];
+                $("#eventList_wrapper").find('input').autocomplete({
+                    source: availableTags,
+                    position: {  collision: "flip"  }
+                });
+            } );
+
+            
+            var dataSet2 = {{ commentList|json_encode|raw }};
+
+            $(document).ready(function() {
+            $('#commentList').DataTable( {
+                data: dataSet2,
+                columns: [
+                    { title: "Photo" },
+                    { title: "Auteur Photo" },
+                    { title: "Commentaire" },
+                    { title: "Auteur Comm." },
+                ]
+            } );
+            } );
+
             function sendMail(id, subject, content) {
             $.ajax({
                 url: "/sendmail",
                 type: 'POST',
                 data: {
                         'id_Rank': id,
-                        'subject': 'Test',
-                        'content': 'Yo'
+                        'subject': subject,
+                        'content': content
                     },
                 success: function (data) {
                     if(data == "OK") {
-                        location.reload(true);
+                        alert("Mail envoyé!", 'success');
                     } else {
                         alert(data);
                     }

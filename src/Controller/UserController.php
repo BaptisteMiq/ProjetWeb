@@ -18,6 +18,9 @@ class UserController extends SiteController
 
     public function adminPage(Request $request) {
 
+        $user = new User($request);
+
+        // Get events
         $events = API::call('GET', '/events/all');
         if(empty($events)) {
             die('Evènements non trouvés');
@@ -26,6 +29,7 @@ class UserController extends SiteController
             die('Evènements non trouvés: ' . $events->error);
         }
 
+        // Events object to Datatable => List of events
         $eventList = [];
         setlocale(LC_TIME, "fr_FR");
         foreach ($events->AllActivitiesFound as $k => $v) {
@@ -51,8 +55,40 @@ class UserController extends SiteController
                 </button>';
         }
 
+        // List of pictures and comments
+        $commentList = [];
+
+        // For each events
+        foreach ($events->AllActivitiesFound as $k => $v) {
+            $event = API::call('GET', '/events/get', [ 'id_Activities' => $v->id ], $user->getToken());
+            if(empty($events)) {
+                die('Evènement non trouvé');
+            }
+            if(isset($events->error)) {
+                die('Evènement non trouvé: ' . $events->error);
+            }
+            // For each pictures in that event
+            if(isset($event->pictures)) {
+                foreach ($event->pictures as $k2 => $v2) {
+                    if($v2->comments != null) {
+                        // For each comments in that picture
+                        foreach ($v2->comments as $k3 => $v3) {
+                            // echo $v3->content . '<br />';
+
+                            $commentList[$k] = [];
+                            $commentList[$k][] = '<a class="table-link" href="' . $v2->link . '" target="_blank">' . $v2->link . '</a>';
+                            $commentList[$k][] = $v2->userLastname . ' ' . $v2->userFirstname;
+                            $commentList[$k][] = $v3->content;
+                            $commentList[$k][] = $v3->userLastname . ' ' . $v3->userFirstname;
+                        }
+                    }
+                }
+            }
+        }
+
         return $this->rendering('admin.html.twig', [
-            'eventList' => $eventList
+            'eventList' => $eventList,
+            'commentList' => $commentList
         ]);
 
     }
