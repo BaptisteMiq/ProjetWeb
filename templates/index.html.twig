@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         {% include "head.html" %}
         <title>BDE CESI TOULOUSE</title>
@@ -25,9 +25,9 @@
                             <div class="event_box_nav">
                                 <h2 style="margin-left: 15px">{{ event.title }}</h2>
                                 {% if user != null %}
-                                <a href="/events/{{ event.id }}"><img src="images/down-arrow.png" class="next_arrow"></img></a>
+                                <a href="/events/{{ event.id }}"><img src="images/down-arrow.png" class="next_arrow" alt="flèche"></a>
                                 {% else %}
-                                <a href="/login"><img src="images/down-arrow.png" class="next_arrow"></img></a>
+                                <a href="/login"><img src="images/down-arrow.png" class="next_arrow" alt="flèche"></a>
                                 {% endif %}
                             </div>
                             <div class="thumbail" style="background: #eceef0 url({{ event.picture }}) no-repeat 0% 50% / cover;"></div>
@@ -65,7 +65,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
-                            <a href="/shop"><img src="images/down-arrow.png" class="next_arrow" style="margin-top: 0px;margin-right: auto;"></img></a>
+                            <a href="/shop"><img src="images/down-arrow.png" class="next_arrow" style="margin-top: 0px;margin-right: auto;" alt="flèche"></a>
                             <div class="card-sub" style="height: 90px;">
                                 <h5 class="card-title price-text">{{ product.price|number_format(2) }} €</h5>
                                 <h4 class="card-title"><a>{{ product.label }}</a></h4>
@@ -90,9 +90,9 @@
                         <div class="event_box_nav">
                             <h2 style="margin-left: 15px">{{ event.title }}<span class="bubbleIndex">{{ event.count }}</span></h2>
                             {% if user != null %}
-                            <a href="/events/{{ event.id }}"><img src="images/down-arrow.png" class="next_arrow"></img></a>
+                            <a href="/events/{{ event.id }}"><img src="images/down-arrow.png" class="next_arrow" alt="flèche"></a>
                             {% else %}
-                            <a href="/login"><img src="/images/down-arrow.png" class="next_arrow"></img></a>
+                            <a href="/login"><img src="/images/down-arrow.png" class="next_arrow" alt="flèche"></a>
                             {% endif %}
                         </div>
                         <div class="thumbail" style="background: #eceef0 url({{ event.picture }}) no-repeat 0% 50% / cover;"></div>
