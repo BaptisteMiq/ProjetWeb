@@ -78,7 +78,7 @@ function sendComment(id_Picture) {
             if(data == "OK") {
                 location.reload(true);
             } else {
-                alert(data);
+                alert(data, 'error');
             }
         }
     });

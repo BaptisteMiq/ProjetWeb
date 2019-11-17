@@ -411,6 +411,10 @@ class EventController extends SiteController
             'content' => true,
         ]);
 
+        if(strlen($data['content']) < 2 || strlen($data['content']) > 1000) {
+            return new Response('Taille du commentaire invalide');
+        }
+
         $res = API::call('POST', '/events/addComment', $data, $user->getToken());
 
         if(empty($res)) {

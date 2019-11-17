@@ -44,6 +44,9 @@ class UserController extends SiteController
             $eventList[$k][] = '<a class="table-link" href="mailto:' . $u->mail . '">' . $u->lastname . ' ' . $u->firstname . '</a>';
             // $eventList[$k][] = $v->id_Center;
             $eventList[$k][] = '
+                <button class="btn list-btn btn-success" onclick="location.href=">
+                    <i class="fa fa-exclamation-triangle"></i>
+                </button>
                 <button class="btn list-btn btn-warning" onclick="sendMail(3, \'Evenement non conforme\', \'Un évènement (' . $v->title . ') n\\\'est pas conforme et doit être modifié.\')">
                     <i class="fa fa-exclamation-triangle"></i>
                 </button>
