@@ -98,6 +98,25 @@ function delComment(id) {
     });
 }
 
+function delEvent(id) {
+
+    $.ajax({
+        url: "/events/action/delete",
+        type: 'POST',
+        data: {
+                'id': id
+            },
+            success: function (data) {
+                if(data == 'OK') {
+                    location.reload(true);
+                } else {
+                    alert(data, 'error');
+                }   
+            }
+    });
+
+}
+
 function addToCart(id) {
     $.ajax({
         url: "/shop/products/add",

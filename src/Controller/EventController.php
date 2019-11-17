@@ -112,7 +112,7 @@ class EventController extends SiteController
 
     }
 
-    public function deleteEvent(Request $request) {
+    public static function deleteEvent(Request $request) {
 
         $user = new User($request);
 
@@ -120,12 +120,16 @@ class EventController extends SiteController
             'id' => true,
         ]);
 
-        if(!isset($data['error'])) {
-            $data = API::call('POST', '/events/del', $data, $user->getToken());
-            die('OK');
-        } else {
-            die('Il manque l\'id');
+        $res = API::call('POST', '/events/del', $data, $user->getToken());
+
+        if(empty($res)) {
+            return new Response('Ne peut pas supprimer l\'évènement');
         }
+        if(isset($res->error)) {
+            return new Response('Ne peut pas supprimer l\'évènement: ' . $res->error);
+        }
+
+        return new Response('OK');
 
     }
     

@@ -18,7 +18,42 @@ class UserController extends SiteController
 
     public function adminPage(Request $request) {
 
-        return $this->rendering('admin.html.twig');
+        $events = API::call('GET', '/events/all');
+        if(empty($events)) {
+            die('Evènements non trouvés');
+        }
+        if(isset($events->error)) {
+            die('Evènements non trouvés: ' . $events->error);
+        }
+
+        $eventList = [];
+        setlocale(LC_TIME, "fr_FR");
+        foreach ($events->AllActivitiesFound as $k => $v) {
+            $eventList[$k] = [];
+            // $eventList[$k][] = $v->id;
+            $eventList[$k][] = $v->title;
+            $eventList[$k][] = '<a class="table-link" href="' . $v->picture . '" target="_blank">' . $v->picture . '</a>';      
+            $eventList[$k][] = strftime("%d/%m/%Y", strtotime($v->begin_date));;
+            $eventList[$k][] = strftime("%d/%m/%Y", strtotime($v->end_date));;
+            $eventList[$k][] = $v->price;
+            $u = API::call('GET', '/users/get', ['id' => $v->id_User ])->user[0];
+            $eventList[$k][] = '<a class="table-link" href="mailto:' . $u->mail . '">' . $u->lastname . ' ' . $u->firstname . '</a>';
+            // $eventList[$k][] = $v->id_Center;
+            $eventList[$k][] = '
+                <button class="btn list-btn btn-warning" onclick="sendMail(3, \'Evenement non conforme\', \'Un évènement (' . $v->title . ') n\\\'est pas conforme et doit être modifié.\')">
+                    <i class="fa fa-exclamation-triangle"></i>
+                </button>
+                <button class="btn list-btn btn-warning" onclick="location.href=\'/events/edit/' . $v->id . '\';">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn list-btn btn-danger" onclick="delEvent(' . $v->id . ')">
+                    <i class="fa fa-trash"></i>
+                </button>';
+        }
+
+        return $this->rendering('admin.html.twig', [
+            'eventList' => $eventList
+        ]);
 
     }
 
@@ -154,9 +189,6 @@ class UserController extends SiteController
     public function logout(Request $request) {
 
         $session = $request->getSession();
-        $session->set('cookies', true);
-        var_dump($session);
-        exit;
         $session->remove('user');
 
         return $this->redirect($this->generateUrl('index_page'));
@@ -167,8 +199,6 @@ class UserController extends SiteController
 
         $session = $request->getSession();
         $session->set('cookies', true);
-        var_dump($session);
-        exit;
         return $this->redirect($this->generateUrl('index_page'));
     
     }
@@ -326,6 +356,37 @@ class UserController extends SiteController
 
         return $this->redirect('/profile');
 
+    }
+
+    public static function sendMailTo(Request $request) {
+
+        $user = new User($request);
+
+        $rData = API::process($request, [
+            'id_Rank' => true,
+            'subject' => true,
+            'content' => true,
+        ]);
+
+        $data = [];
+        $data['id_Rank'] = $rData['id_Rank'];
+        $members = API::call('GET', '/users/getAll', $data, $user->getToken());
+        
+        if(empty($members)) {
+            return new Response('Aucun utilisateur trouvé');
+        }
+        if(isset($members->error)) {
+            return new Response('Aucun utilisateur trouvé: ' . $cart->error);
+        }
+
+        $members = $members->allUsers;
+
+        foreach ($members as $key => $value) {
+            SiteController::sendMail($value->mail, $rData['subject'], $rData['content']);
+        }
+
+        return new Response('OK');
+        
     }
 
     public function checkPassword($pass) {

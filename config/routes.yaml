@@ -66,6 +66,10 @@ shop_edit_page:
    path: /shop/products/edit
    controller: App\Controller\ShopController::editProductPage
 
+send_mail:
+   path: /sendmail
+   controller: App\Controller\UserController::sendMailTo
+
 # register.html.twig
 user_register_page:
    path: /register

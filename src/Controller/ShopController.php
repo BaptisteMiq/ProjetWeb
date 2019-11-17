@@ -430,7 +430,7 @@ class ShopController extends SiteController
         }
 
         $data = [];
-        $data['rid_Rank'] = 3;
+        $data['id_Rank'] = 3;
         $members = API::call('GET', '/users/getAll', $data, $user->getToken());
         
         if(empty($members)) {
