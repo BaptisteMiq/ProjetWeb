@@ -1,273 +1,117 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/mdb.min.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/modules/animations-extended.min.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
-
-        <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
-
-        <title>Shop</title>
+        {% include "head.html" %}
+        <title>Boutique</title>
     </head>
 
     <body>
         <!-- Header -->
-        <header>
-            {% if user == null %}
-                <button class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
-                <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
-            {% else %}
-                <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
-            {% endif %}
-
-            <ul class="nav">
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/events">Evenements</a></li>
-                <li><a href="#">Boutique</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </header>
+        {% include "header.html" %}
+        <div style="background: #eceef0 url(/images/boutique.jpg) no-repeat 0% 55% / cover; height: 460px;"></div>
 
         <!-- Deuxième Header -->
-        <div class="nav-bar">
-            {% if user != null %}
-            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="./users/logout">Déconnexion</a></button>
-            <ul class="nav" style="padding: 0;">
-                <li><a href="#">Souscriptions</a></li>
-                <li><a href="#">Configuration</a></li>
-            </ul>
-            {% endif %}
-        </div>
+        {% include "navbar.html" %}
 
-        <div class="row">
-
-        <div class="col-2"></div>
-
-        <div class="col-10">
-
-        <div class="cards">
-
-        <br /><br /><br />
-        <h1>Top ventes<h1>
-        <div class="row justify-content-md-center" style="margin: 50px;">
-            {% for product in mostPop %}
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                        <div class="card">
-                            <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
-                                {% if user != null %}
-                                {% if user.id_Rank == 2 or user.id_Rank == 3 %}
-                                <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
-                                {% endif %}
-                                {% endif %}
-                                <div class="card-sub">
-                                    <h5 class="card-title price-text">{{ product.price|number_format(2) }} €</h5>
-                                    <h4 class="card-title"><a>{{ product.label }}</a></h4>
-                                    <p class="card-text">{{ product.description }}</p>
-                                    <div class="md-form" style="font-size:18px">
-                                        <label for="qt">Quantité</label><br>
-                                        <input style="width:100%" id="qt-{{ product.id }}" type="number" name="quantity" value="1" min="1" max="1000">
-                                    </div>
-                                    {% if user == null %}
-                                    <a href="/login" class="btn btn-success btn-sm">Ajouter au panier</a>
-                                    {% else %}
-                                    <button href="#" class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">Ajouter au panier</button>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            {% endfor %}
-        </div>
-
-            {% for categorie in categories %}
-
-                {% if categorie.products|length > 0 %}
-                <h1>{{ categorie.label }}<h1>
-
-            <div class="row justify-content-md-center" style="margin: 50px;">
-
-                {% for product in categorie.products %}
-
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                        <div class="card">
-                            {# <img class="card-img-top" src="{{ product.picture }}" width="100%" height="200px" alt="Card image cap"> #}
-                            <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
-                                {% if user != null %}
-                                {% if user.id_Rank == 2 or user.id_Rank == 3 %}
-                                <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
-                                {% endif %}
-                                {% endif %}
-                                <div class="card-sub">
-                                    <h5 class="card-title price-text">{{ product.price|number_format(2) }} €</h5>
-                                    <h4 class="card-title"><a>{{ product.label }}</a></h4>
-                                    <p class="card-text">{{ product.description }}</p>
-                                    <div class="md-form" style="font-size:18px">
-                                        <label for="qt">Quantité</label><br>
-                                        <input style="width:100%" id="qt-{{ product.id }}" type="number" name="quantity" value="1" min="1" max="1000">
-                                    </div>
-                                    {% if user == null %}
-                                    <a href="/login" class="btn btn-success btn-sm">Ajouter au panier</a>
-                                    {% else %}
-                                    <button href="#" class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">Ajouter au panier</button>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                {% endfor %}
-
-                </div>
-
-                {% endif %}
-                
-            {% endfor %}
-
-        </div>
-
-
-        </div>
-
-        <!-- LEFT PANEL -->
-         <div class="left-pan" style="background-color:#111; position:fixed; height: 100%; width: 350px; text-align: center; padding: 20px;">
-
-            {% if user != null %}
-            {% if user.id_Rank == 3 %}
-            <h2>Panel membre</h2>
-                <button class="btn btn-secondary" onclick="location.href='/shop/products/new'">Ajouter un produit</button>
-                <button class="btn btn-secondary" onclick="location.href='/shop/categories'">Gérer les catégories</button>
-            {% endif %}
-            <h2>Panel utilisateur</h2>
-                <button class="btn btn-secondary" onclick="location.href='/shop/cart'">Panier</button>
-            {% endif %}
-
-        </div>
-
-        </div>
         
-
-
-
-
-        <!-- Animations -->
-        <div style="width: 100%; height: 300px;">
-            <div class="waveWrapper waveAnimation" style="position: relative; height: 100%; width: 100%;">
-                <div class="waveWrapperInner bgTop">
-                    <div class="wave waveTop" style="background-image: url('/images/wave3.png')"></div>
+        <!-- Contenu de page -->
+            <div class="row" style="width: 99%">
+                <div class="col-2"></div>
+                <div class="col-10">
+                    <div class="cards">
+                        <h1 class="titrepage">Top ventes<h1>
+                        <div class="row justify-content-md-center" style="margin: 50px;">
+                            {% for product in mostPop %}
+                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="card">
+                                        <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
+                                            {% if user != null %}
+                                                {% if user.id_Rank == 2 or user.id_Rank == 3 %}
+                                                    <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
+                                                {% endif %}
+                                            {% endif %}
+                                            <div class="card-sub">
+                                                <h5 class="card-title price-text">{{ product.price|number_format(2) }} €</h5>
+                                                <h4 class="card-title"><a>{{ product.label }}</a></h4>
+                                                <p class="card-text">{{ product.description }}</p>
+                                                <div class="md-form" style="font-size: 18px;bottom: 30px;">
+                                                    <input class="form-control" style="width:100%" id="qt-{{ product.id }}" type="number" name="quantity" value="1" min="1" max="1000">
+                                                </div>
+                                                {% if user == null %}
+                                                    <a href="/login" class="btn btn-success btn-sm">Ajouter au panier</a>
+                                                {% else %}
+                                                    <button href="#" class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">Ajouter au panier</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="com_space"></div>
+                        </div>
+                        {% for categorie in categories %}
+                            {% if categorie.products|length > 0 %}
+                                <h1 class="titrepage">{{ categorie.label }}<h1>
+                                <div class="row justify-content-md-center" style="margin: 50px;">
+                                    {% for product in categorie.products %}
+                                        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="card">
+                                                <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
+                                                    {% if user != null %}
+                                                        {% if user.id_Rank == 2 or user.id_Rank == 3 %}
+                                                            <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    <div class="card-sub">
+                                                        <h5 class="card-title price-text">{{ product.price|number_format(2) }} €</h5>
+                                                        <h4 class="card-title"><a>{{ product.label }}</a></h4>
+                                                        <p class="card-text">{{ product.description }}</p>
+                                                        <div class="md-form" style="font-size: 18px;bottom: 30px;">
+                                                            <input class="form-control" style="width:100%" id="qt-{{ product.id }}" type="number" name="quantity" value="1" min="1" max="1000">
+                                                    </div>
+                                                    {% if user == null %}
+                                                        <a href="/login" class="btn btn-success btn-sm">Ajouter au panier</a>
+                                                    {% else %}
+                                                        <button href="#" class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">Ajouter au panier</button>
+                                                    {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="waveWrapperInner bgMiddle">
-                    <div class="wave waveMiddle" style="background-image: url('/images/wave2.png')"></div>
+            
+            <!-- LEFT PANEL -->
+            <div class="leftpanel"></div>
+            <div style="position: sticky;top: 110px;margin-top: -140%;padding: 30px;height: 331px;">
+                {% if user != null %}
+                    {% if user.id_Rank == 3 %}
+                        <div>
+                            <h2 style="font-variant: all-petite-caps;">Panel membre</h2>
+                            <button class="btn btn-secondary" onclick="location.href='/shop/products/new'" style="width: -webkit-fill-available; margin-right: 7%;">Ajouter un produit</button>
+                            <button class="btn btn-secondary" onclick="location.href='/shop/categories'" style="width: -webkit-fill-available; margin-right: 7%;">Gérer les catégories</button>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <h2 style="font-variant: all-petite-caps;margin-top: 125px;">Panel utilisateur</h2>
+                        <button class="btn btn-secondary" onclick="location.href='/shop/cart'" style="width: -webkit-fill-available; margin-right: 7%;">Panier</button>
+                    </div>
+                {% else %}
+                    <h2 style="font-variant: all-petite-caps;">Faire des achats ?</h2>
+                    <button class="btn btn-secondary" onclick="location.href='/login'" style="width: -webkit-fill-available; margin-right: 0;">Se Connecter</button>
+                {% endif %}
+                <div class="descboutique">
+                    <h4 style="font-variant: all-petite-caps;">La boutique</h4>
+                    <p style="text-align: justify;font-style: italic;font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempus ut orci in venenatis. Proin sollicitudin magna ut cursus pretium. In ut lectus vehicula, convallis orci eu, iaculis metus. Vestibulum consequat ipsum sit amet pretium consequat. Phasellus tristique arcu non molestie tincidunt. Aliquam porta lacus justo, in tristique libero tempor sed. Ut sed lorem lacus.<p>
                 </div>
-                <div class="waveWrapperInner bgBottom">
-                    <div class="wave waveBottom" style="background-image: url('/images/wave3.png')"></div>
                 </div>
             </div>
-        </div>
 
-        <!-- Footer -->
-        <footer>
-            <div class="row" style="width: 100%;">
-                <div class="col-lg-6" style="z-index: 2;">
-                    <h5 style="float: left; margin-left: 25px">A propos</h5>
-                    <p style="float: left; margin-left: 25px; text-align: left; font-size: small;">Ayant un penchant naturel vers la programmation et le développement, un groupe de jeunes étudiants en école d'ingénieur décidèrent de fonder en Juin 2019 la plateforme HiDev. Nous construisons vos projet sur mesures et nous vous garantissons un travail de qualité ainsi que d'un suivi particulier pour s'assurer du bon fonctionnement de vos commandes. Étant en spécialité informatique nous pouvons couvrir une grande partie des projets grand publique ainsi que de l'entretien de vos serveurs, bases de données, site web, etc.. Si cependant une catégorie vous manque sur le site n'hésitez pas a nous la proposer.</p>
-                </div>
-                <div class="col" style="z-index: 2;">
-                    <h5>Mentions légales</h5>
-                </div>
-                <div class="col" style="z-index: 2;">
-                    <h5>Social</h5>
-                </div>
-            </div>
-        </footer>
+        <!-- Footer & Animations -->
+        {% include "footer.html" %}
     </body>
-
-
-    <style>
-        h1 {
-            color: white;
-            text-align: center;
-        }
-        .card {
-            margin-bottom: 50px;
-            margin-left: 50px;
-            width: 320px;
-            height: 500px;
-        }
-        .card-body {
-            background-color: #111;
-        }
-        .card-text {
-            font-size: 18px;
-        }
-        .card-sub {
-            width: 100%;
-            height: 140px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 10px;
-        }
-        .card:hover {
-            filter: contrast(1.1);
-            transition: .1s;
-        }
-        .card-sub > .btn-sm {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-        }
-        .card-sub > .md-form {
-            width: 40%;
-            position: absolute;
-            bottom: -18px;
-        }
-        .card-sub > .price-text {
-            position: absolute;
-            right: 5px;
-            bottom: 28px;
-        }
-        .card-body > .btn-danger {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-        }
-
-        @media screen and (max-width: 992px) {
-            .left-pan {
-                display: none !important;
-            }
-        }
-    </style>
-
-    <script>
-        function addToCart(id) {
-            $.ajax({
-                url: "/shop/products/add",
-                type: 'POST',
-                data: {
-                        'id_Product': id,
-                        'quantity': $('#qt-' + id).val()
-                    },
-                success: function (data) {
-                    if(data == 'OK') {
-                        alert("Produit ajouté au panier!", 'success');
-                        location.href = '/shop/cart';
-                    } else {
-                        alert(data, 'error');
-                    }
-                }
-            });
-        }
-
-        $('#qt').val(1);
-        $('input').trigger("change");
-    </script>
-
-    <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
-
 </html>

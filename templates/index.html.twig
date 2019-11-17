@@ -10,15 +10,7 @@
         <div id="logo" style="text-align: center"></div>
 
         <!-- Deuxième Header -->
-        <div class="nav-bar">
-            {% if user != null %}
-            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;float: inherit" onclick="location.href='./users/logout'">Déconnexion</button>
-            <ul class="nav" style="padding: 0;">
-                <li><a href="#">Souscriptions</a></li>
-                <li><a href="#">Configuration</a></li>
-            </ul>
-            {% endif %}
-        </div>
+        {% include "navbar.html" %}
         
         <!-- Contenu de page -->
             <!-- Événement du mois -->

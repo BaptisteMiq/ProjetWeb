@@ -1,50 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/mdb.min.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/modules/animations-extended.min.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
-
-        <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
-
+        {% include "head.html" %}
         <title>Votre panier</title>
     </head>
 
     <body>
         <!-- Header -->
-        <header>
-            {% if user == null %}
-                <button class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
-                <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
-            {% else %}
-                <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
-            {% endif %}
-
-            <ul class="nav">
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/events">Evenements</a></li>
-                <li><a href="#">Boutique</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </header>
+        {% include "header.html" %}
 
         <!-- Deuxième Header -->
-        <div class="nav-bar">
-            {% if user != null %}
-            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="/users/logout">Déconnexion</a></button>
-            <ul class="nav" style="padding: 0;">
-                <li><a href="#">Souscriptions</a></li>
-                <li><a href="#">Configuration</a></li>
-            </ul>
-            {% endif %}
-        </div>
+        {% include "navbar.html" %}
 
         
-        <div class="row">
+        <div class="row" style="width: 100%">
 
         <div class="col-10">
 
@@ -82,14 +51,14 @@
 
         </div>
 
-        <!-- LEFT PANEL -->
-         <div class="left-pan" style="overflow-y: scroll; background-color:#111; position:fixed; right:0; height: 100%; width: 350px; text-align: center; padding: 20px;">
+        <!-- Right PANEL -->
+         <div class="rightpanel">
 
             <h2>Passer commande</h2>
             <h4>Sous-total: {{ priceTot|number_format(2) }} €</h4>
             <h4>TTC: {{ (priceTot * 1.2)|number_format(2) }} €</h4>
             
-            <p style="color:white;">Vos données personnelles seront utilisées pour le traitement de votre commande, vous accompagner au cours de votre visite du site web, et pour d’autres raisons décrites dans notre <a style="color:blue;" href="#">politique de confidentialité</a>.</p>
+            <p style="color:white;">Vos données personnelles seront utilisées pour le traitement de votre commande, vous accompagner au cours de votre visite du site web, et pour d’autres raisons décrites dans notre <a style="color: hsl(39, 100%, 66%);" href="#">politique de confidentialité</a>.</p>
 
             <a href="#"><div id="paypal-button-container"></div></a>
             <button id="buy" class="btn btn-success" onclick="buyCart()">Acheter</button>
@@ -98,39 +67,8 @@
 
         </div>
 
-
-
-
-        <!-- Animations -->
-        <div style="width: 100%; height: 300px;">
-            <div class="waveWrapper waveAnimation" style="position: relative; height: 100%; width: 100%;">
-                <div class="waveWrapperInner bgTop">
-                    <div class="wave waveTop" style="background-image: url('/images/wave3.png')"></div>
-                </div>
-                <div class="waveWrapperInner bgMiddle">
-                    <div class="wave waveMiddle" style="background-image: url('/images/wave2.png')"></div>
-                </div>
-                <div class="waveWrapperInner bgBottom">
-                    <div class="wave waveBottom" style="background-image: url('/images/wave3.png')"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row" style="width: 100%;">
-                <div class="col-lg-6" style="z-index: 2;">
-                    <h5 style="float: left; margin-left: 25px">A propos</h5>
-                    <p style="float: left; margin-left: 25px; text-align: left; font-size: small;">Ayant un penchant naturel vers la programmation et le développement, un groupe de jeunes étudiants en école d'ingénieur décidèrent de fonder en Juin 2019 la plateforme HiDev. Nous construisons vos projet sur mesures et nous vous garantissons un travail de qualité ainsi que d'un suivi particulier pour s'assurer du bon fonctionnement de vos commandes. Étant en spécialité informatique nous pouvons couvrir une grande partie des projets grand publique ainsi que de l'entretien de vos serveurs, bases de données, site web, etc.. Si cependant une catégorie vous manque sur le site n'hésitez pas a nous la proposer.</p>
-                </div>
-                <div class="col" style="z-index: 2;">
-                    <h5>Mentions légales</h5>
-                </div>
-                <div class="col" style="z-index: 2;">
-                    <h5>Social</h5>
-                </div>
-            </div>
-        </footer>
+        <!-- Footer & Animations -->
+        {% include "footer.html" %}
     </body>
 
 

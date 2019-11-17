@@ -28,7 +28,7 @@ a{
 	color: white;
 }
 
-a:-webkit-any-link {
+a:any-link {
     color: white;
     cursor: pointer;
     text-decoration: none;
@@ -102,8 +102,6 @@ bubbleIndex {
     background: #eceef0 url(../images/bde-thumbail2.jpg) no-repeat 0% 55% / cover;
     height: 460px;
     display: flex;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     box-sizing: border-box;
 }
 
@@ -148,16 +146,9 @@ bubbleIndex {
     margin-bottom: 30px;
 }
 
-.subtitrehead{
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-	font-weight: bold;
-	background: linear-gradient(-45deg, rgb(194, 0, 0), #2848ff);
-	background-size: 400% 400%;
-	animation: gradientBG 15s ease infinite;
-	font-size: 30px;
-  	background-clip: text;
-  	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+.wavecontainer{
+	width: 100%;
+	height: 300px;
 }
 
 .call {
@@ -310,6 +301,13 @@ input, textarea{
 	color: white;
 }
 
+.form-control{
+	background-color: #181818 !important;
+    margin-bottom: 10px;
+    border: 0;
+    border-radius: 0;
+}
+
 .edit_preview{
 	width: 500px;
 	height: auto;
@@ -327,7 +325,7 @@ input, textarea{
 }
 
 .modal.in .modal-dialog {
--webkit-transform: translate(0, 0);
+transform: translate(0, 0);
 -o-transform: translate(0, 0);
 transform: translate(0, 0);
 }
@@ -449,6 +447,104 @@ opacity: 0.5 !important;
     font-variant: all-petite-caps;
 }
 
+.leftpanel{
+	background-color: #313131;
+    position: fixed;
+    height: 100%;
+    width: 350px;
+    text-align: center;
+    padding: 20px;
+	box-shadow: 2px 0px 10px black;
+	margin-top: -31%;
+	z-index: -1;
+}
+
+.rightpanel{
+	overflow-y: scroll;
+	background-color:#313131;
+	position:fixed;
+	right:0;
+	height: 100%;
+	width: 350px;
+	text-align: center;
+	padding: 20px;
+	box-shadow: 2px 0px 10px black;
+}
+
+h1 {
+	color: white;
+	text-align: center;
+}
+.card {
+	margin-bottom: 50px;
+	margin-left: 50px;
+	width: 320px;
+	height: 500px;
+	border: 0;
+	border-left: 17px solid hsl(39, 100%, 66%);
+	border-radius: 0;
+	box-shadow: 6px 3px 10px #0d0d0d;
+}
+.card-body {
+	background-color: #212121;
+}
+
+.card-title{
+	font-variant: all-petite-caps;
+}
+
+.card-text {
+	font-size: 18px;
+}
+.card-sub {
+	width: 100%;
+	height: 160px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(33, 33, 33, 0.98);
+	padding: 10px;
+}
+.card:hover {
+	filter: contrast(1.1);
+	transition: .1s;
+}
+.card-sub > .btn-sm {
+	right: 0;
+	bottom: 0;
+	margin-top: 35px;
+}
+.card-sub > .md-form {
+	width: 40%;
+	position: absolute;
+	bottom: -18px;
+}
+.card-sub > .price-text {
+	position: absolute;
+	right: 5px;
+	bottom: 40px;
+}
+.card-body > .btn-danger {
+	position: absolute;
+	top: -10px;
+	right: -10px;
+}
+
+.descboutique{
+	height: auto;
+    width: 300px;
+    margin-top: 90px;
+    color: white;
+    background-color: #212121;
+    padding: 30px;
+    text-align: justify;
+}
+
+@media screen and (max-width: 992px) {
+	.left-pan {
+		display: none !important;
+	}
+}
 
 @keyframes gradientBG {
 	0% {

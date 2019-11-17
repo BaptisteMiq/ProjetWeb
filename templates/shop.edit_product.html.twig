@@ -1,47 +1,16 @@
 <!DOCTYPE html>
 <html>
  <head>
-	 <meta charset="utf-8">
-   <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
-   <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/mdb.min.css') }}" type="text/css"/>
-   <link rel="stylesheet" href="{{ asset('/vendors/mdb/css/modules/animations-extended.min.css') }}" type="text/css"/>
-	 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
-   <link rel="stylesheet" href="{{ asset('css/Animations.css') }}" type="text/css"/>
-
-   <script src="{{ asset('/vendors/mdb/js/jquery.min.js') }}"></script>
-   <script src="{{ asset('/vendors/mdb/js/mdb.min.js') }}"></script>
-
+	 {% include "head.html" %}
 	 <title>Editer un produit</title>
  </head>
 
     <body>
         <!-- Header -->
-        <header>
-            {% if user == null %}
-                <button class="btn btn-primary" style="margin: 10px;"><a href="/login">Connexion</a></button>
-                <button class="btn btn-secondary"><a href="/register">Inscription</a></button>
-            {% else %}
-                <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</a></div>
-            {% endif %}
-
-            <ul class="nav">
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/events">Evenements</a></li>
-                <li><a href="#">Boutique</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </header>
+        {% include "header.html" %}
 
         <!-- Deuxième Header -->
-        <div class="nav-bar">
-            {% if user != null %}
-            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="./users/logout">Déconnexion</a></button>
-            <ul class="nav" style="padding: 0;">
-                <li><a href="#">Souscriptions</a></li>
-                <li><a href="#">Configuration</a></li>
-            </ul>
-            {% endif %}
-        </div>
+        {% include "navbar.html" %}
 
 
  <!--Container-->
@@ -103,36 +72,8 @@
 
 
 
-        <!-- Animations -->
-        <div style="width: 100%; height: 300px;">
-            <div class="waveWrapper waveAnimation" style="position: relative; height: 100%; width: 100%;">
-                <div class="waveWrapperInner bgTop">
-                    <div class="wave waveTop" style="background-image: url('/images/wave3.png')"></div>
-                </div>
-                <div class="waveWrapperInner bgMiddle">
-                    <div class="wave waveMiddle" style="background-image: url('/images/wave2.png')"></div>
-                </div>
-                <div class="waveWrapperInner bgBottom">
-                    <div class="wave waveBottom" style="background-image: url('/images/wave3.png')"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row" style="width: 100%;">
-                <div class="col-lg-6" style="z-index: 2;">
-                    <h5 style="float: left; margin-left: 25px">A propos</h5>
-                    <p style="float: left; margin-left: 25px; text-align: left; font-size: small;">Ayant un penchant naturel vers la programmation et le développement, un groupe de jeunes étudiants en école d'ingénieur décidèrent de fonder en Juin 2019 la plateforme HiDev. Nous construisons vos projet sur mesures et nous vous garantissons un travail de qualité ainsi que d'un suivi particulier pour s'assurer du bon fonctionnement de vos commandes. Étant en spécialité informatique nous pouvons couvrir une grande partie des projets grand publique ainsi que de l'entretien de vos serveurs, bases de données, site web, etc.. Si cependant une catégorie vous manque sur le site n'hésitez pas a nous la proposer.</p>
-                </div>
-                <div class="col" style="z-index: 2;">
-                    <h5>Mentions légales</h5>
-                </div>
-                <div class="col" style="z-index: 2;">
-                    <h5>Social</h5>
-                </div>
-            </div>
-        </footer>
+        <!-- Footer & Animations -->
+        {% include "footer.html" %}
 
         <style>
             form {

@@ -123,11 +123,12 @@ function addToCart(id) {
         type: 'POST',
         data: {
                 'id_Product': id,
-                'quantity': $('#qt').val()
+                'quantity': $('#qt-' + id).val()
             },
         success: function (data) {
             if(data == 'OK') {
                 alert("Produit ajouté au panier!", 'success');
+                location.href = '/shop/cart';
             } else {
                 alert(data, 'error');
             }
