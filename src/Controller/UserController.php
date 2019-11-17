@@ -409,6 +409,8 @@ class UserController extends SiteController
     public static function sendMailTo(Request $request)
     {
 
+        $user = new User($request);
+
         if(!$user->isLogged() || !($user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
             die('Not authorized');
         }
