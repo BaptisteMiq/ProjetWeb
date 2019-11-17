@@ -13,11 +13,22 @@
         <!-- Deuxième Header -->
         {% include "navbar.html" %}
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+
         
         <!-- Contenu de page -->
             <div class="row" style="width: 99%">
                 <div class="col-2"></div>
                 <div class="col-10">
+
+                <div class="searchproduct">
+                    <input id="search_input" class="form-control" type="text" value="" style="width:20%;position:absolute;left:50px;top:10px" placeholder="Rechercher un produit..." />
+                </div>
+
                     <div class="cards">
                         <h1 class="titrepage">Top ventes<h1>
                         <div class="row justify-content-md-center" style="margin: 50px;">
@@ -104,8 +115,6 @@
                     <h2 style="font-variant: all-petite-caps;">Faire des achats ?</h2>
                     <button class="btn btn-secondary" onclick="location.href='/login'" style="width: -webkit-fill-available; margin-right: 0;">Se Connecter</button>
                 {% endif %}
-                <br />
-                <input id="search" class="form-control" type="text" value="" style="width:100%"/>
                 <div class="descboutique">
                     <h4 style="font-variant: all-petite-caps;">La boutique</h4>
                     <p style="text-align: justify;font-style: italic;font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempus ut orci in venenatis. Proin sollicitudin magna ut cursus pretium. In ut lectus vehicula, convallis orci eu, iaculis metus. Vestibulum consequat ipsum sit amet pretium consequat. Phasellus tristique arcu non molestie tincidunt. Aliquam porta lacus justo, in tristique libero tempor sed. Ut sed lorem lacus.<p>
@@ -115,5 +124,34 @@
 
         <!-- Footer & Animations -->
         {% include "footer.html" %}
+
+
+        <script>
+        $( function() {
+            var tags = [];
+            $('.card').each(function () {
+                tags.push($(this).find('.card-title > a').html())
+            });
+            var uTags = [...new Set(tags)];
+            $("#search_input").autocomplete({
+                source: uTags,
+                select: function() {
+                    updateProductsDisp();
+                }
+            });
+        } );
+
+        $("#search_input").keyup(updateProductsDisp);
+
+        function updateProductsDisp() {
+            $('.card').each(function () {
+                if($(this).find('.card-title > a').html().toLowerCase().includes($("#search_input").val().toLowerCase())) {
+                    $(this).parent('.col-lg-4').css('display', 'block');
+                } else {
+                    $(this).parent('.col-lg-4').css('display', 'none');
+                }
+            });
+        }
+        </script>
     </body>
 </html>
