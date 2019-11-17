@@ -44,10 +44,13 @@ class SiteController extends AbstractController
 			}
 		}
 
+		$cookies = $this->get('session')->get('cookies') !== NULL;
+
 		$defaultParameters = array(
 			'user' => $user,
 			'preferences' => $preferences,
 			'events' => $events,
+			'cookies' => $cookies,
 		);
 		
 		return $this->render($template, array_merge($defaultParameters, $parameters));

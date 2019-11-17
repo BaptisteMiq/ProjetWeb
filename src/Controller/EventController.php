@@ -15,10 +15,12 @@ use App\Acme\CustomBundle\User;
 
 class EventController extends SiteController
 {
+    // Main event page
     public function index() {
         return $this->rendering('event.html.twig');
     }
 
+    // Returns all the events
     public static function getEvents() {
 
         $events = API::call('GET', '/events/all');
@@ -31,10 +33,16 @@ class EventController extends SiteController
 
     }
 
+    // Edit event page (Members only)
     public function editEventPage(Request $request, $id=null) {
+
+        if(!$user->isLogged() || !($user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         $user = new User($request);
 
+        // If no id specified, redirect to index
         if($id === null) {
             return $this->redirect($this->generateUrl('index_page'));
         }
@@ -66,6 +74,7 @@ class EventController extends SiteController
         $data['id'] = $id;
 
         if(!isset($data['error'])) {
+            // Update event
             $res = API::call('POST', '/events/update', $data, $user->getToken());
             if(isset($res->error)) {
                 print_r($res->error);
@@ -78,6 +87,7 @@ class EventController extends SiteController
 
     }
 
+    // New event page
     public function newEventPage(Request $request) {
 
         $user = new User($request);
@@ -641,7 +651,9 @@ class EventController extends SiteController
 
     }
 
-    public function getSubscribeCSV($id=null) {
+    public function getSubscribeCSV(Request $request, $id=null) {
+
+        $user = new User($request);
 
         if($id == null) {
             return false;
@@ -665,7 +677,9 @@ class EventController extends SiteController
                 return new Response("Personne n'est inscrit sur cette liste!"); 
             }
 
-            $resp = "IDENTIFIANT;NOM;PRENOM;MAIL";
+            $act = API::call('GET', '/events/get', [ 'id_Activities' => $id ], $user->getToken());
+
+            $resp = "Liste des inscrits pour " . utf8_decode($act->activity->title) . " ( " . count($reg) . " )\nIDENTIFIANT;NOM;PRENOM;MAIL";
             
             foreach ($reg as $k => $usr) {
                 $user = API::call('GET', '/users/get', ['id' => $usr->id_User])->user[0];

@@ -60,18 +60,24 @@
         <div class="col">
 
         	<!--Container-->
-            <div class="box" style="width: 50%;height: auto; margin: 5% auto;">
+            <div class="box" style="width: 65%;height: auto; margin: 5% auto;">
+            <h1>Liste des évènements</h1>
                 <table id="eventList" class="display nowrap" style="width:100%"></table>
             </div>
 
             <!--Container-->
-            <div class="box" style="width: 50%;height: auto; margin: 5% auto;">
-                <table id="pictureList" class="display nowrap" style="width:100%"></table>
+            <div class="box" style="width: 65%;height: auto; margin: 5% auto;">
+
+            <h1>Liste des photos</h1>
+            <center><button class="btn btn-info btn-sm" onclick="location.href='/events/action/getPictureCSV'">Télécharger</button></center>
+            <table id="pictureList" class="display nowrap" style="width:100%"></table>
             </div>
 
             <!--Container-->
-            <div class="box" style="width: 50%;height: auto; margin: 5% auto;">
-                <table id="commentList" class="display nowrap" style="width:100%"></table>
+            <div class="box" style="width: 65%;height: auto; margin: 5% auto;">
+
+            <h1>Liste des commentaires</h1>
+            <table id="commentList" class="display nowrap" style="width:100%"></table>
             </div>
 
         </div>
@@ -174,6 +180,10 @@
                 background:red;
                 height:10px;
                 font-size:8px;
+            }
+            h1 {
+                color: black;
+                margin: 20px;
             }
 
         </style>

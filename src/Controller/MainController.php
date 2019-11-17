@@ -16,7 +16,7 @@ class MainController extends SiteController
 {
     public function index(Request $request) {
 
-        $categories = API::call('GET', '/shop/getCategoriesAndProducts');
+        // Get most popular products
         $mostPop = ShopController::getMostPopularProducts();
 
         return $this->rendering('index.html.twig', [
