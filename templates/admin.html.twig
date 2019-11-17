@@ -19,6 +19,9 @@
   integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
   crossorigin="anonymous"></script>
 
+          <script src="{{ asset('js/actions.js') }}"></script>
+
+
 	 <title>Admin Control Panel</title>
  </head>
 
@@ -56,16 +59,17 @@
 
         	<!--Container-->
             <div class="box" style="width: 50%;height: auto; margin: 5% auto;">
-
                 <table id="eventList" class="display nowrap" style="width:100%"></table>
-
             </div>
 
             <!--Container-->
             <div class="box" style="width: 50%;height: auto; margin: 5% auto;">
+                <table id="pictureList" class="display nowrap" style="width:100%"></table>
+            </div>
 
+            <!--Container-->
+            <div class="box" style="width: 50%;height: auto; margin: 5% auto;">
                 <table id="commentList" class="display nowrap" style="width:100%"></table>
-
             </div>
 
         </div>
@@ -131,6 +135,17 @@
                 text-overflow: ellipsis;
                 overflow: hidden;
             }
+            #pictureList {
+            table-layout: fixed;
+            width: 100% !important;
+            }
+            #pictureList td,
+                #pictureList th{
+                width: auto !important;
+                /* white-space: normal; */
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
             #commentList {
             table-layout: fixed;
             width: 100% !important;
@@ -185,6 +200,20 @@
             } );
             } );
 
+            var dataSet3 = {{ pictureList|json_encode|raw }};
+
+            $(document).ready(function() {
+            $('#pictureList').DataTable( {
+                data: dataSet3,
+                columns: [
+                    { title: "Activité" },
+                    { title: "Photo" },
+                    { title: "Auteur Photo" },
+                    { title: "Actions" },
+                ]
+            } );
+            } );
+
               $( function() {
 
                 var res = [];
@@ -210,10 +239,11 @@
             $('#commentList').DataTable( {
                 data: dataSet2,
                 columns: [
+                    { title: "Activité" },
                     { title: "Photo" },
-                    { title: "Auteur Photo" },
                     { title: "Commentaire" },
-                    { title: "Auteur Comm." },
+                    { title: "Auteur Commentaire" },
+                    { title: "Actions" },
                 ]
             } );
             } );
@@ -231,10 +261,30 @@
                     if(data == "OK") {
                         alert("Mail envoyé!", 'success');
                     } else {
-                        alert(data);
+                        alert(data, 'error');
                     }
                 }
              });
+            }
+
+
+            
+            function delPicture(id) {
+
+                $.ajax({
+                    url: "/events/action/delPicture",
+                    type: 'POST',
+                    data: {
+                            'id': id
+                        },
+                        success: function (data) {
+                            if(data == "OK") {
+                                location.reload(true);
+                            } else {
+                                alert(data, 'error');
+                            }
+                        }
+                });
             }
 
 

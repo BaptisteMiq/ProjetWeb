@@ -372,54 +372,23 @@ class EventController extends SiteController
 
     public static function delPicture(Request $request) {
 
-        /*
-
-        $.ajax({
-            url: "{{ path('event_delPicture') }}",
-            type: 'POST',
-            data: {
-                    'id': 0
-                },
-            success: function (data) {
-                console.log("Photo supprimée avec succès");
-            },
-            error : function(jqXHR, textStatus, errorThrown){
-                console.log("Impossible de supprimer la photo");
-            }
-        });
-
-        */
+        $user = new User($request);
+        if(!$user->isLogged() || !($user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         $data = API::process($request, [    
             'id' => true,
         ]);
 
-        $pic = API::call('POST', '/events/delPicture', $data, $user->getToken());
-
-        if(empty($pic)) {
-            return new Reponse('Photo non trouvée');
-            die();
-        }
-        if($pic->error) {
-            return new Reponse('Photo non trouvée: ' . $pic->error);
-            die();
-        }
-
-        $user = new User($request);
-
-        // Logged, member or staff or its own comment only
-        if(!$user->isLogged() || !($user->hasRank('STAFF') || $user->hasRank('MEMBER') || $user->getUser()->id == $pic->id_User)) {
-            die('Not authorized');
-        }
-
         $res = API::call('POST', '/events/delPicture', $data, $user->getToken());
 
         if(empty($res)) {
-            return new Reponse('Ne peut pas supprimer la photo pour une raison inconnue');
+            return new Response('Ne peut pas supprimer la photo pour une raison inconnue');
             die();
         }
-        if($res->error) {
-            return new Reponse('Ne peut pas supprimer la photo: ' . $res->error);
+        if(isset($res->error)) {
+            return new Response('Ne peut pas supprimer la photo: ' . $res->error);
             die();
         }
 

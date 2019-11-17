@@ -56,6 +56,7 @@ class UserController extends SiteController
         }
 
         // List of pictures and comments
+        $pictureList = [];
         $commentList = [];
 
         // For each events
@@ -70,16 +71,26 @@ class UserController extends SiteController
             // For each pictures in that event
             if(isset($event->pictures)) {
                 foreach ($event->pictures as $k2 => $v2) {
+                    $pictureList[$k2] = [];
+                    $pictureList[$k2][] = $event->activity->title;
+                    $pictureList[$k2][] = '<a class="table-link" href="' . $v2->link . '" target="_blank">' . $v2->link . '</a>';
+                    $pictureList[$k2][] = $v2->userLastname . ' ' . $v2->userFirstname;
+                    $pictureList[$k2][] = '
+                        <button class="btn list-btn btn-danger" onclick="delPicture(' . $v2->id . ')">
+                            <i class="fa fa-trash"></i>
+                        </button>';
                     if($v2->comments != null) {
                         // For each comments in that picture
                         foreach ($v2->comments as $k3 => $v3) {
-                            // echo $v3->content . '<br />';
-
-                            $commentList[$k] = [];
-                            $commentList[$k][] = '<a class="table-link" href="' . $v2->link . '" target="_blank">' . $v2->link . '</a>';
-                            $commentList[$k][] = $v2->userLastname . ' ' . $v2->userFirstname;
-                            $commentList[$k][] = $v3->content;
-                            $commentList[$k][] = $v3->userLastname . ' ' . $v3->userFirstname;
+                            $commentList[$k3] = [];
+                            $commentList[$k3][] = $event->activity->title;
+                            $commentList[$k3][] = '<a class="table-link" href="' . $v2->link . '" target="_blank">' . $v2->link . '</a>';
+                            $commentList[$k3][] = $v3->content;
+                            $commentList[$k3][] = $v3->userLastname . ' ' . $v3->userFirstname;
+                            $commentList[$k3][] = '
+                            <button class="btn list-btn btn-danger" onclick="delComment(' . $v3->id . ')">
+                                <i class="fa fa-trash"></i>
+                            </button>';
                         }
                     }
                 }
@@ -88,7 +99,8 @@ class UserController extends SiteController
 
         return $this->rendering('admin.html.twig', [
             'eventList' => $eventList,
-            'commentList' => $commentList
+            'commentList' => $commentList,
+            'pictureList' => $pictureList
         ]);
 
     }
@@ -423,6 +435,12 @@ class UserController extends SiteController
 
         return new Response('OK');
         
+    }
+
+    public function legalPage(Request $request) {
+
+        return $this->rendering('legal.html.twig');
+
     }
 
     public function checkPassword($pass) {

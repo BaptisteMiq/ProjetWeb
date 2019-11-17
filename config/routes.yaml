@@ -183,3 +183,7 @@ shop_buy_cart:
 user_admin_page:
   path: /admin
   controller: App\Controller\UserController::adminPage
+
+legal_page:
+  path: /legal
+  controller: App\Controller\UserController::legalPage
