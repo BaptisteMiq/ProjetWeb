@@ -1,11 +1,28 @@
-token:
-   path: /token
-   controller: App\Controller\UserController::token
+#### MAIN ####
+
+## Pages ##
 
 # index.html.twig
 index_page:
    path: /
    controller: App\Controller\MainController::index
+
+legal_page:
+  path: /legal
+  controller: App\Controller\UserController::legalPage
+
+
+## Ajax ##
+
+send_mail:
+   path: /sendmail
+   controller: App\Controller\UserController::sendMailTo
+
+
+
+#### USER ####
+
+## Pages ##
 
 # profile.html.twig
 profile_page:
@@ -17,59 +34,6 @@ profile_pref_page:
    path: /profile/preference
    controller: App\Controller\UserController::profilePreferencePage
 
-# shop.html.twig
-shop_page:
-   path: /shop
-   controller: App\Controller\ShopController::index
-
-# shop_cart.html.twig
-shop_cart_page:
-   path: /shop/cart
-   controller: App\Controller\ShopController::cartPage
-
-shop_remove_product:
-   path: /shop/products/remove
-   controller: App\Controller\ShopController::removeProduct
-
-shop_categories_page:
-   path: /shop/categories
-   controller: App\Controller\ShopController::categoriesPage
-
-shop_new_category:
-   path: /shop/categories/new
-   controller: App\Controller\ShopController::newCategory
-
-shop_remove_category:
-   path: /shop/categories/remove
-   controller: App\Controller\ShopController::removeCategory
-
-# shop.new_product.html.twig
-shop_new_product_page:
-   path: /shop/products/new
-   controller: App\Controller\ShopController::newProductPage
-
-# shop.edit_product.html.twig
-shop_edit_product_page:
-   path: /shop/products/edit/{id}
-   controller: App\Controller\ShopController::editProductPage
-
-shop_add_product_cart:
-   path: /shop/products/add
-   controller: App\Controller\ShopController::addToCart
-
-shop_remove_product_cart:
-   path: /shop/products/removecart
-   controller: App\Controller\ShopController::removeFromCart
-
-# shop.edit_product.html.twig
-shop_edit_page:
-   path: /shop/products/edit
-   controller: App\Controller\ShopController::editProductPage
-
-send_mail:
-   path: /sendmail
-   controller: App\Controller\UserController::sendMailTo
-
 # register.html.twig
 user_register_page:
    path: /register
@@ -79,6 +43,13 @@ user_register_page:
 user_login_page:
    path: /login
    controller: App\Controller\UserController::loginPage
+
+user_admin_page:
+  path: /admin
+  controller: App\Controller\UserController::adminPage
+
+  
+## Ajax ##
 
 user_accept_cookies:
    path: /cookies
@@ -92,9 +63,77 @@ user_edit_preferences:
   path: /users/preferences/edit
   controller: App\Controller\UserController::editPreferences
 
-event_get_all:
-  path: /events/get/all
-  controller: App\Controller\EventController::getEvents
+
+
+
+#### SHOP ####
+
+## Pages ##
+
+# shop.html.twig
+shop_page:
+   path: /shop
+   controller: App\Controller\ShopController::index
+
+# shop_cart.html.twig
+shop_cart_page:
+   path: /shop/cart
+   controller: App\Controller\ShopController::cartPage
+
+# shop.new_product.html.twig
+shop_new_product_page:
+   path: /shop/products/new
+   controller: App\Controller\ShopController::newProductPage
+
+# shop.edit_product.html.twig
+shop_edit_product_page:
+   path: /shop/products/edit/{id}
+   controller: App\Controller\ShopController::editProductPage
+
+# shop.edit_product.html.twig
+shop_edit_page:
+   path: /shop/products/edit
+   controller: App\Controller\ShopController::editProductPage
+
+# shop.categories.html.twig
+shop_categories_page:
+   path: /shop/categories
+   controller: App\Controller\ShopController::categoriesPage
+
+
+## Ajax ##
+
+shop_remove_product:
+   path: /shop/products/remove
+   controller: App\Controller\ShopController::removeProduct
+
+shop_new_category:
+   path: /shop/categories/new
+   controller: App\Controller\ShopController::newCategory
+
+shop_remove_category:
+   path: /shop/categories/remove
+   controller: App\Controller\ShopController::removeCategory
+
+shop_add_product_cart:
+   path: /shop/products/add
+   controller: App\Controller\ShopController::addToCart
+
+shop_remove_product_cart:
+   path: /shop/products/removecart
+   controller: App\Controller\ShopController::removeFromCart
+
+shop_buy_cart:
+  path: /events/cart/buy
+  controller: App\Controller\ShopController::buyCart
+
+
+
+
+
+#### EVENTS ####
+
+## Pages ##
 
 # events.html.twig
 event_get_all_page:
@@ -115,6 +154,12 @@ event_edit_page:
 event_new_page:
   path: /events/action/new
   controller: App\Controller\EventController::newEventPage
+
+
+## Ajax ##
+event_get_all:
+  path: /events/get/all
+  controller: App\Controller\EventController::getEvents
 
 event_delete:
   path: /events/action/delete
@@ -175,15 +220,3 @@ event_getSubscribe:
 event_getPicture:
   path: /events/action/getPictureCSV
   controller: App\Controller\EventController::getPictureCSV
-
-shop_buy_cart:
-  path: /events/cart/buy
-  controller: App\Controller\ShopController::buyCart
-
-user_admin_page:
-  path: /admin
-  controller: App\Controller\UserController::adminPage
-
-legal_page:
-  path: /legal
-  controller: App\Controller\UserController::legalPage
