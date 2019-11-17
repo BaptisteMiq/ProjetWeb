@@ -16,9 +16,13 @@ use App\Acme\CustomBundle\Error;
 class UserController extends SiteController
 {
 
-    public function adminPage(Request $request) {
+    // Admin page (Staff and Members)
+    public function adminPage(Request $request)
+    {
 
-        $user = new User($request);
+        if(!$user->isLogged() || !($user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         // Get events
         $events = API::call('GET', '/events/all');
@@ -108,24 +112,7 @@ class UserController extends SiteController
 
     }
 
-    public function token(Request $request) {
-
-        $session = $request->getSession();
-
-        $user = new User($request);
-
-        if(!$user->isLogged()) {
-            die('You are not logged');
-        }
-
-        API::call('GET', '/token', false, $user->getUser()->token);
-
-        return new Response(
-            'Bienvenue dans la page top secrète, ' . $user->getUser()->token
-        );
-
-    }
-
+    // Login page
     public function loginPage(Request $request)
     {
 
@@ -168,6 +155,7 @@ class UserController extends SiteController
 
     }
 
+    // Register page
     public function registerPage(Request $request)
     {
 
@@ -237,7 +225,9 @@ class UserController extends SiteController
 
     }
 
-    public function logout(Request $request) {
+    // Logout the user (delete session)
+    public function logout(Request $request)
+    {
 
         $session = $request->getSession();
         $session->remove('user');
@@ -246,7 +236,9 @@ class UserController extends SiteController
     
     }
 
-    public function acceptCookies(Request $request) {
+    // Had cookie check to session
+    public function acceptCookies(Request $request)
+    {
 
         $session = $request->getSession();
         $session->set('cookies', true);
@@ -254,6 +246,7 @@ class UserController extends SiteController
     
     }
 
+    // Show profile page (Student+)
     public function profilePage(Request $request)
     {
         $centers = API::call('GET', '/centers');
@@ -323,6 +316,7 @@ class UserController extends SiteController
 
     }
 
+    // Update preferences (Student+)
     public function profilePreferencePage(Request $request)
     {
         $centers = API::call('GET', '/centers');
@@ -409,9 +403,13 @@ class UserController extends SiteController
 
     }
 
-    public static function sendMailTo(Request $request) {
+    // Send custom mail (Staff and Member)
+    public static function sendMailTo(Request $request)
+    {
 
-        $user = new User($request);
+        if(!$user->isLogged() || !($user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         $rData = API::process($request, [
             'id_Rank' => true,
@@ -440,13 +438,17 @@ class UserController extends SiteController
         
     }
 
-    public function legalPage(Request $request) {
+    // Show legal page
+    public function legalPage(Request $request)
+    {
 
         return $this->rendering('legal.html.twig');
 
     }
 
-    public function checkPassword($pass) {
+    // Check valid password
+    public function checkPassword($pass)
+    {
 
         if(strlen($pass) < 6) {
             return 'Password too short';
@@ -463,8 +465,10 @@ class UserController extends SiteController
         return false;
 
     }
-
-    public function checkMail($mail) {
+ 
+    // Check if valid mail
+    public function checkMail($mail)
+    {
 
         if(!filter_var($mail, FILTER_VALIDATE_EMAIL) || !preg_match("#@.*?cesi\..+?$#", $mail)) {
             return 'Invalid mail!';

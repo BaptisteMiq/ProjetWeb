@@ -15,13 +15,16 @@ use App\Acme\CustomBundle\User;
 
 class EventController extends SiteController
 {
+
     // Main event page
-    public function index() {
+    public function index()
+    {
         return $this->rendering('event.html.twig');
     }
 
     // Returns all the events
-    public static function getEvents() {
+    public static function getEvents()
+    {
 
         $events = API::call('GET', '/events/all');
 
@@ -34,13 +37,14 @@ class EventController extends SiteController
     }
 
     // Edit event page (Members only)
-    public function editEventPage(Request $request, $id=null) {
+    public function editEventPage(Request $request, $id=null)
+    {
+
+        $user = new User($request);
 
         if(!$user->isLogged() || !($user->hasRank(User::MEMBER))) {
             die('Not authorized');
         }
-
-        $user = new User($request);
 
         // If no id specified, redirect to index
         if($id === null) {
@@ -87,10 +91,15 @@ class EventController extends SiteController
 
     }
 
-    // New event page
-    public function newEventPage(Request $request) {
+    // New event page (Members only)
+    public function newEventPage(Request $request)
+    {
 
         $user = new User($request);
+
+        if(!$user->isLogged() || !($user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         $centers = API::call('GET', '/centers');
         $recs = API::call('GET', '/recurrences');
@@ -122,9 +131,15 @@ class EventController extends SiteController
 
     }
 
-    public static function deleteEvent(Request $request) {
+    // Delete events (Members only)
+    public static function deleteEvent(Request $request)
+    {
 
         $user = new User($request);
+
+        if(!$user->isLogged() || !($user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         $data = API::process($request, [
             'id' => true,
@@ -143,7 +158,9 @@ class EventController extends SiteController
 
     }
     
-    public function showAllEventsPage(Request $request) {
+    // Show all events
+    public function showAllEventsPage(Request $request)
+    {
 
         $events = json_decode($this->getEvents());
 
@@ -151,7 +168,9 @@ class EventController extends SiteController
 
     }
 
-    public function showEventPage(Request $request, $id=null) {
+    // Show one event
+    public function showEventPage(Request $request, $id=null)
+    {
 
         $user = new User($request);
 
@@ -170,12 +189,14 @@ class EventController extends SiteController
 
         $events->sub = false;
 
+        // Get likes for every pictures
         if(isset($events->pictures)) {
             foreach ($events->pictures as $k => $v) {
                 $v->like = EventController::getLike($request, $v->id);
             }
         }
 
+        // Get subscribes
         $sub = EventController::getSubscribe($events->activity->id);
         $events->count = EventController::subscribeCount($events->activity->id);
         if(count($sub) > 0 && $user != null) {
@@ -190,11 +211,15 @@ class EventController extends SiteController
 
     }
 
-    public function likePicture(Request $request) {
-
-        $session = $request->getSession();
+    // Like a picture (Student+)
+    public function likePicture(Request $request)
+    {
 
         $user = new User($request);
+
+        if(!$user->isLogged()) {
+            die('Not authorized');
+        }
 
         if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
             die('Not authorized');
@@ -221,15 +246,17 @@ class EventController extends SiteController
 
     }
 
-    public function unlikePicture(Request $request) {
-
-        $session = $request->getSession();
+    // Dislike a picture (Student+)
+    public function unlikePicture(Request $request)
+    {
 
         $user = new User($request);
 
-        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+        if(!$user->isLogged()) {
             die('Not authorized');
         }
+
+        $user = new User($request);
 
         $data = API::process($request, [
             'id_Picture' => true,
@@ -252,11 +279,15 @@ class EventController extends SiteController
 
     }
 
-    public static function subscribeEvent(Request $request) {
-
-        $session = $request->getSession();
+    // Subscribe to an event (Student+)
+    public static function subscribeEvent(Request $request)
+    {
 
         $user = new User($request);
+
+        if(!$user->isLogged()) {
+            die('Not authorized');
+        }
 
         if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
             die('Not authorized');
@@ -283,9 +314,8 @@ class EventController extends SiteController
 
     }
 
+    // Unsub (Student+)
     public static function unSubscribeEvent(Request $request) {
-
-        $session = $request->getSession();
 
         $user = new User($request);
 
@@ -314,14 +344,13 @@ class EventController extends SiteController
 
     }
 
+    // Add a picture to an event (Student+)
     public static function addPicture(Request $request) {
 
         $user = new User($request);
-        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+        if(!$user->isLogged()) {
             die('Not authorized');
         }
-
-        // $this->checkUserSubscribedToOldEvent($request, $user->getUser()->id);
 
         $data = API::process($request, [
             'link' => true,
@@ -343,10 +372,11 @@ class EventController extends SiteController
 
     }
 
+    // Delete a comment (Student+)
     public function delComment(Request $request) {
 
         $user = new User($request);
-        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+        if(!$user->isLogged()) {
             die('Not authorized');
         }
 
@@ -380,10 +410,11 @@ class EventController extends SiteController
 
     }
 
+    // Delete a picture (Staff)
     public static function delPicture(Request $request) {
 
         $user = new User($request);
-        if(!$user->isLogged() || !($user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+        if(!$user->isLogged() || !($user->hasRank(User::STAFF))) {
             die('Not authorized');
         }
 
@@ -406,10 +437,11 @@ class EventController extends SiteController
 
     }
 
+    // Send a comment to a picture of an event (Student+)
     public static function sendComment(Request $request) {
 
         $user = new User($request);
-        if(!$user->isLogged() || !($user->hasRank(User::STUDENT) || $user->hasRank(User::STAFF) || $user->hasRank(User::MEMBER))) {
+        if(!$user->isLogged()) {
             die('Not authorized');
         }
 
@@ -440,74 +472,7 @@ class EventController extends SiteController
 
     }
 
-    public static function downloadSubscribedStudents(Request $request) {
-
-        /*
-
-        $.ajax({
-            url: "{{ path('event_sendComment') }}",
-            type: 'POST',
-            data: {
-                    'id: 0,
-                },
-            success: function (data) {
-                console.log(data);
-            },
-            error : function(jqXHR, textStatus, errorThrown){
-                console.log("Impossible de récupérer les inscrits de cet évènement");
-            }
-        });
-
-        */
-
-        $user = new User($request);
-        if(!$user->isLogged() || !($user->hasRank('ADMIN') || $user->hasRank('MEMBER'))) {
-            die('Not authorized');
-        }
-
-        $data = API::process($request, [
-            'id' => true,
-        ]);
-
-        $res = API::call('GET', '/events/getSubscribe', $data, $user->getToken());
-
-        if(empty($res)) {
-            return new Reponse('Ne peut pas récupérer la liste des inscrits');
-            die();
-        }
-        if($res->error) {
-            return new Reponse('Ne peut pas récupérer la liste des inscrits: ' . $res->error);
-            die();
-        }
-
-        // Process data to generate PDF / CSV
-        // ...
-
-        print_r($res);
-        die();
-
-    }
-
-    public function getAllPictures(Request $request) {
-
-        $user = new User($request);
-        if(!$user->isLogged() || !$user->hasRank('ADMIN')) {
-            die('Not authorized');
-        }
-
-        $events = API::call('GET', '/events/all', $data, $user->getToken())->AllActivitiesFound;
-
-        $pictures = [];
-
-        foreach ($event as $key => $value) {
-            array_push($pictures, $value->picture);
-        }
-
-        print_r($pictures);
-        die();
-
-    }
-
+    // Return true if the user is subscribed to the event and if the event is finished
     public function checkUserSubscribedToOldEvent($req, $uid) {
 
         $data = API::process($req, [    
@@ -523,6 +488,7 @@ class EventController extends SiteController
 
     }
 
+    // Count number of subscribe
     public static function subscribeCount($id=null) {
 
         if($id == null) {
@@ -550,6 +516,7 @@ class EventController extends SiteController
 
     }
 
+    // Return subscribed students
     public static function getSubscribe($id=null) {
         if($id == null) {
             return false;
@@ -570,6 +537,7 @@ class EventController extends SiteController
         return new Response('Missing ' . $data['error']);
     }
 
+    // Return true if the user has liked the picture
     public static function getLike($req, $id=null) {
 
         $user = new User($req);
@@ -587,6 +555,7 @@ class EventController extends SiteController
         return new Response('Missing ' . $data['error']);
     }
 
+    // Returns all the likes
     public static function getAllLike($req, $id=null) {
 
         $user = new User($req);
@@ -607,6 +576,7 @@ class EventController extends SiteController
         return new Response('Missing ' . $data['error']);
     }
 
+    // Export all pictures to CSV
     public function getPictureCSV() {
         
         $data = [];
@@ -651,6 +621,7 @@ class EventController extends SiteController
 
     }
 
+    // Export all subscribed students to CSV
     public function getSubscribeCSV(Request $request, $id=null) {
 
         $user = new User($request);
@@ -705,105 +676,5 @@ class EventController extends SiteController
         return new Response('Missing ' . $data['error']);
 
     }
-
-    // public static function csvToPDF($temp, $file) {
-
-    //     $endpoint = "https://sandbox.zamzar.com/v1/jobs";
-    //     $apiKey = "7a9b61238125c036249649ca2b792d4830706226";
-    //     $sourceFile = curl_file_create($file);
-    //     $targetFormat = "pdf";
-        
-    //     $postData = array(
-    //       "source_file" => $sourceFile,
-    //       "target_format" => $targetFormat
-    //     );
-        
-    //     $ch = curl_init(); // Init curl
-    //     curl_setopt($ch, CURLOPT_URL, $endpoint); // API endpoint
-    //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-    //     curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return response as a string
-    //     curl_setopt($ch, CURLOPT_USERPWD, $apiKey . ":"); // Set the API key as the basic auth username
-    //     $body = curl_exec($ch);
-    //     curl_close($ch);
-        
-    //     $response = json_decode($body, true);
-
-    //     sleep(5);
-        
-    //     echo "Response:\n---------\n";
-    //     print_r($response);
-
-    //     $jobID = $response['id'];
-    //     $endpoint = "https://sandbox.zamzar.com/v1/jobs/$jobID";
-    //     $apiKey = "7a9b61238125c036249649ca2b792d4830706226";
-
-    //     $ch = curl_init(); // Init curl
-    //     curl_setopt($ch, CURLOPT_URL, $endpoint); // API endpoint
-    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return response as a string
-    //     curl_setopt($ch, CURLOPT_USERPWD, $apiKey . ":"); // Set the API key as the basic auth username
-    //     $body = curl_exec($ch);
-    //     curl_close($ch);
-
-    //     $job = json_decode($body, true);
-
-    //     echo "Job:\n----\n";
-    //     print_r($job);
-
-    //     $fileID = $job['target_files'][0]['id'];
-    //     $localFilename = "converted.pdf";;
-    //     $endpoint = "https://sandbox.zamzar.com/v1/files/$fileID/content";
-    //     $apiKey = "7a9b61238125c036249649ca2b792d4830706226";
-
-    //     $ch = curl_init(); // Init curl
-    //     curl_setopt($ch, CURLOPT_URL, $endpoint); // API endpoint
-    //     curl_setopt($ch, CURLOPT_USERPWD, $apiKey . ":"); // Set the API key as the basic auth username
-    //     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-
-    //     $fh = fopen($localFilename, "wb");
-    //     curl_setopt($ch, CURLOPT_FILE, $fh);
-
-    //     $body = curl_exec($ch);
-    //     curl_close($ch);
-
-    //     echo "File downloaded\n";
-        
-    // }
-
-    public static function isSubscribed($id=null) {
-        
-        if($id == null) {
-            return false;
-        }
-
-        return true;
-
-    }
-
-    // Handle file upload
-    // $i = 0;
-    // foreach($request->files as $file) {
-
-    //     if($i > 2) {
-    //         die('You uploaded too many pictures! Limit: 2');
-    //     }
-
-    //     if(!empty($file)) {
-    //         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-    //         $filename = $originalFilename.'-'.uniqid();
-    //         try {
-    //             $file->move('img', $filename);
-    //         } catch(FileException $e) {
-    //             die('Failed to upload file :(');
-    //         }
-
-    //         $data = [
-    //             'file' => 'img/' . $filename
-    //         ];
-    //         API::call('POST', '/events/comments/addPic', $data);
-    //     }
-
-    //     $i++;
-    // }
 
 }

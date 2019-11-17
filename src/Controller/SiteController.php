@@ -11,7 +11,9 @@ use \Mailjet\Resources;
 class SiteController extends AbstractController
 {
 
-    protected function rendering($template, $parameters = array()){
+	// Basic rendering function (allow to have default params for every twig page)
+	protected function rendering($template, $parameters = array())
+	{
 
 		$user = $this->get('session')->get('user');
 
@@ -56,7 +58,9 @@ class SiteController extends AbstractController
 		return $this->render($template, array_merge($defaultParameters, $parameters));
 	}
 
-	public static function sendMail($dest, $subject, $content) {
+	// Send a mail
+	public static function sendMail($dest, $subject, $content)
+	{
 		$mj = new \Mailjet\Client('ea071e172cf98babfd2aaad4628ffecf','23deab9ba116903135bb292983675dbc',true,['version' => 'v3.1']);
 		$body = [
 			'Messages' => [

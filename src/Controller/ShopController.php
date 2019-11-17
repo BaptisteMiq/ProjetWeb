@@ -15,7 +15,9 @@ use App\Acme\CustomBundle\User;
 class ShopController extends SiteController
 {
 
-    public function index() {
+    // Main shop page
+    public function index()
+    {
 
         $categories = API::call('GET', '/shop/getCategoriesAndProducts');
         $mostPop = ShopController::getMostPopularProducts();
@@ -27,7 +29,14 @@ class ShopController extends SiteController
 
     }
 
-    public function categoriesPage(Request $request) {
+    // Edit categories page (Members)
+    public function categoriesPage(Request $request)
+    {
+
+        $user = new User($request);
+        if(!$user->isLogged() || !($user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         $categories = API::call('GET', '/shop/getCategories');
 
@@ -37,12 +46,14 @@ class ShopController extends SiteController
 
     }
 
-    public function newCategory(Request $request) {
+    // Add new category (Members)
+    public function newCategory(Request $request)
+    {
 
         $user = new User($request);
-        // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
-        //     die('Not authorized');
-        // }
+        if(!$user->isLogged() || !($user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         $data = API::process($request, [
             'label' => true,
@@ -60,12 +71,14 @@ class ShopController extends SiteController
         return new Response('OK');
     }
 
-    public function removeCategory(Request $request) {
+    // Remove category (Members)
+    public function removeCategory(Request $request)
+    {
 
         $user = new User($request);
-        // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
-        //     die('Not authorized');
-        // }
+        if(!$user->isLogged() || !($user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         $data = API::process($request, [
             'id' => true,
@@ -84,7 +97,14 @@ class ShopController extends SiteController
         return new Response('OK');
     }
 
-    public function editProductPage(Request $request, $id=null) {
+    // Product edit page (Members)
+    public function editProductPage(Request $request, $id=null)
+    {
+
+        $user = new User($request);
+        if(!$user->isLogged() || !($user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         if($id == null) {
             return $this->redirect('/shop');
@@ -151,12 +171,14 @@ class ShopController extends SiteController
         
     }
 
-    public function newProductPage(Request $request) {
+    // Add new product page (Members)
+    public function newProductPage(Request $request)
+    {
 
         $user = new User($request);
-        // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
-        //     die('Not authorized');
-        // }
+        if(!$user->isLogged() || !($user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
         
         $centers = API::call('GET', '/centers');
         $categories = API::call('GET', '/shop/getCategories');
@@ -204,12 +226,14 @@ class ShopController extends SiteController
         
     }
 
-    public static function removeProduct(Request $request) {
+    // Delete a product (Members)
+    public static function removeProduct(Request $request)
+    {
 
         $user = new User($request);
-        // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
-        //     die('Not authorized');
-        // }
+        if(!$user->isLogged() || !($user->hasRank(User::MEMBER))) {
+            die('Not authorized');
+        }
 
         $data = API::process($request, [
             'id' => true,
@@ -230,9 +254,14 @@ class ShopController extends SiteController
 
     }
 
-    public function cartPage(Request $request) {
+    // Show cart (Student+)
+    public function cartPage(Request $request)
+    {
 
         $user = new User($request);
+        if(!$user->isLogged()) {
+            die('Not authorized');
+        }
 
         $cart = API::call('GET', '/shop/getCart', [], $user->getToken());
 
@@ -253,12 +282,14 @@ class ShopController extends SiteController
 
     }
 
-    public static function addToCart(Request $request) {
+    // Add product to cart (Student+)
+    public static function addToCart(Request $request)
+    {
 
         $user = new User($request);
-        // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
-        //     die('Not authorized');
-        // }
+        if(!$user->isLogged()) {
+            die('Not authorized');
+        }
 
         API::call('POST', '/shop/createCart', [], $user->getToken());
 
@@ -303,12 +334,14 @@ class ShopController extends SiteController
 
     }
 
-    public function removeFromCart(Request $request) {
+    // Remove a product from cart (Student+)
+    public function removeFromCart(Request $request)
+    {
 
         $user = new User($request);
-        // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
-        //     die('Not authorized');
-        // }
+        if(!$user->isLogged()) {
+            die('Not authorized');
+        }
 
         $cartId = API::call('GET', '/shop/getIdCart', [], $user->getToken());
 
@@ -342,7 +375,9 @@ class ShopController extends SiteController
 
     }
 
-    public static function getMostPopularProducts() {
+    // Return the 3 most sold products
+    public static function getMostPopularProducts()
+    {
 
         $categories = API::call('GET', '/shop/getCategoriesAndProducts')->Categories;
 
@@ -374,33 +409,14 @@ class ShopController extends SiteController
 
     }
 
-    protected static function checkProductInObj($obj, $prod) {
-        foreach ($obj as $k => $v) {
-            if($v->id == $prod->id) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected static function getMinInArr($arr) {
-        $minIndex = 0;
-        $min = $arr[0];
-        foreach ($arr as $k => $v) {
-            if($v->nb_sales < $min->nb_sales) {
-                $minIndex = $k;
-                $min = $v;
-            }
-        }
-        return $minIndex;
-    }
-
-    public static function buyCart(Request $request) {
+    // Buy all cart (Student+)
+    public static function buyCart(Request $request)
+    {
 
         $user = new User($request);
-        // if(!$user->isLogged() || $user->hasRank('MEMBER')) {
-        //     die('Not authorized');
-        // }
+        if(!$user->isLogged()) {
+            die('Not authorized');
+        }
 
         $cart = API::call('GET', '/shop/getCart', [], $user->getToken());
 
@@ -477,6 +493,31 @@ class ShopController extends SiteController
 
         return new Response('OK');
 
+    }
+
+    // Check if product is in given object
+    protected static function checkProductInObj($obj, $prod)
+    {
+        foreach ($obj as $k => $v) {
+            if($v->id == $prod->id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Return the minimum sales value in array
+    protected static function getMinInArr($arr)
+    {
+        $minIndex = 0;
+        $min = $arr[0];
+        foreach ($arr as $k => $v) {
+            if($v->nb_sales < $min->nb_sales) {
+                $minIndex = $k;
+                $min = $v;
+            }
+        }
+        return $minIndex;
     }
 
 }

@@ -14,7 +14,10 @@ use App\Acme\CustomBundle\API;
 
 class MainController extends SiteController
 {
-    public function index(Request $request) {
+
+    // Main index page
+    public function index(Request $request)
+    {
 
         // Get most popular products
         $mostPop = ShopController::getMostPopularProducts();
@@ -23,4 +26,5 @@ class MainController extends SiteController
             'mostPop' => $mostPop
         ]);
     }
+
 }
