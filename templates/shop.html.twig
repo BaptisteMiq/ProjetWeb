@@ -5,7 +5,7 @@
         <title>Boutique</title>
     </head>
 
-    <body>
+    <body style="overflow-x:hidden;">
         <!-- Header -->
         {% include "header.html" %}
         <div style="background: #eceef0 url(/images/boutique.jpg) no-repeat 0% 55% / cover; height: 460px;"></div>
@@ -21,8 +21,36 @@
 
         
         <!-- Contenu de page -->
-            <div class="row" style="width: 99%">
-                <div class="col-2"></div>
+            <div class="row" style="width: 101%;">
+                <div class="col-2">
+                
+                <div class="leftpanel-shop">
+                {% if user != null %}
+                    {% if user.id_Rank == 3 %}
+                        <div>
+                            <h2 style="font-variant: all-petite-caps;">Panel membre</h2>
+                            <button class="btn btn-secondary" onclick="location.href='/shop/products/new'" style="width: -webkit-fill-available; margin-right: 7%;">Ajouter un produit</button>
+                            <button class="btn btn-secondary" onclick="location.href='/shop/categories'" style="width: -webkit-fill-available; margin-right: 7%;">Gérer les catégories</button>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <h2 style="font-variant: all-petite-caps;margin-top: 125px;">Panel utilisateur</h2>
+                        <button class="btn btn-secondary" onclick="location.href='/shop/cart'" style="width: -webkit-fill-available; margin-right: 7%;">Panier</button>
+                    </div>
+                {% else %}
+                    <h2 style="font-variant: all-petite-caps;">Faire des achats ?</h2>
+                    <button class="btn btn-secondary" onclick="location.href='/login'" style="width: -webkit-fill-available; margin-right: 0;">Se Connecter</button>
+                {% endif %}
+                <div class="descboutique">
+                    <h4 style="font-variant: all-petite-caps;">La boutique</h4>
+                    <p style="text-align: justify;font-style: italic;font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempus ut orci in venenatis. Proin sollicitudin magna ut cursus pretium. In ut lectus vehicula, convallis orci eu, iaculis metus. Vestibulum consequat ipsum sit amet pretium consequat. Phasellus tristique arcu non molestie tincidunt. Aliquam porta lacus justo, in tristique libero tempor sed. Ut sed lorem lacus.<p>
+                </div>
+
+            </div>
+                
+                
+                
+                </div>
                 <div class="col-10">
 
                 <div>
@@ -96,31 +124,7 @@
                     </div>
                 </div>
             
-            <!-- LEFT PANEL -->
-            <div class="leftpanel"></div>
-            <div style="position: sticky;top: 110px;margin-top: -2130px;padding: 30px;height: 331px;z-index: -1;">
-                {% if user != null %}
-                    {% if user.id_Rank == 3 %}
-                        <div>
-                            <h2 style="font-variant: all-petite-caps;">Panel membre</h2>
-                            <button class="btn btn-secondary" onclick="location.href='/shop/products/new'" style="width: -webkit-fill-available; margin-right: 7%;">Ajouter un produit</button>
-                            <button class="btn btn-secondary" onclick="location.href='/shop/categories'" style="width: -webkit-fill-available; margin-right: 7%;">Gérer les catégories</button>
-                        </div>
-                    {% endif %}
-                    <div>
-                        <h2 style="font-variant: all-petite-caps;margin-top: 125px;">Panel utilisateur</h2>
-                        <button class="btn btn-secondary" onclick="location.href='/shop/cart'" style="width: -webkit-fill-available; margin-right: 7%;">Panier</button>
-                    </div>
-                {% else %}
-                    <h2 style="font-variant: all-petite-caps;">Faire des achats ?</h2>
-                    <button class="btn btn-secondary" onclick="location.href='/login'" style="width: -webkit-fill-available; margin-right: 0;">Se Connecter</button>
-                {% endif %}
-                <div class="descboutique">
-                    <h4 style="font-variant: all-petite-caps;">La boutique</h4>
-                    <p style="text-align: justify;font-style: italic;font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempus ut orci in venenatis. Proin sollicitudin magna ut cursus pretium. In ut lectus vehicula, convallis orci eu, iaculis metus. Vestibulum consequat ipsum sit amet pretium consequat. Phasellus tristique arcu non molestie tincidunt. Aliquam porta lacus justo, in tristique libero tempor sed. Ut sed lorem lacus.<p>
-                </div>
-                </div>
-            </div>
+
 
         <!-- Footer & Animations -->
         {% include "footer.html" %}
@@ -153,5 +157,20 @@
             });
         }
         </script>
+
+
+        <style>
+        .leftpanel-shop{
+            background-color: #313131;
+            height: 100vh;
+            width: 350px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 2px 0px 10px black;
+            position: -webkit-sticky;
+            position: sticky;
+	        top: 100px;
+        }
+        </style>
     </body>
 </html>
