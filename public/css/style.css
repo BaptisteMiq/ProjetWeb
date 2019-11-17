@@ -69,7 +69,14 @@ ul.nav {
     color: white;
 }
 
-bubble {
+#logo{
+    background: #eceef0 url(../images/bde-thumbail2.jpg) no-repeat 0% 55% / cover;
+    height: 460px;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.bubble {
 	position: absolute;
 	color: white;
     background-color: red;
@@ -81,7 +88,7 @@ bubble {
     margin-top: -17px;
 }
 
-bubbleIndex {
+.bubbleIndex {
     position: absolute;
     color: white;
     background-color: red;
@@ -96,13 +103,6 @@ bubbleIndex {
     height: 25px;
     text-align: center;
     font-size: initial;
-}
-
-#logo{
-    background: #eceef0 url(../images/bde-thumbail2.jpg) no-repeat 0% 55% / cover;
-    height: 460px;
-    display: flex;
-    box-sizing: border-box;
 }
 
 .event_box:target{
@@ -367,6 +367,7 @@ opacity: 0.5 !important;
 	color: white;
 	padding: inherit;
 	text-align: justify;
+	word-break: break-word;
 }
 
 .comm-input{
@@ -528,6 +529,13 @@ h1 {
 	position: absolute;
 	top: -10px;
 	right: -10px;
+}
+
+.card-voir{
+	width: 130px;
+    font-variant: all-petite-caps;
+    font-size: larger;
+    margin-left: 70px;
 }
 
 .descboutique{

@@ -43,14 +43,14 @@
                             {% endif %}
                         {% else %}
                             {% if not event.sub %}
-                                <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;" onclick="subscribe({{ event.activity.id }})">Souscrire<bubble>{{ event.count }}</bubble></button>
+                                <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;" onclick="subscribe({{ event.activity.id }})">Souscrire<span class="bubble">{{ event.count }}</span></button>
                             {% else %}
-                                <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;" onclick="unSubscribe({{ event.activity.id }})">Se désinscrire<bubble>{{ event.count }}</bubble></button>
+                                <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;" onclick="unSubscribe({{ event.activity.id }})">Se désinscrire<span class="bubble">{{ event.count }}</span></button>
                             {% endif %}
                         {% endif %}
                     {% else %}
                         <button class="btn btn-secondary" style="float: right; margin-right: 4%; margin-top: 12px;" onclick="location.href='/login'">Publier</button>
-                        <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;" onclick="location.href='/login'">Souscrire<bubble>{{ event.count }}</bubble></button>
+                        <button class="btn btn-secondary" style="float: right; margin-right: 10%; margin-top: 12px;" onclick="location.href='/login'">Souscrire<span class="bubble">{{ event.count }}</span></button>
                     {% endif %}
                 </div>
             </div>

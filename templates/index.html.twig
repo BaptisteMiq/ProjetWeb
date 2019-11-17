@@ -2,9 +2,10 @@
 <html>
     <head>
         {% include "head.html" %}
+        <title>BDE CESI TOULOUSE</title>
     </head>
     
-    <body>
+    <body style="overflow-y:auto !important;">
         <!-- Header -->
         {% include "header.html" %}
         <div id="logo" style="text-align: center"></div>
@@ -17,7 +18,7 @@
             <h1 class="titrepage">Événement du mois</h1>
             {% for event in events %}
                 {% if event.top_event == true %}
-                    <div class="event_box">
+                    <div class="event_box" style="margin-bottom: 50px">
                         {% if event.price == 0 %}
                         <div class="ribbon ribbon-top-left"><span>Gratuit</span></div>
                         {% endif %}
@@ -41,14 +42,14 @@
                                 </div>
                                 <div class="col" style="z-index: 2;">
                                     {% if user != null %}
-                                        <button class="btn btn-secondary" style="margin-right: 4%;" onclick="location.href='#'">Publier</button>
+                                        <button class="btn btn-secondary" style="margin-right: 4%;" onclick="location.href='/events/{{ event.id }}'">Publier</button>
                                         {% if not event.sub %}
-                                            <button class="btn btn-secondary" onclick="subscribe({{ event.id }})">Souscrire<bubble>{{ event.count }}</bubble></button>
+                                            <button class="btn btn-secondary" onclick="subscribe({{ event.id }})">Souscrire<span class="bubble">{{ event.count }}</span></button>
                                         {% else %}
-                                            <button class="btn btn-secondary" onclick="unSubscribe({{ event.id }})">Se désinscrire<bubble>{{ event.count }}</bubble></button>
+                                            <button class="btn btn-secondary" onclick="unSubscribe({{ event.id }})">Se désinscrire<span class="bubble">{{ event.count }}</span></button>
                                         {% endif %}
                                     {% else %}
-                                        <button class="btn btn-secondary" onclick="location.href='/login'">Souscrire<bubble>{{ event.count }}</bubble></button>
+                                        <button class="btn btn-secondary" onclick="location.href='/login'">Souscrire<span class="bubble">{{ event.count }}</span></button>
                                     {% endif %}
                                 </div>
                             </div>
@@ -56,6 +57,25 @@
                     </div>
                 {% endif %}
             {% endfor %}
+
+            <!-- Boutique -->
+            <h1 class="titrepage">Boutique</h1>
+            <div class="row" style="margin-left: 0;margin-right: 0;">
+            {% for product in mostPop %}
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
+                            <a href="/shop"><img src="images/down-arrow.png" class="next_arrow" style="margin-top: 0px;margin-right: auto;"></img></a>
+                            <div class="card-sub" style="height: 90px;">
+                                <h5 class="card-title price-text">{{ product.price|number_format(2) }} €</h5>
+                                <h4 class="card-title"><a>{{ product.label }}</a></h4>
+                                <a href="/shop" class="btn btn-success card-voir" style="margin-top: -4px;">Voir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
 
             <!-- Événements passés -->
             <h1 class="titrepage">Événements passés</h1>
@@ -68,7 +88,7 @@
                     <div class="ribbon ribbon-top-left"><span>Gratuit</span></div>
                     {% endif %}
                         <div class="event_box_nav">
-                            <h2 style="margin-left: 15px">{{ event.title }}<bubbleIndex>{{ event.count }}</bubbleIndex></h2>
+                            <h2 style="margin-left: 15px">{{ event.title }}<span class="bubbleIndex">{{ event.count }}</span></h2>
                             {% if user != null %}
                             <a href="/events/{{ event.id }}"><img src="images/down-arrow.png" class="next_arrow"></img></a>
                             {% else %}
@@ -98,10 +118,7 @@
                 {% endif %}
             {% endfor %}
 
-            <!-- Boutique -->
-            <h1 class="titrepage">Boutique</h1>
-
-        <!-- Footer & Animations -->
+        <!-- Footer & Animations & Modal Cookies -->
         {% include "footer.html" %}
     </body>
 </html>

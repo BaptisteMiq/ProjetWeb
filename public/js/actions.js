@@ -22,10 +22,7 @@ function acceptCookies() {
         type: 'POST',
         data: {},
         success: function (data) {
-            if(data == "OK") {
-            } else {
-                alert(data);
-            }
+        location.reload(true);
         }
     });
 }

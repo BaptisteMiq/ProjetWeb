@@ -1,10 +1,13 @@
 <!-- Deuxième Header -->
 <div class="nav-bar">
     {% if user != null %}
-    <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;float: inherit"><a href="./users/logout">Déconnexion</a></button>
+    <button class="btn btn-secondary" style="padding: inherit;margin: 4px;width: 106px;float: inherit;margin-left: 10px;" onclick="location.href='/users/logout'">Déconnexion</button>
     <ul class="nav" style="padding: 0;">
-        <li><a href="#">Souscriptions</a></li>
-        <li><a href="#">Configuration</a></li>
+        {% if (user.id_Rank == 3) or (user.id_Rank == 2) %}
+        <li><a href="/admin">Admin Panel</a></li>
+        {% endif %}
+        <li><a href="/events">Souscriptions</a></li>
+        <li><a href="/login">Configuration</a></li>
     </ul>
     {% endif %}
 </div>
