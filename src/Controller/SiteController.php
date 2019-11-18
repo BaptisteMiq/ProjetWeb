@@ -71,8 +71,8 @@ class SiteController extends AbstractController
 				],
 				'To' => [
 				[
-					// 'Email' => $dest,
-					'Email' => "baptiste.miquel@viacesi.fr",
+					'Email' => $dest,
+					//'Email' => "baptiste.miquel@viacesi.fr",
 					'Name' => "Bapt"
 				]
 				],
