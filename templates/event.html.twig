@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         {% include "head.html" %}
+        <title>BDE CESI TOULOUSE</title>
     </head>
 
     <body style="background-color: #101010">
@@ -11,7 +12,7 @@
         <!-- Deuxième Header -->
         <div class="nav-bar">
             {% if user != null %}
-            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;"><a href="./users/logout">Déconnexion</a></button>
+            <button class="btn btn-secondary" style="padding: inherit; margin: 4px; width: 106px;" onclick="location.href='/users/logout'">Déconnexion</button>
             <ul class="nav" style="padding: 0;">
                 {% if user.id_Rank == 3 %}
                 <li><a href="/events/edit/{{ event.activity.id}}">Modifier l'événement</a></li>

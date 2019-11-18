@@ -8,8 +8,8 @@
  
  <body>
 <header>
-	<div class="titrehead">Inscription</div>
-	<a href="/"><img src="images/down-arrow.png" class="previous_arrow"></img></a>
+	<div class="titrehead">Connexion</div>
+	<a href="/"><img src="images/down-arrow.png" class="previous_arrow" alt="Flèche"></a>
 </header>
 	
 	<p style="color:white; text-align:center;">{{ error is defined ? error : '' }}</p>
@@ -29,7 +29,7 @@
 	</div>
 	
     <button class="btn btn-primary btn-block" type="submit">Se connecter</button>
-	<button class="btn btn-primary btn-block" style="margin-top: 15px;margin-left: auto;margin-right: auto;padding: inherit;width: 150px;height: 30px;"><a href="/register">Inscription</a></button>
+	<button class="btn btn-primary btn-block" style="margin-top: 15px;margin-left: auto;margin-right: auto;padding: inherit;width: 150px;height: 30px;" onclick="location.href='/register'">Inscription</button>
 	</form>
 	</div>
 	

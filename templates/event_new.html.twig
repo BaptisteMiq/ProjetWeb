@@ -1,7 +1,16 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
     <head>
         {% include "head.html" %}
         <title>BDE CESI TOULOUSE</title>
+        <style>
+            form {
+                margin: 20px;
+            }
+            .md-form{
+                margin-bottom: -2.5rem;
+            }
+        </style>
     </head>
     <body>
 
@@ -16,42 +25,42 @@
             <form method="POST" action="/events/action/new">
 
                 <div class="md-form mt-3">
-                    <label for="mail">Titre:</label><br>
-                    <input id="mail" class="form-control" name="title" type="text" value="{{ data is defined ? data.title : '' }}"><br>
+                    <label for="title">Titre:</label><br>
+                    <input id="title" class="form-control" name="title" type="text" value="{{ data is defined ? data.title : '' }}"><br>
                 </div>
 
                 <div class="md-form">
                     <label for="materialContactFormMessage">Description:</label><br>
-                    <textarea id="materialContactFormMessage" class="form-control md-textarea" name="description" type="text">{{ data is defined ? data.description : '' }}</textarea><br><br>
+                    <textarea id="materialContactFormMessage" class="form-control md-textarea" name="description">{{ data is defined ? data.description : '' }}</textarea><br><br>
                 </div>
 
                 <div class="md-form mt-3">
-                    <label for="mail">Photo:</label><br>
-                    <input id="mail" class="form-control" name="picture" type="text" value="{{ data is defined ? data.picture : '' }}"><br><br>
+                    <label for="picture">Photo:</label><br>
+                    <input id="picture" class="form-control" name="picture" type="text" value="{{ data is defined ? data.picture : '' }}"><br><br>
                 </div>
 
                 <div class="md-form mt-3">
-                    <label for="mail">Date début:</label><br>
-                    <input id="mail" class="form-control" name="begin_date" type="datetime-local" value="{{ data is defined ? data.begin_date : '' }}" min="2019-01-01" max="2020-12-31"><br><br>
+                    <label for="begin_date">Date début:</label><br>
+                    <input id="begin_date" class="form-control" name="begin_date" type="datetime-local" value="{{ data is defined ? data.begin_date : '' }}" min="2019-01-01" max="2020-12-31"><br><br>
                 </div>
 
                  <div class="md-form mt-3">
-                    <label for="mail">Date fin:</label><br>
-                    <input id="mail" class="form-control" name="end_date" type="datetime-local" value="{{ data is defined ? data.end_date : '' }}" min="2019-01-01" max="2020-12-31"><br><br>
+                    <label for="end_date">Date fin:</label><br>
+                    <input id="end_date" class="form-control" name="end_date" type="datetime-local" value="{{ data is defined ? data.end_date : '' }}" min="2019-01-01" max="2020-12-31"><br><br>
                 </div>
 
                 <div class="md-form mt-3">
-                    <label for="mail">Top event:</label><br>
-                    <input id="mail" class="form-control" name="top_event" type="text" value="{{ data is defined ? data.top_event }}"/><br><br>
+                    <label for="top_event">Top event:</label><br>
+                    <input id="top_event" class="form-control" name="top_event" type="text" value="{{ data is defined ? data.top_event }}"/><br><br>
                 </div>
 
                 <div class="md-form mt-3">
-                    <label for="mail">Prix:</label><br>
-                    <input type="number" name="price" value="{{ data is defined ? data.price : '' }}"><br><br><br>
+                    <label for="price">Prix:</label><br>
+                    <input id="price" type="number" name="price" value="{{ data is defined ? data.price : '' }}"><br><br><br>
                 </div>
 
                 <div class="md-form">
-                    <select class="browser-default custom-select" style="width: auto" name="id_Center" selected="{{ data is defined ? data.id_Center : '' }}">
+                    <select class="browser-default custom-select" style="width: auto" name="id_Center">
                         <option selected>Localisation</option>
                         {% for center in centers %}
                         <option value="{{ center.id }}">{{ center.label }}</option>
@@ -60,7 +69,7 @@
                 </div>
 
                 <div class="md-form">
-                    <select class="browser-default custom-select" style="width: auto" name="id_Recurrence" selected="{{ data is defined ? data.id_Recurrence : '' }}">
+                    <select class="browser-default custom-select" style="width: auto" name="id_Recurrence">
                         <option selected>Récurence</option>
                         {% for rec in recs %}
                         <option value="{{ rec.id }}">Tous les {{ rec.label }} jours</option>
@@ -74,14 +83,5 @@
 
         <!-- Footer & Animations -->
         {% include "footer.html" %}
-
-        <style>
-            form {
-                margin: 20px;
-            }
-            .md-form{
-                margin-bottom: -2.5rem;
-            }
-        </style>
     </body>
 </html>

@@ -1,8 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
  <head>
     {% include "head.html" %}
 	<title>Gestion des catégories</title>
+        <style>
+            form {
+                margin: 20px;
+            }
+        </style>
+        <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
  </head>
 
     <body>
@@ -50,12 +56,6 @@
         <!-- Footer & Animations -->
         {% include "footer.html" %}
 
-        <style>
-            form {
-                margin: 20px;
-            }
-        </style>
-
          <script>
 
         function removeCategory(id) {
@@ -96,7 +96,5 @@
             $('textarea').trigger("change");
         </script>
     </body>
-
-        <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
 
 </html>

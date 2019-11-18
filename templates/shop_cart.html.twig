@@ -1,78 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         {% include "head.html" %}
         <title>Votre panier</title>
-    </head>
-
-    <body>
-        <!-- Header -->
-        {% include "header.html" %}
-
-        <!-- Deuxième Header -->
-        {% include "navbar.html" %}
-
-        
-        <div class="row" style="width: 100%">
-
-        <div class="col-10">
-
-        <div class="cards">
-
-           <h1>Votre panier<h1>
-
-            <div class="row justify-content-md-center" style="margin: 50px;">
-
-                {% set priceTot = 0 %}
-                {% for product in products %}
-                {% set priceTot = priceTot + product.quantity * product.product.price %}
-
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                        <div class="card">
-                            <div class="card-body" style="background: #eceef0 url({{ product.product.picture }}) no-repeat 50% 50% / cover;">
-                                <button onclick="removeFromCart({{ product.product.id }})" class="btn btn-danger">Enlever</button>
-                                <div class="card-sub">
-                                    <h5 class="card-title price-text">{{ product.product.price|number_format(2) }} €</h5>
-                                    <h4 class="card-title"><a>{{ product.product.label }}</a></h4>
-                                    <p class="card-text">{{ product.product.description }}</p>
-                                    <p class="card-text quantity-text">x {{ product.quantity }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                {% endfor %}
-
-                </div>
-
-        </div>
-
-        <div class="col-2"></div>
-
-        </div>
-
-        <!-- Right PANEL -->
-         <div class="rightpanel">
-
-            <h2>Passer commande</h2>
-            <h4>Sous-total: {{ priceTot|number_format(2) }} €</h4>
-            <h4>TTC: {{ (priceTot * 1.2)|number_format(2) }} €</h4>
-            
-            <p style="color:white;">Vos données personnelles seront utilisées pour le traitement de votre commande, vous accompagner au cours de votre visite du site web, et pour d’autres raisons décrites dans notre <a style="color: hsl(39, 100%, 66%);" href="#">politique de confidentialité</a>.</p>
-
-            <a href="#"><div id="paypal-button-container"></div></a>
-            <button id="buy" class="btn btn-success" onclick="buyCart()">Acheter</button>
-
-        </div>
-
-        </div>
-
-        <!-- Footer & Animations -->
-        {% include "footer.html" %}
-    </body>
-
-
-    <style>
+            <style>
         h1 {
             color: white;
             text-align: center;
@@ -137,8 +68,7 @@
             }
         }
     </style>
-
-    <script>
+        <script>
         function removeFromCart(id) {
             $.ajax({
                 url: "/shop/products/removecart",
@@ -190,5 +120,72 @@
   </script>
 
     <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
+    </head>
+
+    <body>
+        <!-- Header -->
+        {% include "header.html" %}
+
+        <!-- Deuxième Header -->
+        {% include "navbar.html" %}
+
+        
+        <div class="row" style="width: 100%">
+
+        <div class="col-10">
+
+        <div class="cards">
+
+           <h1>Panier</h1>
+
+            <div class="row justify-content-md-center" style="margin: 50px;">
+
+                {% set priceTot = 0 %}
+                {% for product in products %}
+                {% set priceTot = priceTot + product.quantity * product.product.price %}
+
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="card-body" style="background: #eceef0 url({{ product.product.picture }}) no-repeat 50% 50% / cover;">
+                                <button onclick="removeFromCart({{ product.product.id }})" class="btn btn-danger">Enlever</button>
+                                <div class="card-sub">
+                                    <h5 class="card-title price-text">{{ product.product.price|number_format(2) }} €</h5>
+                                    <h4 class="card-title"><a>{{ product.product.label }}</a></h4>
+                                    <p class="card-text">{{ product.product.description }}</p>
+                                    <p class="card-text quantity-text">x {{ product.quantity }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+                </div>
+
+        </div>
+
+        <div class="col-2"></div>
+
+        </div>
+
+        <!-- Right PANEL -->
+         <div class="rightpanel">
+
+            <h2>Passer commande</h2>
+            <h4>Sous-total: {{ priceTot|number_format(2) }} €</h4>
+            <h4>TTC: {{ (priceTot * 1.2)|number_format(2) }} €</h4>
+            
+            <p style="color:white;">Vos données personnelles seront utilisées pour le traitement de votre commande, vous accompagner au cours de votre visite du site web, et pour d’autres raisons décrites dans notre <a style="color: hsl(39, 100%, 66%);" href="#">politique de confidentialité</a>.</p>
+
+            <a href="#"><div id="paypal-button-container"></div></a>
+            <button id="buy" class="btn btn-success" onclick="buyCart()">Acheter</button>
+
+        </div>
+
+        </div>
+
+        <!-- Footer & Animations -->
+        {% include "footer.html" %}
+    </body>
 
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         {% include "head.html" %}
         <title>BDE CESI TOULOUSE</title>
@@ -34,9 +34,9 @@
                 <div class="event_box_nav">
                     <h2 style="margin-left: 15px">{{ event.title }}</h2>
                     {% if user != null %}
-                    <a href="/events/{{ event.id }}"><img src="images/down-arrow.png" class="next_arrow"></img></a>
+                    <a href="/events/{{ event.id }}"><img src="images/down-arrow.png" class="next_arrow" alt="Flèche"></a>
                     {% else %}
-                    <a href="/login"><img src="images/down-arrow.png" class="next_arrow"></img></a>
+                    <a href="/login"><img src="images/down-arrow.png" class="next_arrow" alt="Flèche"></a>
                     {% endif %}
                 </div>
                 {% if event.end_date|date("d/m/Y") < "now"|date("d/m/Y") %}

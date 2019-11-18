@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
  <head>
 	 {% include "head.html" %}
 	 <title>BDE Toulouse | Créer un produit</title>
+        <style>
+            form {
+                margin: 20px;
+            }
+        </style>
  </head>
 
     <body>
@@ -19,33 +24,33 @@
     <p style="text-align:center; color: #FAA">{{ error is defined ? error : '' }}</p>
 
 	<form method="POST" action="/shop/products/new">
-        <p><div class="md-form mt-3">
+        <div class="md-form mt-3">
                 <label for="name">Nom</label>
                 <input id="name" class="form-control" name="label" required="required" type="text" value="{{ data is defined ? data.label : '' }}" />
-        </div></p>
+        </div>
 
-        <p><div class="md-form mt-3">
+        <div class="md-form mt-3">
             <label for="desc">Description</label>
-            <textarea id="desc" class="md-textarea form-control" name="description" required="required" cols="" rows="1">{{ data is defined ? data.description : '' }}</textarea>
-        </div></p>
+            <textarea id="desc" class="md-textarea form-control" name="description" required="required" rows="1">{{ data is defined ? data.description : '' }}</textarea>
+        </div>
         
-        <p><div class="md-form mt-3">
+        <div class="md-form mt-3">
             <label for="pic">Photo</label>
             <input id="pic" class="form-control" name="picture" required="required" type="text" value="{{ data is defined ? data.picture : '' }}" />
-        </div></p>
+        </div>
 
-        	<p><div class="md-form mt-3">
+        	<div class="md-form mt-3">
 			    <label for="price">Prix</label>
 				<input id="price" class="form-control" name="price" required="required" type="number" value="{{ data is defined ? data.price : '' }}" /> 
-			</div></p>
+			</div>
 
-			<p><div class="md-form mt-3">
+			<div class="md-form mt-3">
 					<label for="dtime">Temps de livraison (en jours)</label>
 					<input id="dtime" class="form-control" name="delevery_date" required="required" type="number" value="{{ data is defined ? data.delevery_date : '' }}" /> 
-			</div></p>
+			</div>
 
             <div class="md-form">
-                <select id="cent" class="browser-default custom-select" style="width: auto" name="id_Center" selected="{{ data is defined ? data.id_Center : user.id_Center }}">
+                <select id="cent" class="browser-default custom-select" style="width: auto" name="id_Center">
                     {% for center in centers %}
                     <option value="{{ center.id }}">{{ center.label }}</option>
                     {% endfor %}
@@ -53,7 +58,7 @@
             </div>
 
             <div class="md-form">
-                <select class="browser-default custom-select" style="width: auto" name="id_Category" selected="{{ data is defined ? data.id_Category : '' }}">
+                <select class="browser-default custom-select" style="width: auto" name="id_Category">
                     <option selected>Catégorie</option>
                     {% for category in categories %}
                     <option value="{{ category.id }}">{{ category.label }}</option>
@@ -74,12 +79,6 @@
 
         <!-- Footer & Animations -->
         {% include "footer.html" %}
-
-        <style>
-            form {
-                margin: 20px;
-            }
-        </style>
 
          <script>
             $('input').trigger("change");

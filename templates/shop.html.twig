@@ -1,8 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         {% include "head.html" %}
         <title>Boutique</title>
+        <style>
+        .leftpanel-shop{
+            background-color: #313131;
+            height: 100vh;
+            width: 350px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 2px 0px 10px black;
+            position: -webkit-sticky;
+            position: sticky;
+	        top: 100px;
+        }
+        </style>
     </head>
 
     <body style="overflow-x:hidden;">
@@ -16,13 +29,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 
         
         <!-- Contenu de page -->
-            <div class="row" style="width: 101%;">
-                <div class="col-2">
+        <div class="row" style="width: 101%;">
+            <div class="col-2">
                 
                 <div class="leftpanel-shop">
                 {% if user != null %}
@@ -47,6 +60,7 @@
                 </div>
 
             </div>
+
                 
                 
                 
@@ -58,7 +72,7 @@
                 </div>
 
                     <div class="cards">
-                        <h1 class="titrepage">Top ventes<h1>
+                        <h1 class="titrepage">Top ventes</h1>
                         <div class="row justify-content-md-center" style="margin: 50px;">
                             {% for product in mostPop %}
                                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
@@ -79,7 +93,7 @@
                                                 {% if user == null %}
                                                     <a href="/login" class="btn btn-success btn-sm">Ajouter au panier</a>
                                                 {% else %}
-                                                    <button href="#" class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">Ajouter au panier</button>
+                                                    <button class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">Ajouter au panier</button>
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -90,7 +104,7 @@
                         </div>
                         {% for categorie in categories %}
                             {% if categorie.products|length > 0 %}
-                                <h1 class="titrepage">{{ categorie.label }}<h1>
+                                <h1 class="titrepage">{{ categorie.label }}</h1>
                                 <div class="row justify-content-md-center" style="margin: 50px;">
                                     {% for product in categorie.products %}
                                         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
@@ -111,7 +125,7 @@
                                                     {% if user == null %}
                                                         <a href="/login" class="btn btn-success btn-sm">Ajouter au panier</a>
                                                     {% else %}
-                                                        <button href="#" class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">Ajouter au panier</button>
+                                                        <button class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">Ajouter au panier</button>
                                                     {% endif %}
                                                     </div>
                                                 </div>
@@ -125,7 +139,7 @@
                 </div>
             
 
-
+        </div>
         <!-- Footer & Animations -->
         {% include "footer.html" %}
 
@@ -157,20 +171,5 @@
             });
         }
         </script>
-
-
-        <style>
-        .leftpanel-shop{
-            background-color: #313131;
-            height: 100vh;
-            width: 350px;
-            text-align: center;
-            padding: 20px;
-            box-shadow: 2px 0px 10px black;
-            position: -webkit-sticky;
-            position: sticky;
-	        top: 100px;
-        }
-        </style>
     </body>
 </html>

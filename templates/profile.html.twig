@@ -1,7 +1,16 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
     <head>
         {% include "head.html" %}
         <title>BDE CESI TOULOUSE</title>
+        <style>
+            form {
+                margin: 20px;
+            }
+            .md-form{
+                margin-bottom: -2.5rem;
+            }
+        </style>
     </head>
 
     <body>
@@ -17,7 +26,7 @@
     <!--Container-->
     <div class="row">
         <div class="col box" style="width: 777px;height: auto; margin: 5% auto;margin-left: 10%;margin-right: 5%">
-        <form method="POST"action="/profile">
+        <form method="POST" action="/profile">
             <h1>Profil</h1>
             <div class="row">
                 <div class="md-form mt-3 col">
@@ -43,10 +52,10 @@
                 </div>
                 
                 <div class="md-form">
-                    <label class="" for="mail">Localisation</label><br><br>
-                    <select class="browser-default custom-select" style="width: auto" name="id_Center" selected="{{ user.id_Center }}">
+                    <label class="" for="mail">Localisation</label><br>
+                    <select class="browser-default custom-select" style="width: auto" name="id_Center">
                         {% for center in centers %}
-                        <option value="{{ center.id }}" {{(centers[(center.id)-1].id == center.id) ? 'selected' :''}}>{{ center.label }}</option>
+                        <option value="{{ center.id }}" {{(centers[(center.id)-1].id == user.id_Center) ? 'selected' :''}}>{{ center.label }}</option>
                         {% endfor %}
                     </select><br><br><br>
                 </div>
@@ -61,36 +70,27 @@
                 <h1>Préférence</h1>
 
                 <div class="md-form">
-                    <label class="" for="mail">Thème</label><br><br>
-                    <select class="browser-default custom-select" style="width: auto" name="theme" selected="{{ preference.theme }}">
+                    <label class="" for="mail">Thème</label><br>
+                    <select class="browser-default custom-select" style="width: auto" name="theme">
                         <option value="1" {{preference.theme == '1' ? 'selected' :''}}>Sombre</option>
                         <option value="2" {{preference.theme == '2' ? 'selected' :''}}>Clair</option>
                     </select><br><br><br>
                 </div>
 
                 <div class="md-form">
-                    <label class="" for="mail">Notification</label><br><br>
-                    <select class="browser-default custom-select" style="width: auto" name="notification" selected="{{ preference.notification }}">
+                    <label class="" for="mail">Notification</label><br>
+                    <select class="browser-default custom-select" style="width: auto" name="notification">
                         <option value="1" {{preference.notification == '1' ? 'selected' :''}}>Oui</option>
                         <option value="0" {{preference.notification == '0' ? 'selected' :''}}>Non</option>
                     </select><br><br><br>
                 </div>
 
-                    <button class="btn btn-primary btn-block" type="submit" style="position: relative;margin-right: auto; margin-left: auto;top: 85">Modifier les préférences</button>
+                    <button class="btn btn-primary btn-block" type="submit" style="position: relative;margin-right: auto; margin-left: auto; top: 130px">Modifier les préférences</button>
             </form>
     </div>
-
+    </div>
 
         <!-- Footer & Animations -->
         {% include "footer.html" %}
-
-        <style>
-            form {
-                margin: 20px;
-            }
-            .md-form{
-                margin-bottom: -2.5rem;
-            }
-        </style>
     </body>
 </html>

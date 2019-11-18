@@ -1,7 +1,16 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
     <head>
         {% include "head.html" %}
         <title>BDE CESI TOULOUSE</title>
+        <style>
+            form {
+                margin: 20px;
+            }
+            .md-form{
+                margin-bottom: -2.5rem;
+            }
+        </style>
     </head>
 
     <body>
@@ -25,7 +34,7 @@
 
         <div class="md-form">
             <label for="description">Description:</label><br>
-            <textarea id="description" class="form-control md-textarea" name="description" type="text">{{ event.activity.description }}</textarea><br><br>
+            <textarea id="description" class="form-control md-textarea" name="description">{{ event.activity.description }}</textarea><br><br>
         </div>
 
         <div class="md-form mt-3">
@@ -76,14 +85,5 @@
 
         <!-- Footer & Animations -->
         {% include "footer.html" %}
-
-        <style>
-            form {
-                margin: 20px;
-            }
-            .md-form{
-                margin-bottom: -2.5rem;
-            }
-        </style>
     </body>
 </html>

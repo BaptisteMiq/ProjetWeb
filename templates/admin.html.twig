@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
  <head>
 	 <meta charset="utf-8">
    <link rel="stylesheet" href="{{ asset('/vendors/bootstrap/css/bootstrap.css') }}" type="text/css"/>
@@ -18,53 +18,14 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 
           
 
 
 	 <title>Admin Control Panel</title>
- </head>
-
-    <body>
-        <!-- Header -->
-        {% include "header.html" %}
-
-        <!-- Deuxième Header -->
-        {% include "navbar.html" %}
-
-    <div class="row" style="width: 100%">
-        <div class="col">
-
-        	<!--Container-->
-            <div class="box" style="width: 65%;height: auto; margin: 5% auto;">
-            <h1>Liste des évènements</h1>
-                <table id="eventList" class="display nowrap" style="width:100%"></table>
-            </div>
-
-            <!--Container-->
-            <div class="box" style="width: 65%;height: auto; margin: 5% auto;">
-
-            <h1>Liste des photos</h1>
-            <center><button class="btn btn-info btn-sm" onclick="location.href='/events/action/getPictureCSV'">Télécharger</button></center>
-            <table id="pictureList" class="display nowrap" style="width:100%"></table>
-            </div>
-
-            <!--Container-->
-            <div class="box" style="width: 65%;height: auto; margin: 5% auto;">
-
-            <h1>Liste des commentaires</h1>
-            <table id="commentList" class="display nowrap" style="width:100%"></table>
-            </div>
-
-        </div>
-    </div>
-
-        <!-- Footer & Animations -->
-        {% include "footer.html" %}
-
-        <style>
+             <style>
             form {
                 margin: 20px;
             }
@@ -132,6 +93,44 @@
             }
 
         </style>
+ </head>
+
+    <body>
+        <!-- Header -->
+        {% include "header.html" %}
+
+        <!-- Deuxième Header -->
+        {% include "navbar.html" %}
+
+    <div class="row" style="width: 100%">
+        <div class="col">
+
+        	<!--Container-->
+            <div class="box" style="width: 65%;height: auto; margin: 5% auto;">
+            <h1>Liste des évènements</h1>
+                <table id="eventList" class="display nowrap" style="width:100%"></table>
+            </div>
+
+            <!--Container-->
+            <div class="box" style="width: 65%;height: auto; margin: 5% auto;">
+
+            <h1>Liste des photos</h1>
+            <button class="btn btn-info btn-sm" onclick="location.href='/events/action/getPictureCSV'" style="display: block; margin-left: auto; margin-right: auto">Télécharger</button>
+            <table id="pictureList" class="display nowrap" style="width:100%"></table>
+            </div>
+
+            <!--Container-->
+            <div class="box" style="width: 65%;height: auto; margin: 5% auto;">
+
+            <h1>Liste des commentaires</h1>
+            <table id="commentList" class="display nowrap" style="width:100%"></table>
+            </div>
+
+        </div>
+    </div>
+
+        <!-- Footer & Animations -->
+        {% include "footer.html" %}
 
            <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
 

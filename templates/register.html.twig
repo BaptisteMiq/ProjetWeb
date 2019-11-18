@@ -3,13 +3,27 @@
  <head>
 	{% include "head.html" %}
 	 <title>Projet Web</title>
+		<style>
+			input {
+				color: white !important;
+			}
+
+			.md-form input:focus {
+				box-shadow: 0 1px 0 0 hsl(39, 100%, 66%) !important;
+				border-bottom: 1px solid hsl(39, 100%, 66%) !important;
+			}
+
+			.md-form label {
+				color: white;
+			}
+ 		</style>
  </head>
  
  
  <body>
  <header>
 	<div class="titrehead">Inscription</div>
-	<a href="/"><img src="images/down-arrow.png" class="previous_arrow"></img></a>
+	<a href="/"><img src="images/down-arrow.png" class="previous_arrow" alt="Flèche"></a>
  </header>
 
   <p style="color:white; text-align:center;">{{ error is defined ? error : '' }}</p>
@@ -18,46 +32,46 @@
   <div class="box" style="width: 500px; height: auto; padding: 30px; padding-top: 10px;">
 	<form method="POST" action="/register">
 		<div style="float: left">
-			<p><div class="md-form mt-3">
+			<div class="md-form mt-3">
 					<label for="name">Nom</label>
 					<input id="name" class="form-control" name="lastname" required="required" type="text" value="{{ data is defined ? data.lastname : '' }}" />
-			</div></p>
+			</div>
 
-			<p><div class="md-form mt-3">
+			<div class="md-form mt-3">
 				<label for="firstname">Prénom</label>
 				<input id="firstname" class="form-control" name="firstname" required="required" type="text" value="{{ data is defined ? data.firstname : '' }}" />
-			</div></p>
+			</div>
 			
-			<p><div class="md-form mt-3">
+			<div class="md-form mt-3">
 				<label for="mail">Adresse mail</label>
 				<input id="mail" class="form-control" name="mail" required="required" type="text" value="{{ data is defined ? data.mail : '' }}" />
-			</div></p>
+			</div>
 		</div>
 		<div style="float: right">
-			<p><div class="md-form mt-3">
+			<div class="md-form mt-3">
 					<label for="pass">Mot de passe</label>
 					<input id="pass" class="form-control" name="password" required="required" type="password" /> 
-			</div></p>
+			</div>
 
-			<p><div class="md-form mt-3">
+			<div class="md-form mt-3">
 					<label for="pass2">Confirmation</label>
 					<input id="pass2" class="form-control" name="sec_password" required="required" type="password" /> 
-			</div></p>
+			</div>
 
-			<p><div class="md-form mt-3">
+			<div class="md-form mt-3">
 			<label for="select1">Centre</label><br />
 					<select id="select1" class="browser-default custom-select" style="width: 100%" name="id_Center">
                         {% for center in centers %}
                         <option value="{{ center.id }}">{{ center.label }}</option>
                         {% endfor %}
                     </select><br><br><br>
-			</div></p>
+			</div>
 		</div>
 
-		<p><div style="text-align:center;">
+		<div style="text-align:center;">
             <input type="checkbox" class="custom-control-input" id="defaultUnchecked" required>
             <label class="custom-control-label" for="defaultUnchecked">J'ai lu et accepté les <a href="/legal" style="color:hsl(39, 100%, 66%)">politiques de confidentialité</a>.</label>
-        </div></p>
+        </div>
 		<br />
 
 		<p> 
@@ -78,22 +92,6 @@
 			<div class="wave waveBottom" style="background-image: url('images/wave3.png')"></div>
 		</div>
 	</div>
-  
-   <style>
-	input {
-		color: white !important;
-	}
-
-	.md-form input:focus {
-		box-shadow: 0 1px 0 0 hsl(39, 100%, 66%) !important;
-		border-bottom: 1px solid hsl(39, 100%, 66%) !important;
-	}
-
-	.md-form label {
-		color: white;
-	}
-
- </style>
 
  <script>
 	$('input').trigger("change");
