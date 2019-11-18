@@ -140,8 +140,67 @@
             
 
         </div>
-        <!-- Footer & Animations -->
-        {% include "footer.html" %}
+        <!-- Modal Cookies -->
+        <!-- Modal -->
+        <div class="modal fade bottom show" id="frameModalBottom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+
+        <div id="myModalLabel" class="modal-dialog modal-frame modal-bottom" style="position: fixed;width: inherit;bottom: 0;margin: 0 auto;max-width: inherit;" role="document">
+
+
+            <div class="modal-content" style="border-radius: 0;color: white;border: 0;border-top: 4px solid hsl(39, 100%, 66%);">
+            <div class="modal-body">
+                <div class="row d-flex justify-content-center align-items-center">
+
+                <p class="pt-3 pr-2">Nous utilisons des cookies pour améliorer l'expérience sur notre site Web</p>
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-top: initial;margin-right: 15px;margin-left: 60px;" onclick="location.href='/legal'">Lire</button>
+                <button type="button" class="btn btn-primary" onclick="acceptCookies()">Accepter</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        {% if cookies == false %}
+        <script>$(".modal").modal("show")</script>
+        {% endif %}
+
+        <!-- Animations -->
+        <div class="wavecontainer" style="margin-top: -300px;">
+            <div class="waveWrapper waveAnimation" style="position: relative; height: 100%; width: 100%;">
+                <div class="waveWrapperInner bgTop">
+                    <div class="wave waveTop" style="background-image: url('/images/wave3.png')"></div>
+                </div>
+                <div class="waveWrapperInner bgMiddle">
+                    <div class="wave waveMiddle" style="background-image: url('/images/wave2.png')"></div>
+                </div>
+                <div class="waveWrapperInner bgBottom">
+                    <div class="wave waveBottom" style="background-image: url('/images/wave3.png')"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row" style="width: 100%;">
+                <div class="col-lg-6" style="z-index: 2;">
+                    <h5 style="float: left; margin-left: 25px">A propos</h5>
+                    <p style="float: left; margin-left: 25px; text-align: left; font-size: small;">Ayant un penchant naturel vers la programmation et le développement, un groupe de jeunes étudiants en école d'ingénieur décidèrent de fonder en Juin 2019 la plateforme HiDev. Nous construisons vos projet sur mesures et nous vous garantissons un travail de qualité ainsi que d'un suivi particulier pour s'assurer du bon fonctionnement de vos commandes. Étant en spécialité informatique nous pouvons couvrir une grande partie des projets grand publique ainsi que de l'entretien de vos serveurs, bases de données, site web, etc.. Si cependant une catégorie vous manque sur le site n'hésitez pas a nous la proposer.</p>
+                </div>
+                <div class="col" style="z-index: 2;text-align: initial;">
+                    <h5>Informations</h5>
+                    <h6><a href="/legal">Mentions légales</a></h6>
+                    <h6><a href="/legal">Cookies</a></h6>
+                    <h6><a href="/legal">Conditions Générales de Vente et d'Utilisation</a></h6>
+                </div>
+                <div class="col" style="z-index: 2;">
+                    <h5>Social</h5>
+                    <h6>A VENIR</h6>
+                </div>
+            </div>
+        </footer>
+
+        <script src="{{ asset('/vendors/alerts/alert.js') }}"></script>
 
 
         <script>
