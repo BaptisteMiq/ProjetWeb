@@ -53,11 +53,7 @@ function addPicture(id_Activities) {
                 'id_Activities': id_Activities
             },
         success: function (data) {
-            if(data == "OK") {
                 location.reload(true);
-            } else {
-                alert(data);
-            }
         }
     });
 }
