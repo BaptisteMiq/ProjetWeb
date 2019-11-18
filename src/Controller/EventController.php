@@ -653,7 +653,10 @@ class EventController extends SiteController
             $resp = "Liste des inscrits pour " . utf8_decode($act->activity->title) . " ( " . count($reg) . " )\nIDENTIFIANT;NOM;PRENOM;MAIL";
             
             foreach ($reg as $k => $usr) {
-                $user = API::call('GET', '/users/get', ['id' => $usr->id_User])->user[0];
+                $user = API::call('GET', '/users/get', ['id' => $usr->id_User])->user;
+                if(!is_object($user)) {
+                    $user = $user[0];
+                }
                 $resp .= "\n$usr->id_User;$user->lastname;$user->firstname;$user->mail";
             }
 
