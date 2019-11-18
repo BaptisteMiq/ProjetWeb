@@ -46,7 +46,10 @@ class UserController extends SiteController
             $eventList[$k][] = strftime("%d/%m/%Y", strtotime($v->begin_date));;
             $eventList[$k][] = strftime("%d/%m/%Y", strtotime($v->end_date));;
             $eventList[$k][] = $v->price;
-            $u = API::call('GET', '/users/get', ['id' => $v->id_User ])->user[0];
+            $u = API::call('GET', '/users/get', ['id' => $v->id_User ])->user;
+            if(!is_object($u)) {
+                $u = $u[0];
+            }
             $eventList[$k][] = '<a class="table-link" href="mailto:' . $u->mail . '">' . $u->lastname . ' ' . $u->firstname . '</a>';
             // $eventList[$k][] = $v->id_Center;
             $eventList[$k][] = '
