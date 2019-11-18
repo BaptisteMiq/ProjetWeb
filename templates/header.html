@@ -4,7 +4,7 @@
         <button class="btn btn-primary" style="margin: 10px;" onclick="location.href='/login'">Connexion</button>
         <button class="btn btn-secondary" style="    float: inherit;margin-right: 0;margin-top: 0;" onclick="location.href='/register'">Inscription</button>
     {% else %}
-        <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}</br>
+        <div class="compte"><a href="/profile">Bonjour, {{user.firstname}}<br>
         {% if user.id_Rank == 1 %}
             <p style="font-variant: all-small-caps;font-size: smaller;">etudiant du Cesi</p>
         {% endif %}
