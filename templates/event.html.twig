@@ -76,6 +76,7 @@
                                     <div class="comm-content">
                                     {% for comment in picture.comments %}
                                         <div class="comm-body">
+                                        <p style="color: hsl(39, 100%, 66%);margin-bottom: -10px;">{{ comment.userLastname }} {{ comment.userFirstname }}</p></br>
                                         {{ comment.content }}
                                         {% if user.id == comment.id_User %}
                                         <a href="#" onclick="delComment({{ comment.id }})"><img src="/images/cross.png" style="width: 20px;float: right;"></img></a>
