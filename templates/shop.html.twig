@@ -79,7 +79,7 @@
                                     <div class="card">
                                         <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
                                             {% if user != null %}
-                                                {% if user.id_Rank == 2 or user.id_Rank == 3 %}
+                                                {% if user.id_Rank == 3 %}
                                                     <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
                                                 {% endif %}
                                             {% endif %}
@@ -111,7 +111,7 @@
                                             <div class="card">
                                                 <div class="card-body" style="background: #eceef0 url({{ product.picture }}) no-repeat 50% 50% / cover;">
                                                     {% if user != null %}
-                                                        {% if user.id_Rank == 2 or user.id_Rank == 3 %}
+                                                        {% if user.id_Rank == 3 %}
                                                             <a href="/shop/products/edit/{{ product.id }}" class="btn btn-danger">Modifier</a>
                                                         {% endif %}
                                                     {% endif %}
