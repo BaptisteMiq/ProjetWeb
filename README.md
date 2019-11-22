@@ -1,3 +1,10 @@
+## Aperçu
+
+![](https://i.imgur.com/nKvoHnP.png)
+![](https://i.imgur.com/1SgzXlM.jpg)
+![](https://i.imgur.com/fL54NVM.png)
+![](https://i.imgur.com/t4He2gT.png)
+
 ## Guise d'installation du projet
 
 ### Téléchargement & installation
